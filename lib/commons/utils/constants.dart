@@ -1,1 +1,1 @@
-const kAppName = "BrandHouse";
+const kAppName = " Hamro Khata";

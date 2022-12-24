@@ -77,20 +77,20 @@ class PrimaryOutlinedButton extends StatelessWidget {
   Widget? icon;
   Color? iconColor;
   double? iconSize;
-  PrimaryOutlinedButton(
-      {Key? key,
-      this.radius,
-      this.width,
-      this.iconSize,
-      this.borderColor,
-      this.loadingWidget,
-      this.icon,
-      this.iconColor,
-      this.height,
-      this.titleColor,
-      required this.onPressed,
-      required this.title})
-      : super(key: key);
+  PrimaryOutlinedButton({
+    Key? key,
+    this.radius,
+    this.width,
+    this.iconSize,
+    this.borderColor,
+    this.loadingWidget,
+    this.icon,
+    this.iconColor,
+    this.height,
+    this.titleColor,
+    required this.onPressed,
+    required this.title,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
