@@ -16,11 +16,13 @@ class PrimaryFormField extends HookWidget {
   final double? labelHeight;
   final bool? isPassword;
   final TextInputType? keyboardType;
+  final TextEditingController? controller;
 
   const PrimaryFormField({
     Key? key,
     this.hintTxt,
     this.hintIcon,
+    this.controller,
     this.label,
     this.validator,
     this.onChanged,
@@ -59,6 +61,7 @@ class PrimaryFormField extends HookWidget {
           keyboardType: keyboardType,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: validator,
+          controller: controller,
           onSaved: (value) {
             onSaved(value!);
           },

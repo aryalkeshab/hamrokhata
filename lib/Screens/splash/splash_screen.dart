@@ -22,8 +22,8 @@ class SplashScreen extends StatelessWidget {
                   Image.asset(
                     UIAssets.appLogo,
                     filterQuality: FilterQuality.high,
-                    width: controller.animation.value * 220,
-                    height: controller.animation.value * 220,
+                    width: controller.animation.value * 500,
+                    height: controller.animation.value * 500,
                   ),
                 ],
               ),

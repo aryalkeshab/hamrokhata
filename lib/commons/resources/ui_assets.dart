@@ -4,11 +4,8 @@ class UIAssets {
   static const String svgDir = "assets/svg";
   static const String animDir = "assets/anim";
 
-  static const String appLogo = "$imageDir/logo.jpg";
+  static const String appLogo = "$imageDir/app_logo.png";
   static const String appLongLogo = "$imageDir/long-logo.png";
-
-
-
 
   static const String placeHolderImage = "$imageDir/image-load-error.png";
   static const String termsandconditionImage =
@@ -21,7 +18,6 @@ class UIAssets {
   static const String errorAnimation = "$animDir/error.json";
   static const String editIcon = "$svgDir/edit-icon.svg";
   static const String circularEditIcon = "$svgDir/circular_edit_icon.svg";
-
 
   static String getImage(String imageName) {
     return "$imageDir/$imageName";
