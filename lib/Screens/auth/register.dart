@@ -7,6 +7,7 @@ import 'package:hamrokhata/commons/utils/custom_validators.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons.dart';
 import 'package:hamrokhata/commons/widgets/textfields.dart';
+import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/register_params.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -33,7 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height / 8,
+                    height: MediaQuery.of(context).size.height / 6,
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
@@ -42,7 +43,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   config.verticalSpaceMedium(),
                   PrimaryFormField(
                     hintIcon: _buildFormFieldIcon(Icons.person_outline),
-                    label: '${"fName"} *',
+                    label: '${"First Name"} *',
+                    hintTxt: "Jaison",
                     onSaved: (value) {
                       registerParams.firstName = value;
                     },
@@ -50,7 +52,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   config.verticalSpaceMedium(),
                   PrimaryFormField(
                     hintIcon: _buildFormFieldIcon(Icons.person_outline),
-                    label: '${"lName"} *',
+                    label: '${"last Name"} *',
+                    hintTxt: "Josh",
                     onSaved: (value) {
                       registerParams.lastName = value;
                     },
@@ -58,7 +61,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   config.verticalSpaceMedium(),
                   PrimaryFormField(
                     hintIcon: _buildFormFieldIcon(Icons.mail),
-                    label: '${"mail"} *',
+                    label: '${"E-mail"} *',
                     hintTxt: "example@gmail.com",
                     onSaved: (value) {
                       registerParams.email = value;
@@ -69,7 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     hintIcon: _buildFormFieldIcon(Icons.lock),
                     isPassword: true,
                     validator: (value) => Validator.validatePassword(value!),
-                    label: '${"password"} *',
+                    label: '${"Password"} *',
                     hintTxt: "***********",
                     onSaved: (value) {
                       registerParams.password = value;
@@ -79,7 +82,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   PrimaryFormField(
                     hintIcon: _buildFormFieldIcon(Icons.lock),
                     isPassword: true,
-                    label: '${"confirmPassword"} *',
+                    label: '${"ConfirmPassword"} *',
                     hintTxt: "***********",
                     onSaved: (value) {},
                   ),
@@ -87,7 +90,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   PrimaryFormField(
                     hintIcon: _buildFormFieldIcon(Icons.phone_android),
                     keyboardType: TextInputType.phone,
-                    label: '${"phoneNumber"} *',
+                    label: '${"PhoneNumber"} *',
                     onSaved: (value) {
                       registerParams.contactNumber = value;
                     },
@@ -95,7 +98,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   config.verticalSpaceMedium(),
                   PrimaryFormField(
                     keyboardType: TextInputType.phone,
-                    label: "nId",
+                    label: "Position",
                     hintIcon: _buildFormFieldIcon(Icons.person),
                     onSaved: (value) {
                       registerParams.nationalId = value;
@@ -106,7 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     alignment: Alignment.topRight,
                     child: PrimaryTextButton(
                       isSmallButton: false,
-                      labelColor: Colors.black.withOpacity(0.6),
+                      labelColor: Colors.black.withOpacity(0.7),
                       label: 'Login ?',
                       onPressed: () {
                         Get.toNamed(Routes.login);
@@ -117,8 +120,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   PrimaryButton(
                       label: "Sign up",
                       onPressed: () {
-                        Get.toNamed(Routes.register);
-                        print(authController.usernameController.text);
+                        showSuccessToast('Successfully register the user. ');
+                        Get.toNamed(Routes.login);
                       }),
                 ],
               ),

@@ -18,13 +18,18 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        primary: color ?? Theme.of(context).primaryColor,
-        minimumSize: Size(width ?? double.maxFinite, height ?? 40),
+    return SizedBox(
+      // width: MediaQuery.of(context).size.width / 2,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            backgroundColor: color ?? Theme.of(context).primaryColor,
+            minimumSize: Size(
+                width ?? MediaQuery.of(context).size.width / 2, height ?? 40),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(25)))),
+        onPressed: onPressed,
+        child: Text(label),
       ),
-      onPressed: onPressed,
-      child: Text(label),
     );
   }
 }

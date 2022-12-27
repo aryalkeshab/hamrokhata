@@ -2,6 +2,10 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:hamrokhata/Screens/auth/login.dart';
 import 'package:hamrokhata/Screens/auth/register.dart';
 import 'package:hamrokhata/Screens/dashboard/dashboard.dart';
+import 'package:hamrokhata/Screens/product_detail/product_details.dart';
+import 'package:hamrokhata/Screens/purchase_order/purchase_order_screen.dart';
+import 'package:hamrokhata/Screens/sales_order/sales_order_screen.dart';
+import 'package:hamrokhata/Screens/sales_order_list/sales_order_list.dart';
 import 'package:hamrokhata/Screens/splash/splash_screen.dart';
 
 part 'app_routes.dart';
@@ -27,6 +31,22 @@ class AppPages {
     GetPage(
       name: _Paths.register,
       page: RegisterScreen.new,
+    ),
+    GetPage(
+      name: _Paths.salesOrderList,
+      page: SalesOrderList.new,
+    ),
+    GetPage(
+      name: _Paths.purchaseOrder,
+      page: PurchaseOrderScreen.new,
+    ),
+    GetPage(
+      name: _Paths.salesOrder,
+      page: SalesOrderScreen.new,
+    ),
+    GetPage(
+      name: _Paths.productDetails,
+      page: ProductDetails.new,
     ),
   ];
 }

@@ -12,6 +12,7 @@ import 'package:hamrokhata/commons/utils/storage_constants.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons.dart';
 import 'package:hamrokhata/commons/widgets/textfields.dart';
+import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -24,33 +25,32 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
-    // TODO: implement initState
-
-    initPackageInfo();
+    // initPackageInfo();
 
     super.initState();
   }
 
-  PackageInfo packageInfo = PackageInfo(
-    appName: 'Unknown',
-    packageName: 'Unknown',
-    version: 'Unknown',
-    buildNumber: 'Unknown',
-  );
+  // PackageInfo packageInfo = PackageInfo(
+  //   appName: 'Unknown',
+  //   packageName: 'Unknown',
+  //   version: 'Unknown',
+  //   buildNumber: 'Unknown',
+  // );
 
-  initPackageInfo() async {
-    final info = await PackageInfo.fromPlatform();
+  // initPackageInfo() async {
+  //   final info = await PackageInfo.fromPlatform();
 
-    setState(() {
-      packageInfo = info;
-    });
-  }
+  //   setState(() {
+  //     packageInfo = info;
+  //   });
+  // }
 
   Widget build(BuildContext context) {
-    final authController = Get.put(AuthController());
+    // final authController = Get.put(AuthController());
 
     return Scaffold(
       body: GetBuilder<AuthController>(
+        init: AuthController(),
         builder: (controller) {
           return HookBaseWidget(
             builder: (context, config, theme) {
@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 3,
+                        height: MediaQuery.of(context).size.height / 4,
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
@@ -84,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     Icons.email,
                                     color: Colors.grey[600],
                                   ),
-                                  label: "username",
+                                  label: "Username",
                                   validator: (value) =>
                                       Validator.validateEmail(value!),
                                   onSaved: (value) {
@@ -100,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     Icons.lock,
                                     color: Colors.grey[600],
                                   ),
-                                  label: "password",
+                                  label: "Password",
                                   validator: (value) =>
                                       Validator.validateEmpty(value!),
                                   onSaved: (value) {},
@@ -111,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   alignment: Alignment.topRight,
                                   child: PrimaryTextButton(
                                     isSmallButton: false,
-                                    labelColor: Colors.black.withOpacity(0.6),
+                                    labelColor: Colors.black.withOpacity(0.7),
                                     label: 'Register ?',
                                     onPressed: () {
                                       Get.toNamed(Routes.register);
@@ -122,6 +122,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 PrimaryButton(
                                     label: "Login",
                                     onPressed: () {
+                                      showSuccessToast(
+                                          'Successfully Logged in. ');
                                       SPUtil.writeString(
                                           Constants.username,
                                           authController

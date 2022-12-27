@@ -14,7 +14,7 @@ class SplashScreen extends StatelessWidget {
         init: SplashAnimationController(),
         builder: (controller) {
           return Stack(
-            fit: StackFit.expand,
+            fit: StackFit.loose,
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -23,7 +23,7 @@ class SplashScreen extends StatelessWidget {
                     UIAssets.appLogo,
                     filterQuality: FilterQuality.high,
                     width: controller.animation.value * 500,
-                    height: controller.animation.value * 500,
+                    height: controller.animation.value * 550,
                   ),
                 ],
               ),
