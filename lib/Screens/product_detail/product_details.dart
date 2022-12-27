@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hamrokhata/commons/utils/scanqr.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons.dart';
 import 'package:hamrokhata/commons/widgets/textfields.dart';
@@ -12,6 +14,7 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+    String? scannedCode;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,48 +31,44 @@ class _ProductDetailsState extends State<ProductDetails> {
               Row(
                 children: [
                   Expanded(
+                    flex: 3,
                     child: Stack(
                       children: [
-                        // Container(
-                        //   // padding: EdgeInsets.s,
-                        //   child: TextFormField(),
-                        // ),
+             
                         PrimaryFormField(
                           onSaved: (saved) {},
-                          hintIcon: const Icon(
-                              Icons.production_quantity_limits_rounded),
+                          hintIcon: IconButton(
+                        icon: const Icon(
+                                CupertinoIcons.barcode),
+                                onPressed: (() async{
+                                   scannedCode = await Scanqr.barcodeScanner(context);
+                                   print(scannedCode);
+                                }),
+                          ),
                           hintTxt: "Item No. ",
                         ),
                       ],
                     ),
                   ),
-                  // Container(
-                  //   child: PrimaryButton(
-                  //       label: "Sign up",
-                  //       onPressed: () {
-                  //         showSuccessToast(
-                  //             'Successfully register the user. ');
-                  //         // Get.toNamed(Routes.login);
-                  //       }),
-                  // )
+                  config.horizontalSpaceMedium(),
 
-                  // Container(
-                  //   color: Colors.blue,
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.symmetric(vertical: 6),
-                  //     child: IconButton(
-                  //       onPressed: () {},
-                  //       icon: const Icon(
-                  //         Icons.arrow_forward_ios_rounded,
-                  //         color: Colors.orange,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                    padding: const EdgeInsets.only(right: 10.0,top: 10),
+                      child: PrimaryButton(
+                          label: "Search",
+                          onPressed: () {
+                            showSuccessToast(
+                                'Successfully register the user. ');
+                          
+                          }),
+                    ),
+                  ),
                 ],
               ),
-              config.horizontalSpaceMedium(),
-              config.horizontalSpaceMedium(),
+              config.verticalSpaceMedium(),
+   
               Card(
                 elevation: 2,
                 child: Container(
@@ -78,7 +77,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 20),
+                      config.verticalSpaceLarge(),
                       Row(
                         children: const [
                           Expanded(
@@ -102,7 +101,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                      config.verticalSpaceMedium(),
                       Row(
                         children: const [
                           Expanded(
@@ -128,7 +127,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      config.verticalSpaceLarge(),
                       Row(
                         children: const [
                           Expanded(
@@ -152,7 +151,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                     config.verticalSpaceMedium(),
                       Row(
                         children: const [
                           Expanded(
@@ -178,7 +177,57 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      config.verticalSpaceLarge(),
+                        Row(
+                        children: const [
+                          Expanded(
+                            child: Text(
+                              "Product Description",
+                              style: TextStyle(
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              "Stock Count",
+                              style: TextStyle(
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                     config.verticalSpaceMedium(),
+                      Row(
+                        children: const [
+                          Expanded(
+                            child: Text(
+                              'Fan with 3000 rpm capacity.',
+                              style: TextStyle(
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              '5',
+                              style: TextStyle(
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18),
+                            ),
+                          ),
+                        ],
+                      ),
+                      config.verticalSpaceLarge(),
                     ],
                   ),
                 ),

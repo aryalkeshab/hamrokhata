@@ -121,6 +121,7 @@ class SizeConfig {
     final horizontalSpaceMedium = queryData.size.width * 0.04;
     return SizedBox(width: horizontalSpaceMedium);
   }
+  
 
   /// Returns a vertical space with height set to [HorizontalSpaceLarge]
   Widget horizontalSpaceLarge() {

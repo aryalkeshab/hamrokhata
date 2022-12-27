@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:hamrokhata/Screens/auth/auth_controller.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/utils/SpUtils.dart';
@@ -25,28 +22,29 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
-    // initPackageInfo();
+     initPackageInfo();
 
     super.initState();
   }
 
-  // PackageInfo packageInfo = PackageInfo(
-  //   appName: 'Unknown',
-  //   packageName: 'Unknown',
-  //   version: 'Unknown',
-  //   buildNumber: 'Unknown',
-  // );
+  PackageInfo packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+  );
 
-  // initPackageInfo() async {
-  //   final info = await PackageInfo.fromPlatform();
+  initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
 
-  //   setState(() {
-  //     packageInfo = info;
-  //   });
-  // }
+    setState(() {
+      packageInfo = info;
+    });
+  }
 
   Widget build(BuildContext context) {
-    // final authController = Get.put(AuthController());
+
+      final authController = Get.put(AuthController());
 
     return Scaffold(
       body: GetBuilder<AuthController>(
@@ -152,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
             style: const TextStyle(
                 fontSize: 15.5,
                 letterSpacing: 0.5,
-                fontWeight: FontWeight.w500),
+                fontWeight: FontWeight.w300),
           ),
         ),
       ),

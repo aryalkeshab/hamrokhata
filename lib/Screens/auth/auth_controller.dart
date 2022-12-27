@@ -9,7 +9,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 class AuthController extends GetxController {
   @override
   void onInit() {
-    initPackageInfo();
+  
     super.onInit();
   }
 
@@ -20,19 +20,5 @@ class AuthController extends GetxController {
     update();
   }
 
-  PackageInfo packageInfo = PackageInfo(
-    appName: 'Unknown',
-    packageName: 'Unknown',
-    version: 'Unknown',
-    buildNumber: 'Unknown',
-  );
 
-  initPackageInfo() async {
-    final info = await PackageInfo.fromPlatform();
-
-    // setState(() {
-    packageInfo = info;
-    update();
-    // });
-  }
 }

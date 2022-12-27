@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hamrokhata/commons/resources/ui_assets.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -50,6 +51,7 @@ class SplashAnimationController extends GetxController
   @override
   void dispose() {
     animationController.dispose();
+    initPackageInfo();
     super.dispose();
   }
 
@@ -64,5 +66,20 @@ class SplashAnimationController extends GetxController
     animationController
         .forward()
         .whenComplete(() => Get.offAllNamed(Routes.login));
+  }
+    PackageInfo packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+  );
+
+  initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+
+    // setState(() {
+    packageInfo = info;
+    update();
+    // });
   }
 }
