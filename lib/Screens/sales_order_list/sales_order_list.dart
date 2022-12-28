@@ -18,8 +18,8 @@ class _SalesOrderListState extends State<SalesOrderList> {
       ),
       body: BaseWidget(builder: (context, config, theme) {
         return Container(
-          padding:
-              EdgeInsets.symmetric(vertical: config.appVerticalPaddingMedium()),
+          padding: EdgeInsets.symmetric(
+              horizontal: config.appHorizontalPaddingMedium()),
           child: Column(
             children: [
               Row(
@@ -41,14 +41,7 @@ class _SalesOrderListState extends State<SalesOrderList> {
                       if (pickedDate != null) {
                         print(
                             pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                        // String formattedDate =
-                        //     DateFormat('yyyy-MM-dd').format(pickedDate);
-                        // print(
-                        //     formattedDate); //formatted date output using intl package =>  2021-03-16
-                        // setState(() {
-                        //   dateInput.text =
-                        //       formattedDate; //set output date to TextField value.
-                        // });
+
                       } else {}
                     },
                   ),
@@ -57,53 +50,44 @@ class _SalesOrderListState extends State<SalesOrderList> {
               const Divider(
                 height: 2,
               ),
-              Container(
-                padding: EdgeInsets.symmetric(
-                    vertical: config.appVerticalPaddingSmall()),
-                decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12))),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Row(
-                    children: const [
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          "Invoice No. ",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                          ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 20,
+                child: Row(
+                  children: const [
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        "Invoice No. ",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          "Customer Name",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        "Customer Name",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          "Amount",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        "Amount",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               const Divider(
@@ -165,7 +149,7 @@ class _SalesOrderListState extends State<SalesOrderList> {
       }),
       bottomSheet: Container(
         // color: Colors.black45,
-        height: 30,
+        height: 40,
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: Column(
           children: [
@@ -183,11 +167,8 @@ class _SalesOrderListState extends State<SalesOrderList> {
                   ' Rs. 5000',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   textAlign: TextAlign.start,
-                )
+                ),
               ],
-            ),
-            const Divider(
-              height: 2,
             ),
           ],
         ),

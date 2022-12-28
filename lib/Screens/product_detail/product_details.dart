@@ -14,7 +14,8 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-    String? scannedCode;
+  String? scannedCode;
+  TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,41 +35,38 @@ class _ProductDetailsState extends State<ProductDetails> {
                     flex: 3,
                     child: Stack(
                       children: [
-             
                         PrimaryFormField(
                           onSaved: (saved) {},
                           hintIcon: IconButton(
-                        icon: const Icon(
-                                CupertinoIcons.barcode),
-                                onPressed: (() async{
-                                   scannedCode = await Scanqr.barcodeScanner(context);
-                                   print(scannedCode);
-                                }),
+                            icon: const Icon(CupertinoIcons.barcode),
+                            onPressed: (() async {
+                              searchController.text =
+                                  await Scanqr.barcodeScanner(context);
+                              print(searchController);
+                            }),
                           ),
                           hintTxt: "Item No. ",
+                          controller: searchController,
                         ),
                       ],
                     ),
                   ),
                   config.horizontalSpaceMedium(),
-
                   Expanded(
                     flex: 1,
                     child: Container(
-                    padding: const EdgeInsets.only(right: 10.0,top: 10),
+                      padding: const EdgeInsets.only(right: 10.0, top: 10),
                       child: PrimaryButton(
                           label: "Search",
                           onPressed: () {
                             showSuccessToast(
                                 'Successfully register the user. ');
-                          
                           }),
                     ),
                   ),
                 ],
               ),
               config.verticalSpaceMedium(),
-   
               Card(
                 elevation: 2,
                 child: Container(
@@ -151,7 +149,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                         ],
                       ),
-                     config.verticalSpaceMedium(),
+                      config.verticalSpaceMedium(),
                       Row(
                         children: const [
                           Expanded(
@@ -178,7 +176,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ],
                       ),
                       config.verticalSpaceLarge(),
-                        Row(
+                      Row(
                         children: const [
                           Expanded(
                             child: Text(
@@ -201,7 +199,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                         ],
                       ),
-                     config.verticalSpaceMedium(),
+                      config.verticalSpaceMedium(),
                       Row(
                         children: const [
                           Expanded(
