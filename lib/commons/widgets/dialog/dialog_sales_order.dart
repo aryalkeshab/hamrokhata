@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 
-Future<dynamic> dialogSalesOrderCustom(
-    {required BuildContext context,
-    required String title,
-    required List<Widget> children}) {
+Future<dynamic> dialogSalesOrderCustom({
+  required BuildContext context,
+  required String title,
+  required List<Widget> children,
+  loginFormKey,
+}) {
   return showDialog(
       context: context,
       builder: (context) =>
@@ -22,7 +25,7 @@ Future<dynamic> dialogSalesOrderCustom(
                   config.verticalSpaceMedium(),
                   Column(
                     children: children,
-                  )
+                  ),
                 ],
               ),
             );

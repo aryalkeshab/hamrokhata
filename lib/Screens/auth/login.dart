@@ -22,7 +22,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
-     initPackageInfo();
+    initPackageInfo();
 
     super.initState();
   }
@@ -43,8 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget build(BuildContext context) {
-
-      final authController = Get.put(AuthController());
+    final authController = Get.put(AuthController());
 
     return Scaffold(
       body: GetBuilder<AuthController>(
@@ -52,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (controller) {
           return HookBaseWidget(
             builder: (context, config, theme) {
-              final loginFormKey = useMemoized(GlobalKey<FormState>.new);
+              final _loginFormKey = useMemoized(GlobalKey<FormState>.new);
               return SingleChildScrollView(
                 child: Container(
                   padding: EdgeInsets.symmetric(
@@ -72,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Form(
-                            key: loginFormKey,
+                            key: _loginFormKey,
                             child: Column(
                               // mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -100,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                   label: "Password",
                                   validator: (value) =>
-                                      Validator.validateEmpty(value!),
+                                      Validator.validatePassword(value!),
                                   onSaved: (value) {},
                                   hintTxt: "*********",
                                 ),
@@ -120,13 +119,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                 PrimaryButton(
                                     label: "Login",
                                     onPressed: () {
-                                      showSuccessToast(
-                                          'Successfully Logged in. ');
-                                      SPUtil.writeString(
-                                          Constants.username,
-                                          authController
-                                              .usernameController.text);
-                                      Get.toNamed(Routes.dashboard);
+                                      if (_loginFormKey.currentState!
+                                          .validate()) {
+                                        showSuccessToast(
+                                            'Successfully Logged in. ');
+                                        SPUtil.writeString(
+                                            Constants.username,
+                                            authController
+                                                .usernameController.text);
+                                        Get.toNamed(Routes.dashboard);
+                                      }
                                     }),
                               ],
                             ),
