@@ -54,14 +54,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                   config.horizontalSpaceMedium(),
                   Expanded(
                     flex: 1,
-                    child: Container(
-                      padding: const EdgeInsets.only(right: 10.0, top: 10),
-                      child: PrimaryButton(
-                          label: "Search",
-                          onPressed: () {
-                            showSuccessToast(
-                                'Successfully register the user. ');
-                          }),
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                        ),
+                        child: PrimaryButton(
+                            label: "Search",
+                            onPressed: () {
+                              showSuccessToast(
+                                  'Successfully register the user. ');
+                            }),
+                      ),
                     ),
                   ),
                 ],
