@@ -23,7 +23,6 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
       try {
         final result = await purchaseOrderRemoteDataSource.getVendorsList();
         print(result);
-        // final vendorList = result[0].map<VendorList>(VendorList).toList();
         final vendorList =
             result.map<VendorList>((e) => VendorList.fromJson(e)).toList();
         print(vendorList);

@@ -6,29 +6,35 @@ import 'package:hamrokhata/models/vendor_list.dart';
 class PurchaseOrderController extends GetxController {
   @override
   void onInit() {
-    getWishList();
+    getVendorsList();
     super.onInit();
   }
 
-  List<VendorList> vendorList = [];
+  List<VendorList> vendorApiResult = [];
 
-  ApiResponse _wishListResponse = ApiResponse();
+  List<String> vendorList = [];
 
-  set wishlistResponse(ApiResponse response) {
-    _wishListResponse = response;
+  ApiResponse _vendorsListResponse = ApiResponse();
+
+  set vendorslistResponse(ApiResponse response) {
+    _vendorsListResponse = response;
     update();
   }
 
-  ApiResponse get wishlistResponse => _wishListResponse;
+  ApiResponse get vendorslistResponse => _vendorsListResponse;
 
-  getWishList() async {
-    wishlistResponse = await Get.find<PurchaseRepository>().getVendorsList();
-    if (wishlistResponse.hasData) {
-      vendorList = wishlistResponse.data;
-      print(vendorList[0].name);
-      update();
+  getVendorsList() async {
+    vendorslistResponse = await Get.find<PurchaseRepository>().getVendorsList();
+    vendorList = [];
+    if (vendorslistResponse.hasData) {
+      vendorApiResult = await vendorslistResponse.data;
+
+      for (int i = 0; i < vendorApiResult.length; i++) {
+        vendorList.add(vendorApiResult[i].name!);
+        update();
+      }
     }
-    print(wishlistResponse.error);
+
     update();
   }
 }

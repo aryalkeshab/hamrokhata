@@ -3,6 +3,7 @@ enum APIPath {
   allProducts,
 
   vendorList,
+  customerList
 }
 
 class APIPathHelper {
@@ -16,6 +17,23 @@ class APIPathHelper {
     switch (path) {
       case APIPath.vendorList:
         return "/vendor";
+
+      case APIPath.allProducts:
+        return "/rest/V1/custom/products";
+
+      default:
+        return "";
+    }
+  }
+
+  static String salesOrderAPIs(
+    APIPath path, {
+    String? keyword,
+    String? id,
+  }) {
+    switch (path) {
+      case APIPath.customerList:
+        return "/customer";
 
       case APIPath.allProducts:
         return "/rest/V1/custom/products";

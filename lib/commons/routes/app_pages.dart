@@ -5,6 +5,7 @@ import 'package:hamrokhata/Screens/dashboard/dashboard.dart';
 import 'package:hamrokhata/Screens/product_detail/product_details.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_di.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_order_screen.dart';
+import 'package:hamrokhata/Screens/sales_order/sales_order_di.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_screen.dart';
 import 'package:hamrokhata/Screens/sales_order_list/sales_order_list.dart';
 import 'package:hamrokhata/Screens/splash/splash_screen.dart';
@@ -45,6 +46,7 @@ class AppPages {
     GetPage(
       name: _Paths.salesOrder,
       page: SalesOrderScreen.new,
+      binding: SalesOrderBinding(),
     ),
     GetPage(
       name: _Paths.productDetails,

@@ -2,6 +2,7 @@ import 'package:draggable_fab/draggable_fab.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_controller.dart';
 import 'package:hamrokhata/commons/utils/custom_validators.dart';
@@ -26,6 +27,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
   String? qty;
   String? price;
   String? productName;
+  String? dropDownvalue;
   double netTotal = 0.00;
 
   bool isSelectedFromUpdate = false;
@@ -34,13 +36,19 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
   TextEditingController priceController = TextEditingController();
   TextEditingController qtyController = TextEditingController();
 
+  List<SalesOrderModel> salesList = [];
+
   incrementCounter() {
     setState(() {
       count++;
     });
   }
 
-  List<SalesOrderModel> salesList = [];
+  @override
+  void initState() {
+    Get.put(SalesOrderController()).getcustomerList();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,199 +58,248 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
           title: const Text('Sales Order Screen'),
         ),
         body: BaseWidget(builder: (context, config, theme) {
-          print(count);
-
-          return Container(
-            padding: EdgeInsets.symmetric(
-                horizontal: config.appVerticalPaddingMedium()),
-            child: Column(children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 3,
-                child: PrimaryButton(
-                    label: 'New Order',
-                    onPressed: () {
-                      dialogWithCustomChildAndTwoButton(
-                          context: context,
-                          title: 'Do you want to create new sales Order?',
-                          acceptFun: () {
-                            setState(() {
-                              incrementCounter();
-                            });
-                            showSuccessToast(
-                                'New Sales Order $count is created !');
-                            Navigator.pop(context);
-                          },
-                          rejectFun: () {
-                            Navigator.pop(context);
-                          });
-                    }),
-              ),
-              const Divider(
-                height: 2,
-              ),
-              config.verticalSpaceMedium(),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      const Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Text(
-                          'New Sales Order:',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 16,
+          return GetBuilder<SalesOrderController>(builder: (controller) {
+            List<String> customerList =
+                Get.find<SalesOrderController>().customerList;
+            return Container(
+              padding: EdgeInsets.symmetric(
+                  horizontal: config.appVerticalPaddingMedium()),
+              child: Column(children: [
+                config.verticalSpaceSmall(),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: PrimaryButton(
+                            label: 'New Order',
+                            onPressed: () {
+                              dialogWithCustomChildAndTwoButton(
+                                  context: context,
+                                  title:
+                                      'Do you want to create new sales Order?',
+                                  acceptFun: () {
+                                    setState(() {
+                                      incrementCounter();
+                                    });
+                                    showSuccessToast(
+                                        'New Sales Order $count is created !');
+                                    Navigator.pop(context);
+                                  },
+                                  rejectFun: () {
+                                    Navigator.pop(context);
+                                  });
+                            }),
+                      ),
+                    ),
+                    config.horizontalSpaceSmall(),
+                    Expanded(
+                      flex: 2,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.0),
+                          border: Border.all(color: Colors.black26),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            hint: const Text('---Select Customer ---'),
+                            value: dropDownvalue,
+                            icon: const Icon(Icons.keyboard_arrow_down),
+                            items: customerList.map((String vendorList) {
+                              return DropdownMenuItem(
+                                value: vendorList,
+                                child: Text(vendorList),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                dropDownvalue = value;
+                              });
+                            },
                           ),
                         ),
                       ),
-                      config.verticalSpaceSmall(),
-                      Align(
-                        alignment: Alignment.bottomLeft,
+                    )
+                  ],
+                ),
+                config.verticalSpaceSmall(),
+                const Divider(
+                  height: 2,
+                ),
+                config.verticalSpaceSmall(),
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Column(
+                            children: [
+                              const Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Text(
+                                  'New Sales Order:',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                              config.verticalSpaceSmall(),
+                              Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Text(
+                                  count.toString(),
+                                  textAlign: TextAlign.left,
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const Divider(
+                  height: 2,
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 20,
+                  child: Row(
+                    children: const [
+                      Expanded(
+                        flex: 2,
                         child: Text(
-                          count.toString(),
-                          textAlign: TextAlign.left,
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                          "Product Name ",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          "Qty",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          "Price",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          "Total",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      // Expanded(
+                      //   flex: 1,
+                      //   child: Text(''),
+                      // ),
                     ],
                   ),
                 ),
-              ),
-              const Divider(
-                height: 2,
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 20,
-                child: Row(
-                  children: const [
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        "Product Name ",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        "Qty",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        "Price",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        "Total",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    // Expanded(
-                    //   flex: 1,
-                    //   child: Text(''),
-                    // ),
-                  ],
+                const Divider(
+                  height: 2,
                 ),
-              ),
-              const Divider(
-                height: 2,
-              ),
-              Column(
-                children: List.generate(salesList.length, (index) {
-                  SalesOrderModel salesModelList = salesList[index];
+                Column(
+                  children: List.generate(salesList.length, (index) {
+                    SalesOrderModel salesModelList = salesList[index];
 
-                  return Visibility(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: InkWell(
-                        onTap: () {},
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Text(
-                                salesModelList.productName ?? '',
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 14,
+                    return Visibility(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: InkWell(
+                          onTap: () {},
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  salesModelList.productName ?? '',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: Text(
-                                salesModelList.productQty ?? '',
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 14,
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  salesModelList.productQty ?? '',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: Text(
-                                salesModelList.price.toString(),
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 14,
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  salesModelList.price.toString(),
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 4,
-                                    child: Text(
-                                      '${salesModelList.total?.toStringAsFixed(2).toString()}',
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        fontSize: 14,
+                              Expanded(
+                                flex: 3,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 4,
+                                      child: Text(
+                                        '${salesModelList.total?.toStringAsFixed(2).toString()}',
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: popupMenuItem(
-                                        context, config, theme, index),
-                                  ),
-                                ],
+                                    Expanded(
+                                      flex: 1,
+                                      child: popupMenuItem(
+                                          context, config, theme, index),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }),
-              ),
-            ]),
-          );
+                    );
+                  }),
+                ),
+              ]),
+            );
+          });
         }),
         floatingActionButton: DraggableFab(
           child: BaseWidget(builder: (context, config, theme) {
