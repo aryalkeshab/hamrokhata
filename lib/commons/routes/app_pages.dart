@@ -3,6 +3,7 @@ import 'package:hamrokhata/Screens/auth/login.dart';
 import 'package:hamrokhata/Screens/auth/register.dart';
 import 'package:hamrokhata/Screens/dashboard/dashboard.dart';
 import 'package:hamrokhata/Screens/product_detail/product_details.dart';
+import 'package:hamrokhata/Screens/product_detail/product_search_di.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_di.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_order_screen.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_di.dart';
@@ -51,6 +52,7 @@ class AppPages {
     GetPage(
       name: _Paths.productDetails,
       page: ProductDetails.new,
+      binding: ProductSearchBinding(),
     ),
   ];
 }
