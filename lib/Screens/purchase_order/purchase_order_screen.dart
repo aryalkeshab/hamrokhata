@@ -37,7 +37,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
       ),
       body: SingleChildScrollView(
         child: HookBaseWidget(builder: (context, config, theme) {
-          final _loginFormKey = useMemoized(GlobalKey<FormState>.new);
+          final _purchaseOrderFormKey = useMemoized(GlobalKey<FormState>.new);
 
           return GetBuilder<PurchaseOrderController>(builder: (controller) {
             List<String> vendorList =
@@ -47,7 +47,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
               padding: EdgeInsets.symmetric(
                   horizontal: config.appVerticalPaddingMedium()),
               child: Form(
-                key: _loginFormKey,
+                key: _purchaseOrderFormKey,
                 child: Column(
                   children: [
                     config.verticalSpaceExtraLarge(),
@@ -187,12 +187,16 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                     config.verticalSpaceExtraLarge(),
                     PrimaryButton(
                         onPressed: () {
-                          if (_loginFormKey.currentState!.validate()) {
-                            controller.createPurchaseOrder(
-                                purchaseOrderParams, context);
-                          }
+                          final currentState =
+                              _purchaseOrderFormKey.currentState;
+                          if (currentState != null) {
+                            currentState.save();
 
-                          // showSuccessToast('Saved your data to the database !');
+                            if (currentState.validate()) {
+                              controller.createPurchaseOrder(
+                                  purchaseOrderParams, context);
+                            }
+                          }
                         },
                         label: 'Proceed')
                   ],

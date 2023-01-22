@@ -7,9 +7,10 @@ enum APIPath {
   products,
   allProducts,
 
-  customerList,
   productSearch,
-
+  //sales Order
+  customerList,
+  salesOrder,
   //purchase,
   vendorList,
   addProduct,
@@ -25,10 +26,10 @@ class APIPathHelper {
   }) {
     switch (path) {
       case APIPath.login:
-        return "/login";
+        return "/login/";
 
       case APIPath.register:
-        return "/register";
+        return "/register/";
 
       default:
         return "";
@@ -42,10 +43,10 @@ class APIPathHelper {
   }) {
     switch (path) {
       case APIPath.vendorList:
-        return "/vendor";
+        return "/vendor/";
 
       case APIPath.addProduct:
-        return "/product";
+        return "/product/";
 
       default:
         return "";
@@ -61,8 +62,8 @@ class APIPathHelper {
       case APIPath.customerList:
         return "/customer";
 
-      case APIPath.allProducts:
-        return "/rest/V1/custom/products";
+      case APIPath.salesOrder:
+        return "/sales";
 
       default:
         return "";

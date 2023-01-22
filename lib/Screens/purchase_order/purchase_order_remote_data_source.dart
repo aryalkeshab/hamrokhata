@@ -12,12 +12,12 @@ class PurchaseOrderRemoteDataSourceImpl extends PurchaseOrderRemoteDataSource {
   PurchaseOrderRemoteDataSourceImpl({required this.apiClient});
   @override
   getVendorsList() {
-    return apiClient.get(APIPathHelper.purchaseAPIs(APIPath.vendorList));
+    return apiClient.authGet(APIPathHelper.purchaseAPIs(APIPath.vendorList));
   }
 
   @override
   purchaseOrder(ProductRequestModel productRequestModel) {
-    return apiClient.post(APIPathHelper.purchaseAPIs(APIPath.addProduct),
-        data: productRequestModel);
+    return apiClient.authPost(APIPathHelper.purchaseAPIs(APIPath.addProduct),
+        data: productRequestModel.toJson());
   }
 }

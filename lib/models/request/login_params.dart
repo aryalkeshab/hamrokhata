@@ -8,6 +8,6 @@ class LoginParams {
     final map = <String, dynamic>{};
     map['email'] = email;
     map['password'] = password;
-    return {"user": map};
+    return map;
   }
 }

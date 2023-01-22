@@ -13,6 +13,7 @@ import 'package:hamrokhata/commons/widgets/dialog/dialog_sales_order.dart';
 import 'package:hamrokhata/commons/widgets/dialog/dialog_with_custom_child_and_buttons.dart';
 import 'package:hamrokhata/commons/widgets/textfields.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
+import 'package:hamrokhata/models/sales_order_model.dart';
 
 class SalesOrderScreen extends StatefulWidget {
   const SalesOrderScreen({super.key});
@@ -36,7 +37,10 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
   TextEditingController priceController = TextEditingController();
   TextEditingController qtyController = TextEditingController();
 
-  List<SalesOrderModel> salesList = [];
+  // List<TempSalesOrderModel> salesList = [];
+  List<SalesItems> salesList = [];
+
+  List<SalesOrderModel> salesOrderList = [];
 
   incrementCounter() {
     setState(() {
@@ -229,7 +233,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                 ),
                 Column(
                   children: List.generate(salesList.length, (index) {
-                    SalesOrderModel salesModelList = salesList[index];
+                    SalesItems salesModelList = salesList[index];
 
                     return Visibility(
                       child: Padding(
@@ -241,7 +245,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                               Expanded(
                                 flex: 2,
                                 child: Text(
-                                  salesModelList.productName ?? '',
+                                  salesModelList.product ?? '',
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
                                     fontSize: 14,
@@ -251,7 +255,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                               Expanded(
                                 flex: 2,
                                 child: Text(
-                                  salesModelList.productQty ?? '',
+                                  salesModelList.quantity ?? '',
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
                                     fontSize: 14,
@@ -275,7 +279,10 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                                     Expanded(
                                       flex: 4,
                                       child: Text(
-                                        '${salesModelList.total?.toStringAsFixed(2).toString()}',
+                                        // '${salesModelList.total?.toStringAsFixed(2).toString()}',
+                                        // '${salesModelList.total?.toStringAsFixed(2).toString()}',
+                                        "${salesModelList.total}",
+//
                                         textAlign: TextAlign.center,
                                         style: const TextStyle(
                                           fontSize: 14,
@@ -342,11 +349,6 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
               ),
               StatefulBuilder(
                   builder: (BuildContext context, StateSetter setState) {
-                // for (int i = 0; i <= salesList.length; i++) {
-                //   print(salesList[i].price!);
-                //   netTotal += double.parse(salesList[i].price!);
-                // }
-
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -372,8 +374,8 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
   customDialog({required context, required config, required theme, index}) {
     if (isSelectedFromUpdate == true) {
       setState(() {
-        searchController.text = salesList[index].productName!;
-        qtyController.text = salesList[index].productQty!;
+        searchController.text = salesList[index].product!;
+        qtyController.text = salesList[index].quantity!;
         priceController.text = salesList[index].price!;
       });
     } else {
@@ -580,11 +582,11 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
 
                         setState(() {
                           salesList.add(
-                            SalesOrderModel(
-                                productName: searchController.text,
-                                productQty: qtyController.text,
+                            SalesItems(
+                                product: searchController.text,
+                                quantity: qtyController.text,
                                 price: priceController.text,
-                                total: total),
+                                total: total.toString()),
                           );
                         });
                         Navigator.pop(context);
@@ -600,11 +602,11 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
 
                           salesList.insert(
                             index,
-                            SalesOrderModel(
-                                productName: searchController.text,
-                                productQty: qtyController.text,
+                            SalesItems(
+                                product: searchController.text,
+                                quantity: qtyController.text,
                                 price: priceController.text,
-                                total: total2),
+                                total: total2.toString()),
                           );
                         });
                         Navigator.pop(context);
@@ -672,10 +674,11 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
   }
 }
 
-class SalesOrderModel {
-  SalesOrderModel({this.productName, this.productQty, this.price, this.total});
-  String? productName;
-  String? productQty;
-  String? price;
-  double? total;
-}
+// class TempSalesOrderModel {
+//   TempSalesOrderModel(
+//       {this.productName, this.productQty, this.price, this.total});
+//   String? productName;
+//   String? productQty;
+//   String? price;
+//   double? total;
+// }

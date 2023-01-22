@@ -12,13 +12,20 @@ import 'package:hamrokhata/models/product_detail.dart';
 import 'package:hamrokhata/models/request/register_params.dart';
 
 class RegisterController extends GetxController {
+  late AuthLoginRegisterRepository registerRepository;
+
+  @override
+  void onInit() {
+    registerRepository = Get.find<AuthLoginRegisterRepository>();
+    super.onInit();
+  }
+
   late ApiResponse registerResponse;
 
   void requestRegister(
       RegisterParams registerParams, BuildContext context) async {
     showLoadingDialog(context);
-    registerResponse = await Get.find<AuthLoginRegisterRepository>()
-        .registerAuth(registerParams);
+    registerResponse = await registerRepository.registerAuth(registerParams);
     hideLoadingDialog(context);
     if (registerResponse.hasError) {
       AppSnackbar.showError(

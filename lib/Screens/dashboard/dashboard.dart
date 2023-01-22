@@ -30,9 +30,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           AuthWidgetBuilder(builder: (context, isAuthenticated) {
             return IconButton(
               onPressed: () {
-                showSuccessToast('Successfully logged out. ');
-                Get.offNamed(Routes.login);
-
                 showDialog(
                   context: context,
                   builder: (context) {
@@ -40,10 +37,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       primaryText: "Are you sure want to logout?",
                       onApproveButtonPressed: () {
                         Get.find<AuthController>().logout();
-                        Get.until((route) {
-                          print(route);
-                          return route.settings.name == Routes.dashboard;
-                        });
+                        // Get.until((route) {
+                        //   print(route);
+                        //   return route.settings.name == Routes.dashboard;
+                        // });
                       },
                       onCancelButtonPressed: Get.back,
                     );

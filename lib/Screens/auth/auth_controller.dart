@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/auth/auth_repository_impl.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
+import 'package:hamrokhata/commons/widgets/toast.dart';
 
 class AuthController extends GetxController {
   final authRepository = Get.find<AuthRepository>();
@@ -18,10 +19,11 @@ class AuthController extends GetxController {
   }
 
   void logout() {
+    // Get.offAndToNamed(Routes.login);
+    Get.offNamed(Routes.login);
     authRepository.logout();
-
     isLoggedIn.value = false;
-    Get.offAndToNamed(Routes.login);
+    showSuccessToast('Successfully logged out. ');
   }
 
   authorize() async {

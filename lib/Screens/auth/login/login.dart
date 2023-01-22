@@ -121,16 +121,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                 PrimaryButton(
                                     label: "Login",
                                     onPressed: () {
-                                      if (_loginFormKey.currentState!
-                                          .validate()) {
-                                        controller.requestLogin(
-                                            loginParams, context);
+                                      final currentState =
+                                          _loginFormKey.currentState;
+                                      if (currentState != null) {
+                                        currentState.save();
 
-                                        // SPUtil.writeString(
-                                        //     Constants.username,
-                                        //     authController
-                                        //         .usernameController.text);
-                                        Get.toNamed(Routes.dashboard);
+                                        if (currentState.validate()) {
+                                          Get.find<LoginController>()
+                                              .requestLogin(
+                                                  loginParams, context);
+                                        }
                                       }
                                     }),
                               ],

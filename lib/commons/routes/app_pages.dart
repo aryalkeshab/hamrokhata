@@ -32,7 +32,8 @@ class AppPages {
       AuthBinding(),
     ]),
     GetPage(name: _Paths.dashboard, page: DashBoardScreen.new, bindings: [
-      // CoreBindings(),
+      CoreBindings(),
+      AuthBinding(),
     ]),
     GetPage(
       name: _Paths.register,
@@ -43,10 +44,12 @@ class AppPages {
       page: SalesOrderList.new,
     ),
     GetPage(
-      name: _Paths.purchaseOrder,
-      page: PurchaseOrderScreen.new,
-      binding: PurchaseBinding(),
-    ),
+        name: _Paths.purchaseOrder,
+        page: PurchaseOrderScreen.new,
+        bindings: [
+          CoreBindings(),
+          PurchaseBinding(),
+        ]),
     GetPage(
       name: _Paths.salesOrder,
       page: SalesOrderScreen.new,

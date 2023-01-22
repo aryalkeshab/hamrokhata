@@ -17,12 +17,12 @@ class AuthLoginRegisterRepositoryRemoteDataSourceImpl
   @override
   loginAuth(LoginParams loginParams) {
     return apiClient.post(APIPathHelper.authAPIs(APIPath.login),
-        data: loginParams);
+        data: loginParams.toJson());
   }
 
   @override
   registerAuth(RegisterParams registerParams) {
     return apiClient.post(APIPathHelper.authAPIs(APIPath.register),
-        data: registerParams);
+        data: registerParams.toJson());
   }
 }

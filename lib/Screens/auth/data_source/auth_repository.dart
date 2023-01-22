@@ -34,20 +34,23 @@ class AuthLoginRegisterRepositoryImpl extends AuthLoginRegisterRepository {
       try {
         final result = await authLoginRegisterRepositoryRemoteDataSource
             .loginAuth(loginParams);
+        print(result['msg']);
         await secureStorage.write(
-            key: StorageConstants.accessToken, value: result[0]['token']);
+            key: StorageConstants.accessToken,
+            value: result['token']['refresh']);
         await secureStorage.write(
-            key: StorageConstants.loginStaff, value: result[0]['user_id']);
+            key: StorageConstants.loginStaff,
+            value: result['user_id'].toString());
         await secureStorage.write(
             key: StorageConstants.refreshToken,
-            value: result[0]['refresh_token']);
+            value: result['token']['refresh_token']);
 
-        return ApiResponse(data: result[0]['message']);
+        return ApiResponse(data: result['msg']);
       } catch (e) {
         if (e is DioError && e.type == DioErrorType.response) {
           return ApiResponse(
               error: NetworkException.defaultError(
-                  value: e.response?.data[0]['message']));
+                  value: e.response?.data['message']));
         }
         return ApiResponse(error: NetworkException.getException(e));
       }

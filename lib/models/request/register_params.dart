@@ -5,18 +5,20 @@ class RegisterParams {
   String? password;
   String? contactNumber;
   String? position;
+  String? password2;
 
   RegisterParams({this.email, this.password});
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['firstName'] = firstName;
-    map['lastName'] = lastName;
-    map['contactNumber'] = contactNumber;
+    map['first_name'] = firstName;
+    map['last_name'] = lastName;
+    map['phone'] = contactNumber;
     map['position'] = position;
-
     map['email'] = email;
+    map['username'] = email;
     map['password'] = password;
-    return {"user": map};
+    map['password2'] = password2;
+    return map;
   }
 }

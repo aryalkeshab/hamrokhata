@@ -55,11 +55,12 @@ class SalesOrderModel {
 }
 
 class SalesItems {
-  int? quantity;
-  int? total;
-  int? product;
+  String? quantity;
+  String? total;
+  String? product;
+  String? price;
 
-  SalesItems({this.quantity, this.total, this.product});
+  SalesItems({this.quantity, this.total, this.product, this.price});
 
   SalesItems.fromJson(Map<String, dynamic> json) {
     quantity = json['quantity'];
