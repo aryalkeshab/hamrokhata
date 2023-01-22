@@ -1,12 +1,19 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_repository.dart';
 import 'package:hamrokhata/commons/api/api_result.dart';
+import 'package:hamrokhata/commons/api/network_exception.dart';
+import 'package:hamrokhata/commons/widgets/loading_dialog.dart';
+import 'package:hamrokhata/commons/widgets/snackbar.dart';
+import 'package:hamrokhata/commons/widgets/toast.dart';
+import 'package:hamrokhata/models/request/product_request_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
 
 class PurchaseOrderController extends GetxController {
   @override
   void onInit() {
     getVendorsList();
+
     super.onInit();
   }
 
@@ -23,7 +30,7 @@ class PurchaseOrderController extends GetxController {
 
   ApiResponse get vendorslistResponse => _vendorsListResponse;
 
-  getVendorsList() async {
+  void getVendorsList() async {
     vendorslistResponse = await Get.find<PurchaseRepository>().getVendorsList();
     vendorList = [];
     if (vendorslistResponse.hasData) {
@@ -33,8 +40,30 @@ class PurchaseOrderController extends GetxController {
         vendorList.add(vendorApiResult[i].name!);
         update();
       }
+    } else {
+      showErrorToast(
+          NetworkException.getErrorMessage(vendorslistResponse.error));
     }
 
     update();
+  }
+
+  late ApiResponse purchaseOrderResponse;
+
+  void createPurchaseOrder(
+      ProductRequestModel productRequestModel, BuildContext context) async {
+    showLoadingDialog(context);
+    purchaseOrderResponse =
+        await Get.find<PurchaseRepository>().purchaseOrder(productRequestModel);
+    hideLoadingDialog(context);
+    if (purchaseOrderResponse.hasError) {
+      AppSnackbar.showError(
+          context: context,
+          message:
+              NetworkException.getErrorMessage(purchaseOrderResponse.error));
+    } else {
+      showSuccessToast(purchaseOrderResponse.data);
+      Get.back();
+    }
   }
 }

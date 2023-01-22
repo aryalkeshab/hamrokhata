@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
-import 'package:hamrokhata/Screens/auth/auth_controller.dart';
+import 'package:hamrokhata/Screens/auth/login/login_controller.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/utils/SpUtils.dart';
 import 'package:hamrokhata/commons/utils/custom_validators.dart';
@@ -10,6 +10,7 @@ import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons.dart';
 import 'package:hamrokhata/commons/widgets/textfields.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
+import 'package:hamrokhata/models/request/login_params.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -42,12 +43,12 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  final LoginParams loginParams = LoginParams();
   Widget build(BuildContext context) {
-    final authController = Get.put(AuthController());
+    final authController = Get.put(LoginController());
 
     return Scaffold(
-      body: GetBuilder<AuthController>(
-        init: AuthController(),
+      body: GetBuilder<LoginController>(
         builder: (controller) {
           return HookBaseWidget(
             builder: (context, config, theme) {
@@ -85,9 +86,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   validator: (value) =>
                                       Validator.validateEmail(value!),
                                   onSaved: (value) {
-                                    // loginParams.email = value;
+                                    loginParams.email = value;
                                   },
-                                  controller: authController.usernameController,
                                   hintTxt: "example@gmail.com",
                                 ),
                                 config.verticalSpaceMedium(),
@@ -100,7 +100,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   label: "Password",
                                   validator: (value) =>
                                       Validator.validatePassword(value!),
-                                  onSaved: (value) {},
+                                  onSaved: (value) {
+                                    loginParams.password = value;
+                                  },
                                   hintTxt: "*********",
                                 ),
                                 config.verticalSpaceMedium(),
@@ -121,12 +123,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                     onPressed: () {
                                       if (_loginFormKey.currentState!
                                           .validate()) {
-                                        showSuccessToast(
-                                            'Successfully Logged in. ');
-                                        SPUtil.writeString(
-                                            Constants.username,
-                                            authController
-                                                .usernameController.text);
+                                        controller.requestLogin(
+                                            loginParams, context);
+
+                                        // SPUtil.writeString(
+                                        //     Constants.username,
+                                        //     authController
+                                        //         .usernameController.text);
                                         Get.toNamed(Routes.dashboard);
                                       }
                                     }),

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:hamrokhata/Screens/auth/auth_controller.dart';
+import 'package:hamrokhata/commons/api/auth_widget_wrapper.dart';
+import 'package:hamrokhata/commons/resources/confirm_dialog_view.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/dashboard_module.dart';
@@ -24,13 +27,32 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         title: const Text('Dashboard'),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () {
-              showSuccessToast('Successfully logged out. ');
-              Get.offNamed(Routes.login);
-            },
-            icon: const Icon(Icons.logout_rounded),
-          ),
+          AuthWidgetBuilder(builder: (context, isAuthenticated) {
+            return IconButton(
+              onPressed: () {
+                showSuccessToast('Successfully logged out. ');
+                Get.offNamed(Routes.login);
+
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return ConfirmDialogView(
+                      primaryText: "Are you sure want to logout?",
+                      onApproveButtonPressed: () {
+                        Get.find<AuthController>().logout();
+                        Get.until((route) {
+                          print(route);
+                          return route.settings.name == Routes.dashboard;
+                        });
+                      },
+                      onCancelButtonPressed: Get.back,
+                    );
+                  },
+                );
+              },
+              icon: const Icon(Icons.logout_rounded),
+            );
+          }),
         ],
       ),
       body: BaseWidget(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:hamrokhata/Screens/auth/login.dart';
+import 'package:hamrokhata/Screens/auth/login/login.dart';
 import 'package:hamrokhata/commons/resources/app_theme.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/utils/constants.dart';
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       theme: AppThemes.lightThemeData,
       darkTheme: AppThemes.darkThemeData,
-      initialRoute: Routes.dashboard,
+      initialRoute: Routes.login,
       getPages: AppPages.routes,
     );
   }

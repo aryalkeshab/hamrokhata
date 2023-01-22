@@ -25,11 +25,7 @@ class ProductSearchRepositoryImpl extends ProductSearchRepository {
       try {
         final result = await productSearchRemoteDataSource.getProductDetail(id);
         print(result);
-        // final result1 = jsonDecode(result.toString());
         final productDetails = ProductSearchResponse.fromJson(result);
-
-        // ProductSearchResponse productSearchResponse =
-        //     ProductSearchResponse.fromJson(result);
 
         return ApiResponse(data: productDetails);
       } catch (e) {

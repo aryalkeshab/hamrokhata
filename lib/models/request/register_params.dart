@@ -4,7 +4,7 @@ class RegisterParams {
   String? email;
   String? password;
   String? contactNumber;
-  String? nationalId;
+  String? position;
 
   RegisterParams({this.email, this.password});
 
@@ -13,7 +13,7 @@ class RegisterParams {
     map['firstName'] = firstName;
     map['lastName'] = lastName;
     map['contactNumber'] = contactNumber;
-    map['nationalId'] = nationalId;
+    map['position'] = position;
 
     map['email'] = email;
     map['password'] = password;

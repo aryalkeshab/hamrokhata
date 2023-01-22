@@ -1,24 +1,31 @@
-import 'dart:collection';
-
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:hamrokhata/commons/utils/SpUtils.dart';
-import 'package:hamrokhata/commons/utils/storage_constants.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import 'package:hamrokhata/Screens/auth/auth_repository_impl.dart';
+import 'package:hamrokhata/commons/routes/app_pages.dart';
 
 class AuthController extends GetxController {
+  final authRepository = Get.find<AuthRepository>();
+
+  RxBool isLoggedIn = false.obs;
+
   @override
-  void onInit() {
-  
+  onInit() async {
+    isLoggedIn.value = await isAuthenticated();
     super.onInit();
   }
 
-  TextEditingController usernameController = TextEditingController(text: '');
-
-  void setPrintingMode(String username) {
-    SPUtil.writeString(Constants.username, username);
-    update();
+  isAuthenticated() async {
+    return await authRepository.isAuthenticated();
   }
 
+  void logout() {
+    authRepository.logout();
 
+    isLoggedIn.value = false;
+    Get.offAndToNamed(Routes.login);
+  }
+
+  authorize() async {
+    isLoggedIn.value = true;
+    Get.offAndToNamed(Routes.dashboard);
+  }
 }

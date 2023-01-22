@@ -1,6 +1,8 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
-import 'package:hamrokhata/Screens/auth/login.dart';
-import 'package:hamrokhata/Screens/auth/register.dart';
+import 'package:hamrokhata/Screens/auth/auth_di.dart';
+import 'package:hamrokhata/Screens/auth/login/login.dart';
+import 'package:hamrokhata/Screens/auth/data_source/auth_bindings.dart';
+import 'package:hamrokhata/Screens/auth/register/register.dart';
 import 'package:hamrokhata/Screens/dashboard/dashboard.dart';
 import 'package:hamrokhata/Screens/product_detail/product_details.dart';
 import 'package:hamrokhata/Screens/product_detail/product_search_di.dart';
@@ -24,12 +26,13 @@ class AppPages {
       name: _Paths.splash,
       page: SplashScreen.new,
     ),
-    GetPage(
-      name: _Paths.login,
-      page: LoginScreen.new,
-    ),
-    GetPage(name: _Paths.dashboard, page: DashBoardScreen.new, bindings: [
+    GetPage(name: _Paths.login, page: LoginScreen.new, bindings: [
       CoreBindings(),
+      LoginBindings(),
+      AuthBinding(),
+    ]),
+    GetPage(name: _Paths.dashboard, page: DashBoardScreen.new, bindings: [
+      // CoreBindings(),
     ]),
     GetPage(
       name: _Paths.register,
