@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_order_controller.dart';
-import 'package:hamrokhata/commons/api/config.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons.dart';
 import 'package:hamrokhata/commons/widgets/textfields.dart';
-import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/request/product_request_model.dart';
-import 'package:hamrokhata/models/vendor_list.dart';
 
 class PurchaseOrderScreen extends StatefulWidget {
   const PurchaseOrderScreen({super.key});
@@ -115,6 +112,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                             },
                             label: "Product Name*",
                             hintTxt: 'eg. fan',
+                            keyboardType: TextInputType.text,
                           ),
                         ),
                       ],
@@ -124,19 +122,19 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                       children: [
                         Expanded(
                           child: PrimaryFormField(
-                            onSaved: (saved) {
+                            onSaved: (String saved) {
                               purchaseOrderParams.currentStock =
                                   int.parse(saved);
                             },
                             label: "Quantity Added*",
                             hintTxt: '5',
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.phone,
                           ),
                         ),
                         config.horizontalSpaceMedium(),
                         Expanded(
                           child: PrimaryFormField(
-                            onSaved: (saved) {
+                            onSaved: (String saved) {
                               purchaseOrderParams.purchasePrice =
                                   double.parse(saved);
                             },
@@ -152,18 +150,19 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                       children: [
                         Expanded(
                           child: PrimaryFormField(
-                            onSaved: (saved) {
+                            onSaved: (String saved) {
                               purchaseOrderParams.sellingPrice =
                                   double.parse(saved);
                             },
                             label: "Selling Price*",
                             hintTxt: '150',
+                            keyboardType: TextInputType.number,
                           ),
                         ),
                         config.horizontalSpaceMedium(),
                         Expanded(
                           child: PrimaryFormField(
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.text,
                             onSaved: (saved) {
                               purchaseOrderParams.description = saved;
                             },

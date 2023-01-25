@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/auth/login/login_controller.dart';
+import 'package:hamrokhata/bluetooth/bluetooth_device_screen.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/utils/SpUtils.dart';
 import 'package:hamrokhata/commons/utils/custom_validators.dart';

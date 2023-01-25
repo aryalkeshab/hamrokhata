@@ -108,7 +108,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                         ),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton(
-                            hint: const Text('---Select Customer ---'),
+                            hint: const Text('---Select Customer--'),
                             value: dropDownvalue,
                             icon: const Icon(Icons.keyboard_arrow_down),
                             items: customerList.map((String vendorList) {

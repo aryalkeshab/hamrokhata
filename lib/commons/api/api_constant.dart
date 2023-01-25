@@ -8,7 +8,7 @@ enum APIPath {
   allProducts,
 
   productSearch,
-  //sales Order
+
   customerList,
   salesOrder,
   //purchase,
@@ -46,7 +46,7 @@ class APIPathHelper {
         return "/vendor/";
 
       case APIPath.addProduct:
-        return "/product/";
+        return "/productlist/";
 
       default:
         return "";

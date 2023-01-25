@@ -53,6 +53,11 @@ dependencies:
   equatable: ^2.0.5
   flutter_secure_storage: ^5.0.2
 
+  esc_pos_printer: ^4.1.0
+  esc_pos_utils: ^1.1.0
+  flutter_bluetooth_printer: ^2.6.3
+  bluetooth_enable_fork: ^0.1.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

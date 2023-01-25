@@ -16,6 +16,7 @@ class AuthInterceptor extends QueuedInterceptor {
       return handler.next(options);
     } else {
       final accessToken = await storage.read(key: StorageConstants.accessToken);
+      print(accessToken);
       if (accessToken == null) {
         //TODO: perform logout , return to sign in page
 

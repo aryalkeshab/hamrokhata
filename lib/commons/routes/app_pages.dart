@@ -50,11 +50,14 @@ class AppPages {
           CoreBindings(),
           PurchaseBinding(),
         ]),
-    GetPage(
-      name: _Paths.salesOrder,
-      page: SalesOrderScreen.new,
-      binding: SalesOrderBinding(),
-    ),
+    GetPage(name: _Paths.salesOrder, page: SalesOrderScreen.new, bindings: [
+      CoreBindings(),
+      SalesOrderBinding(),
+    ]),
+    // GetPage(
+    //   name: _Paths.bluetoothList,
+    //   page: BluetoothDeviceScreen.new,
+    // ),
     GetPage(
       name: _Paths.productDetails,
       page: ProductDetails.new,

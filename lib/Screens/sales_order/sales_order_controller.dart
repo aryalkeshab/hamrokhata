@@ -61,4 +61,10 @@ class SalesOrderController extends GetxController {
           message: NetworkException.getErrorMessage(salesOrderResponse.error));
     }
   }
+
+  @override
+  void onInit() {
+    getcustomerList();
+    super.onInit();
+  }
 }

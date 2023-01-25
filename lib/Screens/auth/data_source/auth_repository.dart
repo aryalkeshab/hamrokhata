@@ -36,14 +36,14 @@ class AuthLoginRegisterRepositoryImpl extends AuthLoginRegisterRepository {
             .loginAuth(loginParams);
         print(result['msg']);
         await secureStorage.write(
-            key: StorageConstants.accessToken,
+            key: StorageConstants.refreshToken,
             value: result['token']['refresh']);
         await secureStorage.write(
             key: StorageConstants.loginStaff,
             value: result['user_id'].toString());
         await secureStorage.write(
-            key: StorageConstants.refreshToken,
-            value: result['token']['refresh_token']);
+            key: StorageConstants.accessToken,
+            value: result["token"]["access"]);
 
         return ApiResponse(data: result['msg']);
       } catch (e) {

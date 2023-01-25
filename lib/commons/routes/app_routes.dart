@@ -15,6 +15,8 @@ abstract class Routes {
 
   static const purchaseOrder = _Paths.purchaseOrder;
 
+  static const bluetoothList = _Paths.bluetoothList;
+
   static const salesOrder = _Paths.salesOrder;
 }
 
@@ -29,5 +31,6 @@ abstract class _Paths {
   static const salesOrderList = '/salesOrderList';
   static const productDetails = '/productDetails';
   static const purchaseOrder = '/purchaseOrder';
+  static const bluetoothList = '/bluetoothList';
   static const salesOrder = '/salesOrder';
 }
