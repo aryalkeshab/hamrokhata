@@ -58,6 +58,8 @@ dependencies:
   flutter_bluetooth_printer: ^2.6.3
   bluetooth_enable_fork: ^0.1.6
 
+  bluetooth_print: ^4.3.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

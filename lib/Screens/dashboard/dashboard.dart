@@ -3,6 +3,8 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/auth/auth_controller.dart';
+import 'package:hamrokhata/Screens/bluetooth/app_setting.dart';
+import 'package:hamrokhata/Screens/bluetooth/bluetooth_device_list_screen.dart';
 import 'package:hamrokhata/commons/api/auth_widget_wrapper.dart';
 import 'package:hamrokhata/commons/resources/confirm_dialog_view.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
@@ -106,6 +108,17 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               Get.toNamed(Routes.salesOrderList);
                             },
                             icons: Icons.account_box,
+                          ),
+                          DashboardModule(
+                            text: 'Print Setting',
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const AppSetting()),
+                              );
+                            },
+                            icons: Icons.print,
                           ),
                         ]),
                   ],

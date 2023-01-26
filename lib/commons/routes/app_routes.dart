@@ -18,6 +18,7 @@ abstract class Routes {
   static const bluetoothList = _Paths.bluetoothList;
 
   static const salesOrder = _Paths.salesOrder;
+  static const appSetting = _Paths.appSetting;
 }
 
 abstract class _Paths {
@@ -27,6 +28,8 @@ abstract class _Paths {
 
   static const login = '/login';
   static const register = '/register';
+  static const appSetting = '/appSetting';
+
   static const dashboard = '/dashboard';
   static const salesOrderList = '/salesOrderList';
   static const productDetails = '/productDetails';

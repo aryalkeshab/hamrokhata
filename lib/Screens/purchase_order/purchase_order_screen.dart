@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:hamrokhata/Screens/bluetooth/app_setting.dart';
+import 'package:hamrokhata/Screens/bluetooth/app_setting_controller.dart';
+import 'package:hamrokhata/Screens/bluetooth/print_utils.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_order_controller.dart';
+import 'package:hamrokhata/commons/api/storage_constants.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons.dart';
 import 'package:hamrokhata/commons/widgets/textfields.dart';
@@ -23,10 +28,13 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
     super.initState();
   }
 
+  final secureStorage = FlutterSecureStorage();
+
   final ProductRequestModel purchaseOrderParams = ProductRequestModel();
 
   @override
   Widget build(BuildContext context) {
+    final appController = Get.put(AppSettingController());
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -185,17 +193,20 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                     // ),
                     config.verticalSpaceExtraLarge(),
                     PrimaryButton(
-                        onPressed: () {
-                          final currentState =
-                              _purchaseOrderFormKey.currentState;
-                          if (currentState != null) {
-                            currentState.save();
+                        onPressed: () async {
+                          PrintUtils.instance.bluetoothPrint(
+                              appController.finalBluetoothAddress!,
+                              "Hello World");
+                          // final currentState =
+                          //     _purchaseOrderFormKey.currentState;
+                          // if (currentState != null) {
+                          //   currentState.save();
 
-                            if (currentState.validate()) {
-                              controller.createPurchaseOrder(
-                                  purchaseOrderParams, context);
-                            }
-                          }
+                          //   if (currentState.validate()) {
+                          //     controller.createPurchaseOrder(
+                          //         purchaseOrderParams, context);
+                          //   }
+                          // }
                         },
                         label: 'Proceed')
                   ],
