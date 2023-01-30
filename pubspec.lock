@@ -36,13 +36,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.6"
-  bluetooth_print:
-    dependency: "direct main"
-    description:
-      name: bluetooth_print
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.3.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -162,6 +155,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
+  esc_pos_bluetooth:
+    dependency: "direct main"
+    description:
+      name: esc_pos_bluetooth
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.1"
   esc_pos_printer:
     dependency: "direct main"
     description:
@@ -216,6 +216,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_bluetooth_basic:
+    dependency: transitive
+    description:
+      name: flutter_bluetooth_basic
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.7"
   flutter_bluetooth_printer:
     dependency: "direct main"
     description:
@@ -568,7 +575,7 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.27.7"
+    version: "0.26.0"
   shared_preferences:
     dependency: "direct main"
     description:

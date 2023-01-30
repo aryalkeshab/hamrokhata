@@ -63,10 +63,9 @@ class AppPages {
     //   name: _Paths.appSetting,
     //   page: AppSetting.new,
     // ),
-    GetPage(
-      name: _Paths.productDetails,
-      page: ProductDetails.new,
-      binding: ProductSearchBinding(),
-    ),
+    GetPage(name: _Paths.productDetails, page: ProductDetails.new, bindings: [
+      CoreBindings(),
+      ProductSearchBinding(),
+    ]),
   ];
 }
