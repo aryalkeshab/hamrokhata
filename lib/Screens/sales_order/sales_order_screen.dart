@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:hamrokhata/Screens/product_detail/product_detail_controller.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_controller.dart';
 import 'package:hamrokhata/commons/utils/custom_validators.dart';
 import 'package:hamrokhata/commons/utils/scanqr.dart';
@@ -57,7 +56,6 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final productController = Get.put(ProductDetailsController());
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
@@ -293,8 +291,8 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                                     ),
                                     Expanded(
                                       flex: 1,
-                                      child: popupMenuItem(context, config,
-                                          theme, index, productController),
+                                      child: popupMenuItem(
+                                          context, config, theme, index),
                                     ),
                                   ],
                                 ),
@@ -331,8 +329,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                       config: config,
                       context: context,
                       theme: theme,
-                      index: null,
-                      productDetailsController: productController);
+                      index: null);
                 });
               },
             );
@@ -374,12 +371,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
         ));
   }
 
-  customDialog(
-      {required context,
-      required config,
-      required theme,
-      index,
-      ProductDetailsController? productDetailsController}) {
+  customDialog({required context, required config, required theme, index}) {
     if (isSelectedFromUpdate == true) {
       setState(() {
         searchController.text = salesList[index].product!;
@@ -445,8 +437,8 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                             child: IconButton(
                               icon: const Icon(Icons.search),
                               onPressed: () {
-                                productDetailsController!.getProductSearch(
-                                    context, searchController.text);
+                                showSuccessToast(
+                                    'Successfully search for ${searchController.text}. ');
                               },
                             ),
                           ),
@@ -457,41 +449,35 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                 ),
 
                 config.verticalSpaceMedium(),
-                GetBuilder<ProductDetailsController>(builder: (controller) {
-                  priceController.text = productDetailsController!
-                      .productDetails[0].sellingPrice
-                      .toString();
-                  return Row(
-                    children: const [
-                      Expanded(
-                        child: Text(
-                          "Item No. ",
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: Text(
-                          "Product Name",
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                }),
-                // config.verticalSpaceSmall(),
                 Row(
-                  children: [
+                  children: const [
                     Expanded(
                       child: Text(
-                        productDetailsController!.productDetails[0].id
-                            .toString(),
+                        "Item No. ",
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Text(
+                        "Product Name",
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                // config.verticalSpaceSmall(),
+                Row(
+                  children: const [
+                    Expanded(
+                      child: Text(
+                        '9006',
                         style: TextStyle(
                             color: Colors.black54,
                             fontWeight: FontWeight.bold,
@@ -503,8 +489,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                     ),
                     Expanded(
                       child: Text(
-                        productDetailsController.productDetails[0].name
-                            .toString(),
+                        'Hand Fan',
                         style: TextStyle(
                             color: Colors.black54,
                             fontWeight: FontWeight.bold,
@@ -636,7 +621,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
         ]);
   }
 
-  Widget popupMenuItem(context, config, theme, index, productController) {
+  Widget popupMenuItem(context, config, theme, index) {
     return PopupMenuButton<int>(
       icon: const Icon(Icons.more_vert),
       // onSelected: (item) =>
@@ -678,8 +663,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                     config: config,
                     context: context,
                     theme: theme,
-                    index: index,
-                    productDetailsController: productController);
+                    index: index);
               });
             },
             child: const Icon(Icons.edit),
