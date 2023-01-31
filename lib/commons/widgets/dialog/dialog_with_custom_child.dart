@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 
-Future<dynamic> dialogWithCustomChild(
+Future<dynamic> dialogWithCustomChildren(
     {required BuildContext context,
     required String title,
     List<Widget>? child}) {
@@ -22,7 +22,7 @@ Future<dynamic> dialogWithCustomChild(
                   config.verticalSpaceMedium(),
                   Visibility(
                     visible: child != null,
-                    child: Row(children: child ?? []),
+                    child: Column(children: child ?? []),
                   )
                 ],
               ),

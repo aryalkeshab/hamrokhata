@@ -6,6 +6,7 @@ import 'package:hamrokhata/commons/api/network_exception.dart';
 import 'package:hamrokhata/commons/widgets/loading_dialog.dart';
 import 'package:hamrokhata/commons/widgets/snackbar.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
+import 'package:hamrokhata/models/get_category_list.dart';
 import 'package:hamrokhata/models/request/product_request_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
 
@@ -13,13 +14,16 @@ class PurchaseOrderController extends GetxController {
   @override
   void onInit() {
     getVendorsList();
+    getCategoryList();
 
     super.onInit();
   }
 
   List<VendorList> vendorApiResult = [];
+  List<CategoryResponseModel> categoryModelList = [];
 
   List<String> vendorList = [];
+  List<String> categoryList = [];
 
   ApiResponse _vendorsListResponse = ApiResponse();
 
@@ -38,6 +42,34 @@ class PurchaseOrderController extends GetxController {
 
       for (int i = 0; i < vendorApiResult.length; i++) {
         vendorList.add(vendorApiResult[i].name!);
+        update();
+      }
+    } else {
+      showErrorToast(
+          NetworkException.getErrorMessage(vendorslistResponse.error));
+    }
+
+    update();
+  }
+
+  ApiResponse _categoryListResponse = ApiResponse();
+
+  set categoryListResponse(ApiResponse response) {
+    _categoryListResponse = response;
+    update();
+  }
+
+  ApiResponse get categoryListResponse => _categoryListResponse;
+
+  void getCategoryList() async {
+    categoryListResponse =
+        await Get.find<PurchaseRepository>().getCategoryList();
+    categoryList = [];
+    if (categoryListResponse.hasData) {
+      categoryModelList = await categoryListResponse.data;
+
+      for (int i = 0; i < categoryModelList.length; i++) {
+        categoryList.add(categoryModelList[i].name!);
         update();
       }
     } else {

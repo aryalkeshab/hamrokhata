@@ -4,6 +4,7 @@ import 'package:hamrokhata/models/request/product_request_model.dart';
 
 abstract class PurchaseOrderRemoteDataSource {
   Future<dynamic> getVendorsList();
+  Future<dynamic> getCategoryList();
   Future<dynamic> purchaseOrder(ProductRequestModel productRequestModel);
 }
 
@@ -13,6 +14,11 @@ class PurchaseOrderRemoteDataSourceImpl extends PurchaseOrderRemoteDataSource {
   @override
   getVendorsList() {
     return apiClient.authGet(APIPathHelper.purchaseAPIs(APIPath.vendorList));
+  }
+
+  @override
+  getCategoryList() {
+    return apiClient.authGet(APIPathHelper.productSearch(APIPath.categoryList));
   }
 
   @override

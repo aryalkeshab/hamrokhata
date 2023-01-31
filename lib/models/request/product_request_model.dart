@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class ProductRequestModel {
   String? name;
   String? description;
@@ -8,6 +10,7 @@ class ProductRequestModel {
   int? currentStock;
   int? category;
   String? vendorName;
+  File? imageUrl;
 
   ProductRequestModel(
       {this.name,
@@ -18,7 +21,8 @@ class ProductRequestModel {
       this.sku,
       this.currentStock,
       this.category,
-      this.vendorName});
+      this.vendorName,
+      this.imageUrl});
 
   // ProductRequestModel.fromJson(Map<String, dynamic> json) {
   //   name = json['name'];
@@ -38,10 +42,12 @@ class ProductRequestModel {
     data['purchase_price'] = purchasePrice;
     data['selling_price'] = sellingPrice;
     data['type'] = type;
-    data['sku'] = sku;
-    data['current_stock'] = currentStock;
+    // data['sku'] = sku;
+    // data['current_stock'] = currentStock;
     data['category'] = category;
-    data['vendor_name'] = vendorName;
+    // data['vendor_name'] = vendorName;
+    data['images'] = imageUrl.toString();
+
     return data;
   }
 }

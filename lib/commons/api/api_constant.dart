@@ -14,6 +14,7 @@ enum APIPath {
   //purchase,
   vendorList,
   addProduct,
+  categoryList,
 }
 
 class APIPathHelper {
@@ -81,6 +82,9 @@ class APIPathHelper {
 
       case APIPath.allProducts:
         return "/rest/V1/custom/products";
+
+      case APIPath.categoryList:
+        return "/categorylist";
 
       default:
         return "";

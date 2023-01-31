@@ -3,11 +3,13 @@ import 'package:hamrokhata/commons/api/api_result.dart';
 import 'package:hamrokhata/commons/api/network_exception.dart';
 import 'package:hamrokhata/commons/api/network_info.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
+import 'package:hamrokhata/models/get_category_list.dart';
 import 'package:hamrokhata/models/request/product_request_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
 
 abstract class PurchaseRepository {
   Future<ApiResponse> getVendorsList();
+  Future<ApiResponse> getCategoryList();
   Future<ApiResponse> purchaseOrder(ProductRequestModel productRequestModel);
 }
 
@@ -30,6 +32,31 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
             result.map<VendorList>((e) => VendorList.fromJson(e)).toList();
         print(vendorList);
         return ApiResponse(data: vendorList);
+      } catch (e) {
+        return ApiResponse(error: NetworkException.getException(e));
+        //       if(e is DioError && e.type == DioErrorType.response){
+        //     print(e.response?.data);
+        //     return ApiResponse(error: NetworkException.defaultError(value:e.response?.data[0]['message']));
+        //   }
+        //   return ApiResponse(error: NetworkException.getException(e));
+        // }
+      }
+    }
+    return ApiResponse(error: NetworkException.noInternetConnection());
+  }
+
+  @override
+  Future<ApiResponse> getCategoryList() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await purchaseOrderRemoteDataSource.getCategoryList();
+        print(result);
+        final categoryList = result
+            .map<CategoryResponseModel>(
+                (e) => CategoryResponseModel.fromJson(e))
+            .toList();
+
+        return ApiResponse(data: categoryList);
       } catch (e) {
         return ApiResponse(error: NetworkException.getException(e));
         //       if(e is DioError && e.type == DioErrorType.response){

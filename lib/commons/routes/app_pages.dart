@@ -6,6 +6,7 @@ import 'package:hamrokhata/Screens/auth/data_source/auth_bindings.dart';
 import 'package:hamrokhata/Screens/auth/register/register.dart';
 import 'package:hamrokhata/Screens/bluetooth/app_setting.dart';
 import 'package:hamrokhata/Screens/bluetooth/bluetooth_device_list_screen.dart';
+import 'package:hamrokhata/Screens/create_products/add_product_screen.dart';
 import 'package:hamrokhata/Screens/dashboard/dashboard.dart';
 import 'package:hamrokhata/Screens/product_detail/product_details_screen.dart';
 import 'package:hamrokhata/Screens/product_detail/product_search_di.dart';
@@ -77,6 +78,15 @@ class AppPages {
           CoreBindings(),
           SalesOrderBinding(),
           ProductSearchBinding(),
+        ]),
+    GetPage(
+        name: _Paths.addProductScreen,
+        page: AddProductScreen.new,
+        bindings: [
+          CoreBindings(),
+          SalesOrderBinding(),
+          ProductSearchBinding(),
+          PurchaseBinding(),
         ]),
   ];
 }

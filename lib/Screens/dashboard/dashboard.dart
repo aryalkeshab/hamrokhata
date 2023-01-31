@@ -96,6 +96,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             icons: Icons.add_circle_rounded,
                           ),
                           DashboardModule(
+                            text: 'Add Products',
+                            onPressed: () {
+                              Get.toNamed(Routes.addProductScreen);
+                            },
+                            icons: Icons.production_quantity_limits_sharp,
+                          ),
+                          DashboardModule(
                             text: 'Sales Order',
                             onPressed: () {
                               Get.toNamed(Routes.salesOrder);
