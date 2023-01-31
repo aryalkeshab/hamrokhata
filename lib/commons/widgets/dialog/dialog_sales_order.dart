@@ -7,8 +7,6 @@ Future<dynamic> dialogSalesOrderCustom({
   required BuildContext context,
   required String title,
   required List<Widget> children,
-  ProductDetailsController? productDetailsController,
-  loginFormKey,
 }) {
   return showDialog(
       context: context,

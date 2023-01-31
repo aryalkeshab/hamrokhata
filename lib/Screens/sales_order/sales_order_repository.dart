@@ -27,11 +27,11 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
       try {
         final result = await salesOrderRemoteDataSource.getCustomerList();
         print(result);
-        final vendorList = result
+        final customerList = result
             .map<CustomerModel>((e) => CustomerModel.fromJson(e))
             .toList();
 
-        return ApiResponse(data: vendorList);
+        return ApiResponse(data: customerList);
       } catch (e) {
         return ApiResponse(error: NetworkException.getException(e));
       }
@@ -45,8 +45,11 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
       try {
         final result =
             await salesOrderRemoteDataSource.salesOrder(salesOrderModel);
+        // final salesOrderResponseList = result
+        //     .map<SalesOrderModel>((e) => SalesOrderModel.fromJson(e))
+        //     .toList();
         final salesOrderResponseList = result
-            .map<SalesOrderModel>((e) => SalesOrderModel.fromJson(e))
+            .map<CustomerModel>((e) => CustomerModel.fromJson(e))
             .toList();
 
         return ApiResponse(data: salesOrderResponseList);

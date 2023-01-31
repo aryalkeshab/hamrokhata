@@ -60,7 +60,7 @@ class PrimaryFormField extends HookWidget {
         Padding(
           padding: const EdgeInsets.only(top: 15),
           child: SizedBox(
-            height: 60,
+            // height: 60,
             child: TextFormField(
               keyboardType: keyboardType,
               autovalidateMode: AutovalidateMode.onUserInteraction,

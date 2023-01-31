@@ -63,7 +63,7 @@ class APIPathHelper {
         return "/customer";
 
       case APIPath.salesOrder:
-        return "/sales";
+        return "/sales/";
 
       default:
         return "";

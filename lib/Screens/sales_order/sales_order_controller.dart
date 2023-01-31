@@ -5,8 +5,10 @@ import 'package:hamrokhata/Screens/sales_order/sales_order_repository.dart';
 import 'package:hamrokhata/commons/api/api_result.dart';
 import 'package:hamrokhata/commons/api/network_exception.dart';
 import 'package:hamrokhata/commons/widgets/snackbar.dart';
+import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/customer_model.dart';
 import 'package:hamrokhata/models/sales_order_model.dart';
+import 'package:hamrokhata/models/sales_response_model.dart';
 
 class SalesOrderController extends GetxController {
   List<CustomerModel> customerApiResult = [];
@@ -38,7 +40,7 @@ class SalesOrderController extends GetxController {
     update();
   }
 
-  List<SalesOrderModel> salesOrderResponseList = [];
+  SalesResponseModel? salesOrderResponseList;
 
   ApiResponse _salesOrderResponse = ApiResponse();
 
@@ -54,6 +56,7 @@ class SalesOrderController extends GetxController {
         await Get.find<SalesOrderRepository>().salesOrder(salesOrderModel);
     if (salesOrderResponse.hasData) {
       salesOrderResponseList = salesOrderResponse.data;
+      showNormalToast(salesOrderResponseList!.msg.toString());
       update();
     } else {
       AppSnackbar.showError(

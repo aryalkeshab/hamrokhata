@@ -20,3 +20,13 @@ void showErrorToast(String message, {Color? color}) {
       textColor: Colors.white,
       fontSize: 16.0);
 }
+
+void showNormalToast(String message, {Color? color}) {
+  Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.yellow,
+      textColor: Colors.white,
+      fontSize: 16.0);
+}

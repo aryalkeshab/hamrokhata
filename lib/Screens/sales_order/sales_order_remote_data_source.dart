@@ -20,6 +20,6 @@ class SalesOrderRemoteDataSourceImpl extends SalesOrderRemoteDataSource {
   @override
   salesOrder(SalesOrderModel salesOrderModel) {
     return apiClient.authPost(APIPathHelper.salesOrderAPIs(APIPath.salesOrder),
-        data: salesOrderModel);
+        data: salesOrderModel.toJson());
   }
 }

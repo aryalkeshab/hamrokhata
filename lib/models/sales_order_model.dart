@@ -39,12 +39,12 @@ class SalesOrderModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['grand_total'] = this.grandTotal;
-    data['sub_total'] = this.subTotal;
-    data['tax_amount'] = this.taxAmount;
-    data['discount_amount'] = this.discountAmount;
-    data['disc_percent'] = this.discPercent;
-    data['tax_percent'] = this.taxPercent;
+    // data['grand_total'] = this.grandTotal;
+    // data['sub_total'] = this.subTotal;
+    // data['tax_amount'] = this.taxAmount;
+    // data['discount_amount'] = this.discountAmount;
+    // data['disc_percent'] = this.discPercent;
+    // data['tax_percent'] = this.taxPercent;
     data['status'] = this.status;
     data['customer'] = this.customer;
     if (this.salesItems != null) {

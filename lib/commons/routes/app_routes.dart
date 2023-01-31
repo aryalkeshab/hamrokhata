@@ -19,6 +19,8 @@ abstract class Routes {
 
   static const salesOrder = _Paths.salesOrder;
   static const appSetting = _Paths.appSetting;
+  static const salesOrderConformationScreen =
+      _Paths.salesOrderConformationScreen;
 }
 
 abstract class _Paths {
@@ -36,4 +38,5 @@ abstract class _Paths {
   static const purchaseOrder = '/purchaseOrder';
   static const bluetoothList = '/bluetoothList';
   static const salesOrder = '/salesOrder';
+  static const salesOrderConformationScreen = '/salesOrderConformationScreen';
 }

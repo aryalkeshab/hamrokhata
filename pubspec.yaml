@@ -55,7 +55,7 @@ dependencies:
 
   esc_pos_printer: ^4.1.0
   esc_pos_utils: ^1.1.0
-  flutter_bluetooth_printer: ^2.6.3
+  flutter_bluetooth_printer: ^2.7.1
   bluetooth_enable_fork: ^0.1.6
   esc_pos_bluetooth: ^0.4.1
 

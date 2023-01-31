@@ -4,15 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:hamrokhata/Screens/product_detail/product_detail_controller.dart';
+import 'package:hamrokhata/Screens/product_detail/product_details_screen.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_controller.dart';
+import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/utils/custom_validators.dart';
 import 'package:hamrokhata/commons/utils/scanqr.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons.dart';
+import 'package:hamrokhata/commons/widgets/dialog/bottom_sheet.dart';
 import 'package:hamrokhata/commons/widgets/dialog/dialog_sales_order.dart';
 import 'package:hamrokhata/commons/widgets/dialog/dialog_with_custom_child_and_buttons.dart';
 import 'package:hamrokhata/commons/widgets/textfields.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
+import 'package:hamrokhata/models/customer_model.dart';
+import 'package:hamrokhata/models/product_detail.dart';
 import 'package:hamrokhata/models/sales_order_model.dart';
 
 class SalesOrderScreen extends StatefulWidget {
@@ -39,8 +45,10 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
 
   // List<TempSalesOrderModel> salesList = [];
   List<SalesItems> salesList = [];
+  ProductSearchResponse? productDetails;
 
   List<SalesOrderModel> salesOrderList = [];
+  final formKey = GlobalKey<FormState>();
 
   incrementCounter() {
     setState(() {
@@ -56,6 +64,8 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final productController = Get.put(ProductDetailsController());
+    final salesOrderController = Get.put(SalesOrderController());
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
@@ -65,6 +75,8 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
           return GetBuilder<SalesOrderController>(builder: (controller) {
             List<String> customerList =
                 Get.find<SalesOrderController>().customerList;
+            List<CustomerModel> customerModelList =
+                Get.find<SalesOrderController>().customerApiResult;
             return Container(
               padding: EdgeInsets.symmetric(
                   horizontal: config.appVerticalPaddingMedium()),
@@ -111,10 +123,10 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                             hint: const Text('---Select Customer--'),
                             value: dropDownvalue,
                             icon: const Icon(Icons.keyboard_arrow_down),
-                            items: customerList.map((String vendorList) {
+                            items: customerList.map((String customerList) {
                               return DropdownMenuItem(
-                                value: vendorList,
-                                child: Text(vendorList),
+                                value: customerList,
+                                child: Text(customerList),
                               );
                             }).toList(),
                             onChanged: (value) {
@@ -291,8 +303,8 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                                     ),
                                     Expanded(
                                       flex: 1,
-                                      child: popupMenuItem(
-                                          context, config, theme, index),
+                                      child: popupMenuItem(context, config,
+                                          theme, index, productController),
                                     ),
                                   ],
                                 ),
@@ -325,22 +337,14 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
               onPressed: () {
                 setState(() {
                   isSelectedFromUpdate = false;
-                  customDialog(
-                      config: config,
-                      context: context,
-                      theme: theme,
-                      index: null);
+                  customBottomSheet(context, 0);
                 });
               },
             );
           }),
         ),
-        bottomSheet:
-
-            // int price = salesList.add(int.parse(salesList[index].price))
-
-            Container(
-          height: 40,
+        bottomSheet: Container(
+          height: 80,
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(
             children: [
@@ -366,32 +370,45 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                   ],
                 );
               }),
+              Center(
+                child: PrimaryButton(
+                  label: 'Place Sales Order',
+                  onPressed: () {
+                    final salesOrderModel = SalesOrderModel(
+                        salesItems: salesList, status: "Pending", customer: 1);
+                    if (salesList.isNotEmpty) {
+                      salesOrderController.salesOrder(salesOrderModel, context);
+                      // Get.toNamed(
+                      //   Routes.salesOrderConformationScreen,
+                      //   arguments: salesList,
+                      // );
+
+                    } else {
+                      showErrorToast(
+                          "Please add items and customer name to the order first.");
+                    }
+                  },
+                ),
+              )
             ],
           ),
         ));
   }
 
-  customDialog({required context, required config, required theme, index}) {
-    if (isSelectedFromUpdate == true) {
-      setState(() {
-        searchController.text = salesList[index].product!;
-        qtyController.text = salesList[index].quantity!;
-        priceController.text = salesList[index].price!;
-      });
-    } else {
-      searchController.clear();
-      qtyController.clear();
-      priceController.clear();
-    }
-    final formKey = GlobalKey<FormState>();
+  void resetvalues() {
+    qtyController.text = '';
+    priceController.text = '';
+    searchController.text = '';
+  }
 
-    return dialogSalesOrderCustom(
-        context: (context),
-        title: 'Sales Order',
-        children: [
-          Form(
-            key: formKey,
-            child: Column(
+  customBottomSheet(context, int index) {
+    resetvalues();
+    bottomSheetSales(context: context, children: [
+      BaseWidget(builder: (context, config, theme) {
+        return GetBuilder<ProductDetailsController>(
+          builder: (controller) {
+            // controller.getProductSearch(context, );
+            return Column(
               children: [
                 Row(
                   children: [
@@ -437,8 +454,8 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                             child: IconButton(
                               icon: const Icon(Icons.search),
                               onPressed: () {
-                                showSuccessToast(
-                                    'Successfully search for ${searchController.text}. ');
+                                controller.getProductSearch(
+                                    context, searchController.text);
                               },
                             ),
                           ),
@@ -447,181 +464,595 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                     ),
                   ],
                 ),
+                config.verticalSpaceMedium(),
+                Builder(builder: (context) {
+                  if (controller.productSearchResponse.hasData) {
+                    final result = controller.productSearchResponse;
+                    final productDetails = result.data;
 
-                config.verticalSpaceMedium(),
-                Row(
-                  children: const [
-                    Expanded(
-                      child: Text(
-                        "Item No. ",
-                        style: TextStyle(
-                          color: Colors.grey,
+                    priceController.text =
+                        productDetails.sellingPrice.toString();
+                    // qtyController.text = productDetails.currentStock.toString();
+
+                    return Column(
+                      children: [
+                        Row(
+                          children: const [
+                            Expanded(
+                              child: Text(
+                                "Item No. ",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Text(
+                                "Product Name",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: Text(
-                        "Product Name",
-                        style: TextStyle(
-                          color: Colors.grey,
+
+                        // config.verticalSpaceSmall(),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                productDetails.id.toString(),
+                                style: const TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Text(
+                                productDetails.name.toString(),
+                                style: const TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-                // config.verticalSpaceSmall(),
-                Row(
-                  children: const [
-                    Expanded(
-                      child: Text(
-                        '9006',
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: Text(
-                        'Hand Fan',
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                      ),
-                    ),
-                  ],
-                ),
-                config.verticalSpaceMedium(),
-                Row(
-                  children: const [
-                    Expanded(
-                      child: Text(
-                        "Price",
-                        style: TextStyle(
-                          color: Colors.grey,
+                        config.verticalSpaceMedium(),
+                        Row(
+                          children: const [
+                            Expanded(
+                              child: Text(
+                                "Price",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Text(
+                                "Qty to buy",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: Text(
-                        "Qty to buy",
-                        style: TextStyle(
-                          color: Colors.grey,
+                        // config.verticalSpaceSmall(),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: PrimaryFormField(
+                                controller: priceController,
+                                hintTxt: "eg 10 ",
+                                // validator: (value) =>
+                                //     Validator.validateNumber(value!),
+                                onChanged: (value) {
+                                  setState(() {
+                                    price = value;
+                                  });
+                                },
+                                onSaved: (value) {
+                                  setState(() {
+                                    price = value;
+                                  });
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: PrimaryFormField(
+                                  hintTxt: "eg 10 ",
+                                  controller: qtyController,
+                                  // validator: (value) =>
+                                  //     Validator.validateNumber(value!),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      qty = value;
+                                    });
+                                  },
+                                  onSaved: (value) {
+                                    setState(() {
+                                      qty = value;
+                                    });
+                                  }),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-                // config.verticalSpaceSmall(),
-                Row(
-                  children: [
-                    Expanded(
-                      child: PrimaryFormField(
-                        controller: priceController,
-                        hintTxt: "eg 10 ",
-                        validator: (value) => Validator.validateNumber(value!),
-                        onChanged: (value) {
-                          setState(() {
-                            price = value;
-                          });
-                        },
-                        onSaved: (value) {
-                          setState(() {
-                            price = value;
-                          });
-                        },
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: PrimaryFormField(
-                          hintTxt: "eg 10 ",
-                          controller: qtyController,
-                          validator: (value) =>
-                              Validator.validateNumber(value!),
-                          onChanged: (value) {
-                            setState(() {
-                              qty = value;
-                            });
+                        config.verticalSpaceMedium(),
+                        PrimaryButton(
+                          label: 'Proceed',
+                          onPressed: () {
+                            // if (formKey.currentState!.validate()) {
+
+                            if (int.parse(qtyController.text) == 0) {
+                              showErrorToast("You cannot add 0 quantity !");
+                            } else if (productDetails.currentStock! >
+                                int.parse(qtyController.text)) {
+                              if (isSelectedFromUpdate == false) {
+                                double total = 0.00;
+                                total = double.parse(qtyController.text) *
+                                    double.parse(priceController.text);
+
+                                netTotal += total;
+
+                                setState(() {
+                                  salesList.add(
+                                    SalesItems(
+                                        product: searchController.text,
+                                        quantity: qtyController.text,
+                                        price: priceController.text,
+                                        total: total.toString()),
+                                  );
+                                });
+                                Navigator.pop(context);
+                              } else {
+                                netTotal = netTotal -
+                                    double.parse(
+                                        salesList[index].total.toString());
+                                double total2 = 0.00;
+                                total2 = double.parse(qtyController.text) *
+                                    double.parse(priceController.text);
+                                setState(() {
+                                  salesList.removeAt(index);
+                                  netTotal += total2;
+
+                                  salesList.insert(
+                                    index,
+                                    SalesItems(
+                                        product: searchController.text,
+                                        quantity: qtyController.text,
+                                        price: priceController.text,
+                                        total: total2.toString()),
+                                  );
+                                });
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              }
+                            } else {
+                              showErrorToast(
+                                  "Added qty is more than Qty on Stock.");
+                            }
+                            // }
                           },
-                          onSaved: (value) {
-                            setState(() {
-                              qty = value;
-                            });
-                          }),
-                    ),
-                  ],
-                ),
-                config.verticalSpaceMedium(),
-                PrimaryButton(
-                  label: 'Proceed',
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      if (isSelectedFromUpdate == false) {
-                        double total = 0.00;
-                        total = double.parse(qtyController.text) *
-                            double.parse(priceController.text);
-                        // for (int i = 0; i <= salesList.length; i++) {
-                        //   print(salesList[i].price!);
-                        //   netTotal += double.parse(salesList[i].price!);
-                        // }
-                        // print(netTotal);
-                        netTotal += total;
+                        )
+                      ],
+                    );
+                  } else {
+                    return Column(
+                      children: [
+                        Row(
+                          children: const [
+                            Expanded(
+                              child: Text(
+                                "Item No. ",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Text(
+                                "Product Name",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
 
-                        setState(() {
-                          salesList.add(
-                            SalesItems(
-                                product: searchController.text,
-                                quantity: qtyController.text,
-                                price: priceController.text,
-                                total: total.toString()),
-                          );
-                        });
-                        Navigator.pop(context);
-                      } else {
-                        netTotal = netTotal -
-                            double.parse(salesList[index].total.toString());
-                        double total2 = 0.00;
-                        total2 = double.parse(qtyController.text) *
-                            double.parse(priceController.text);
-                        setState(() {
-                          salesList.removeAt(index);
-                          netTotal += total2;
+                        // config.verticalSpaceSmall(),
+                        Row(
+                          children: const [
+                            Expanded(
+                              child: Text(
+                                "--",
+                                style: TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Text(
+                                "--",
+                                style: TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18),
+                              ),
+                            ),
+                          ],
+                        ),
+                        config.verticalSpaceMedium(),
+                        Row(
+                          children: const [
+                            Expanded(
+                              child: Text(
+                                "Price",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Text(
+                                "Qty to buy",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        // config.verticalSpaceSmall(),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: PrimaryFormField(
+                                controller: priceController,
+                                hintTxt: "eg 10 ",
+                                validator: (value) =>
+                                    Validator.validateNumber(value!),
+                                onChanged: (value) {
+                                  setState(() {
+                                    price = value;
+                                  });
+                                },
+                                onSaved: (value) {
+                                  setState(() {
+                                    price = value;
+                                  });
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: PrimaryFormField(
+                                  hintTxt: "eg 10 ",
+                                  controller: qtyController,
+                                  validator: (value) =>
+                                      Validator.validateNumber(value!),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      qty = value;
+                                    });
+                                  },
+                                  onSaved: (value) {
+                                    setState(() {
+                                      qty = value;
+                                    });
+                                  }),
+                            ),
+                          ],
+                        ),
+                        config.verticalSpaceMedium(),
 
-                          salesList.insert(
-                            index,
-                            SalesItems(
-                                product: searchController.text,
-                                quantity: qtyController.text,
-                                price: priceController.text,
-                                total: total2.toString()),
-                          );
-                        });
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                      }
-                    }
-                  },
-                )
+                        // PrimaryButton(
+                        //   label: 'Proceed',
+                        //   onPressed: () {},
+                        // )
+                      ],
+                    );
+                  }
+                }),
               ],
-            ),
-          ),
-        ]);
+            );
+          },
+        );
+      })
+    ]);
   }
 
-  Widget popupMenuItem(context, config, theme, index) {
+  // customDialog(
+  //     {required context,
+  //     required config,
+  //     required theme,
+  //     index,
+  //     ProductDetailsController? productDetailsController}) {
+  //   if (isSelectedFromUpdate == true) {
+  //     setState(() {
+  //       searchController.text = salesList[index].product!;
+  //       qtyController.text = salesList[index].quantity!;
+  //       priceController.text = salesList[index].price!;
+  //     });
+  //   } else {
+  //     searchController.clear();
+  //     qtyController.clear();
+  //     priceController.clear();
+  //   }
+  //   final formKey = GlobalKey<FormState>();
+
+  //   return dialogSalesOrderCustom(
+  //       context: (context),
+  //       title: 'Sales Order',
+  //       children: [
+  //         Form(
+  //           key: formKey,
+  //           child: Column(
+  //             children: [
+  //               Row(
+  //                 children: [
+  //                   Expanded(
+  //                     flex: 3,
+  //                     child: Stack(
+  //                       children: [
+  //                         PrimaryFormField(
+  //                           controller: searchController,
+  //                           validator: (value) =>
+  //                               Validator.validateNumber(value!),
+  //                           onSaved: (saved) {
+  //                             setState(() {
+  //                               scannedCode = saved;
+  //                             });
+  //                           },
+  //                           hintIcon: InkWell(
+  //                             onTap: () async {
+  //                               scannedCode =
+  //                                   await Scanqr.barcodeScanner(context);
+  //                               print(scannedCode);
+  //                             },
+  //                             child: const Icon(CupertinoIcons.barcode),
+  //                           ),
+  //                           onChanged: (value) {
+  //                             setState(() {
+  //                               scannedCode = value;
+  //                             });
+  //                           },
+  //                           hintTxt: "Item No. ",
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                   config.horizontalSpaceMedium(),
+  //                   Expanded(
+  //                     flex: 1,
+  //                     child: Row(
+  //                       children: [
+  //                         Container(
+  //                           padding:
+  //                               const EdgeInsets.only(right: 10.0, top: 10),
+  //                           child: IconButton(
+  //                             icon: const Icon(Icons.search),
+  //                             onPressed: () {
+  //                               productDetailsController!.getProductSearch(
+  //                                   context, searchController.text);
+  //                             },
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+
+  //               config.verticalSpaceMedium(),
+  //               GetBuilder<ProductDetailsController>(builder: (controller) {
+  //                 priceController.text = productDetailsController!
+  //                     .productDetails[0].sellingPrice
+  //                     .toString();
+  //                 return Row(
+  //                   children: const [
+  //                     Expanded(
+  //                       child: Text(
+  //                         "Item No. ",
+  //                         style: TextStyle(
+  //                           color: Colors.grey,
+  //                         ),
+  //                       ),
+  //                     ),
+  //                     SizedBox(
+  //                       width: 10,
+  //                     ),
+  //                     Expanded(
+  //                       child: Text(
+  //                         "Product Name",
+  //                         style: TextStyle(
+  //                           color: Colors.grey,
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 );
+  //               }),
+  //               // config.verticalSpaceSmall(),
+  //               Row(
+  //                 children: [
+  //                   Expanded(
+  //                     child: Text(
+  //                       productDetailsController!.productDetails[0].id
+  //                           .toString(),
+  //                       style: TextStyle(
+  //                           color: Colors.black54,
+  //                           fontWeight: FontWeight.bold,
+  //                           fontSize: 18),
+  //                     ),
+  //                   ),
+  //                   SizedBox(
+  //                     width: 10,
+  //                   ),
+  //                   Expanded(
+  //                     child: Text(
+  //                       productDetailsController.productDetails[0].name
+  //                           .toString(),
+  //                       style: TextStyle(
+  //                           color: Colors.black54,
+  //                           fontWeight: FontWeight.bold,
+  //                           fontSize: 18),
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //               config.verticalSpaceMedium(),
+  //               Row(
+  //                 children: const [
+  //                   Expanded(
+  //                     child: Text(
+  //                       "Price",
+  //                       style: TextStyle(
+  //                         color: Colors.grey,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   SizedBox(
+  //                     width: 10,
+  //                   ),
+  //                   Expanded(
+  //                     child: Text(
+  //                       "Qty to buy",
+  //                       style: TextStyle(
+  //                         color: Colors.grey,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //               // config.verticalSpaceSmall(),
+  //               Row(
+  //                 children: [
+  //                   Expanded(
+  //                     child: PrimaryFormField(
+  //                       controller: priceController,
+  //                       hintTxt: "eg 10 ",
+  //                       validator: (value) => Validator.validateNumber(value!),
+  //                       onChanged: (value) {
+  //                         setState(() {
+  //                           price = value;
+  //                         });
+  //                       },
+  //                       onSaved: (value) {
+  //                         setState(() {
+  //                           price = value;
+  //                         });
+  //                       },
+  //                     ),
+  //                   ),
+  //                   const SizedBox(
+  //                     width: 10,
+  //                   ),
+  //                   Expanded(
+  //                     child: PrimaryFormField(
+  //                         hintTxt: "eg 10 ",
+  //                         controller: qtyController,
+  //                         validator: (value) =>
+  //                             Validator.validateNumber(value!),
+  //                         onChanged: (value) {
+  //                           setState(() {
+  //                             qty = value;
+  //                           });
+  //                         },
+  //                         onSaved: (value) {
+  //                           setState(() {
+  //                             qty = value;
+  //                           });
+  //                         }),
+  //                   ),
+  //                 ],
+  //               ),
+  //               config.verticalSpaceMedium(),
+  //               PrimaryButton(
+  //                 label: 'Proceed',
+  //                 onPressed: () {
+  //                   if (formKey.currentState!.validate()) {
+  //                     if (isSelectedFromUpdate == false) {
+  //                       double total = 0.00;
+  //                       total = double.parse(qtyController.text) *
+  //                           double.parse(priceController.text);
+  //                       // for (int i = 0; i <= salesList.length; i++) {
+  //                       //   print(salesList[i].price!);
+  //                       //   netTotal += double.parse(salesList[i].price!);
+  //                       // }
+  //                       // print(netTotal);
+  //                       netTotal += total;
+
+  //                       setState(() {
+  //                         salesList.add(
+  //                           SalesItems(
+  //                               product: searchController.text,
+  //                               quantity: qtyController.text,
+  //                               price: priceController.text,
+  //                               total: total.toString()),
+  //                         );
+  //                       });
+  //                       Navigator.pop(context);
+  //                     } else {
+  //                       netTotal = netTotal -
+  //                           double.parse(salesList[index].total.toString());
+  //                       double total2 = 0.00;
+  //                       total2 = double.parse(qtyController.text) *
+  //                           double.parse(priceController.text);
+  //                       setState(() {
+  //                         salesList.removeAt(index);
+  //                         netTotal += total2;
+
+  //                         salesList.insert(
+  //                           index,
+  //                           SalesItems(
+  //                               product: searchController.text,
+  //                               quantity: qtyController.text,
+  //                               price: priceController.text,
+  //                               total: total2.toString()),
+  //                         );
+  //                       });
+  //                       Navigator.pop(context);
+  //                       Navigator.pop(context);
+  //                     }
+  //                   }
+  //                 },
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //       ]);
+  // }
+
+  Widget popupMenuItem(context, config, theme, index, productController) {
     return PopupMenuButton<int>(
       icon: const Icon(Icons.more_vert),
       // onSelected: (item) =>
@@ -659,11 +1090,12 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
             onTap: () {
               setState(() {
                 isSelectedFromUpdate = true;
-                customDialog(
-                    config: config,
-                    context: context,
-                    theme: theme,
-                    index: index);
+                // customDialog(
+                //     config: config,
+                //     context: context,
+                //     theme: theme,
+                //     index: index,
+                //     productDetailsController: productController);
               });
             },
             child: const Icon(Icons.edit),

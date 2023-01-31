@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:hamrokhata/Screens/auth/auth_di.dart';
 import 'package:hamrokhata/Screens/auth/login/login.dart';
@@ -6,10 +7,11 @@ import 'package:hamrokhata/Screens/auth/register/register.dart';
 import 'package:hamrokhata/Screens/bluetooth/app_setting.dart';
 import 'package:hamrokhata/Screens/bluetooth/bluetooth_device_list_screen.dart';
 import 'package:hamrokhata/Screens/dashboard/dashboard.dart';
-import 'package:hamrokhata/Screens/product_detail/product_details.dart';
+import 'package:hamrokhata/Screens/product_detail/product_details_screen.dart';
 import 'package:hamrokhata/Screens/product_detail/product_search_di.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_di.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_order_screen.dart';
+import 'package:hamrokhata/Screens/sales_order/sales_order_conform_screen.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_di.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_screen.dart';
 import 'package:hamrokhata/Screens/sales_order_list/sales_order_list.dart';
@@ -55,6 +57,7 @@ class AppPages {
     GetPage(name: _Paths.salesOrder, page: SalesOrderScreen.new, bindings: [
       CoreBindings(),
       SalesOrderBinding(),
+      ProductSearchBinding(),
     ]),
     GetPage(name: _Paths.appSetting, page: AppSetting.new, bindings: [
       CoreBindings(),
@@ -67,5 +70,13 @@ class AppPages {
       CoreBindings(),
       ProductSearchBinding(),
     ]),
+    GetPage(
+        name: _Paths.salesOrderConformationScreen,
+        page: () => SalesOrderListScreen(salesList: Get.arguments),
+        bindings: [
+          CoreBindings(),
+          SalesOrderBinding(),
+          ProductSearchBinding(),
+        ]),
   ];
 }

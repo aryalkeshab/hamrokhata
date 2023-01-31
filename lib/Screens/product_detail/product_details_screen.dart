@@ -256,7 +256,169 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                     );
                   } else {
-                    return Center(child: CircularProgressIndicator());
+                    return Card(
+                      elevation: 2,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: config.appVerticalPaddingMedium()),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            config.verticalSpaceLarge(),
+                            Row(
+                              children: const [
+                                Expanded(
+                                  child: Text(
+                                    "Item No. ",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "Product Name",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            config.verticalSpaceMedium(),
+                            Row(
+                              children: const [
+                                Expanded(
+                                  child: Text(
+                                    "--",
+                                    style: TextStyle(
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "--",
+                                    style: TextStyle(
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            config.verticalSpaceLarge(),
+                            Row(
+                              children: const [
+                                Expanded(
+                                  child: Text(
+                                    "Price",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "Discount Price",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            config.verticalSpaceMedium(),
+                            Row(
+                              children: const [
+                                Expanded(
+                                  child: Text(
+                                    "--",
+                                    style: TextStyle(
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "--",
+                                    style: TextStyle(
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            config.verticalSpaceLarge(),
+                            Row(
+                              children: const [
+                                Expanded(
+                                  child: Text(
+                                    "Product Description",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "Stock Count",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            config.verticalSpaceMedium(),
+                            Row(
+                              children: const [
+                                Expanded(
+                                  child: Text(
+                                    "--",
+                                    style: TextStyle(
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '--',
+                                    style: TextStyle(
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            config.verticalSpaceLarge(),
+                          ],
+                        ),
+                      ),
+                    );
                   }
                 })
               ],
