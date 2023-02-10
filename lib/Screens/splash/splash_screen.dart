@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:hamrokhata/commons/api/storage_constants.dart';
 import 'package:hamrokhata/commons/resources/ui_assets.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -52,6 +54,7 @@ class SplashAnimationController extends GetxController
   void dispose() {
     animationController.dispose();
     initPackageInfo();
+
     super.dispose();
   }
 
@@ -63,11 +66,13 @@ class SplashAnimationController extends GetxController
             .obs
             .value;
     animation.addListener(() => update());
-    animationController
-        .forward()
-        .whenComplete(() => Get.offAllNamed(Routes.login));
+    animationController.forward().whenComplete(() async {
+      // if (await storage.read(key: StorageConstants.accessToken))
+      Get.offAllNamed(Routes.introScreen);
+    });
   }
-    PackageInfo packageInfo = PackageInfo(
+
+  PackageInfo packageInfo = PackageInfo(
     appName: 'Unknown',
     packageName: 'Unknown',
     version: 'Unknown',

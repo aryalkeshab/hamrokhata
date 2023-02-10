@@ -57,64 +57,61 @@ class PrimaryFormField extends HookWidget {
         SizedBox(
           height: labelHeight ?? 10,
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 15),
-          child: SizedBox(
-            // height: 60,
-            child: TextFormField(
-              keyboardType: keyboardType,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: validator,
-              controller: controller,
-              onSaved: (value) {
-                onSaved(value!);
-              },
-              onChanged: onChanged,
-              obscureText: isPasswordVisible.value,
-              decoration: InputDecoration(
-                errorMaxLines: 2,
-                prefixIcon: hintIcon,
-                suffixIcon: isPassword!
-                    ? GestureDetector(
-                        onTap: () {
-                          isPasswordVisible.value = !isPasswordVisible.value;
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 15.0),
-                          child: Icon(isPasswordVisible.value
-                              ? Icons.visibility
-                              : Icons.visibility_off),
-                        ))
-                    : const SizedBox.shrink(),
-                hintText: hintTxt,
-                hintStyle: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    ?.copyWith(color: disabledColor),
-                filled: isFilled!,
-                isDense: true,
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                fillColor: Colors.white70,
-                errorBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                  borderSide: BorderSide(color: Colors.red),
+        Container(),
+        SizedBox(
+          // height: 60,
+          child: TextFormField(
+            keyboardType: keyboardType,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: validator,
+            controller: controller,
+            onSaved: (value) {
+              onSaved(value!);
+            },
+            onChanged: onChanged,
+            obscureText: isPasswordVisible.value,
+            decoration: InputDecoration(
+              errorMaxLines: 2,
+              prefixIcon: hintIcon,
+              suffixIcon: isPassword!
+                  ? GestureDetector(
+                      onTap: () {
+                        isPasswordVisible.value = !isPasswordVisible.value;
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15.0),
+                        child: Icon(isPasswordVisible.value
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                      ))
+                  : const SizedBox.shrink(),
+              hintText: hintTxt,
+              hintStyle: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  ?.copyWith(color: disabledColor),
+              filled: isFilled!,
+              isDense: true,
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              fillColor: Colors.white70,
+              errorBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                borderSide: BorderSide(color: Colors.red),
+              ),
+              focusedErrorBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderSide: BorderSide(color: Colors.red),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                borderSide: BorderSide(
+                  color: textFieldBorderColor ?? Theme.of(context).primaryColor,
                 ),
-                focusedErrorBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  borderSide: BorderSide(color: Colors.red),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(20)),
-                  borderSide: BorderSide(
-                    color:
-                        textFieldBorderColor ?? Theme.of(context).primaryColor,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+                borderSide: BorderSide(color: Theme.of(context).primaryColor),
               ),
             ),
           ),

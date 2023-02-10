@@ -65,6 +65,31 @@ class SalesOrderController extends GetxController {
     }
   }
 
+//sales Order List
+
+  List<SalesResponseModel> salesOrderList = [];
+
+  ApiResponse _salesOrderListResponse = ApiResponse();
+
+  set salesOrderListResponse(ApiResponse response) {
+    _salesOrderListResponse = response;
+    update();
+  }
+
+  ApiResponse get salesOrderListResponse => _salesOrderListResponse;
+
+  allSalesOrderList() async {
+    salesOrderResponse =
+        await Get.find<SalesOrderRepository>().salesOrderList();
+    if (salesOrderResponse.hasData) {
+      salesOrderResponseList = salesOrderResponse.data;
+      showNormalToast(salesOrderResponseList!.msg.toString());
+      update();
+    } else {
+      showNormalToast(salesOrderResponse.error.toString());
+    }
+  }
+
   @override
   void onInit() {
     getcustomerList();

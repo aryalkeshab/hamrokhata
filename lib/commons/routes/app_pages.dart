@@ -8,6 +8,7 @@ import 'package:hamrokhata/Screens/bluetooth/app_setting.dart';
 import 'package:hamrokhata/Screens/bluetooth/bluetooth_device_list_screen.dart';
 import 'package:hamrokhata/Screens/create_products/add_product_screen.dart';
 import 'package:hamrokhata/Screens/dashboard/dashboard.dart';
+import 'package:hamrokhata/Screens/intro_screens/intro_screen.dart';
 import 'package:hamrokhata/Screens/product_detail/product_details_screen.dart';
 import 'package:hamrokhata/Screens/product_detail/product_search_di.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_di.dart';
@@ -18,6 +19,7 @@ import 'package:hamrokhata/Screens/sales_order/sales_order_screen.dart';
 import 'package:hamrokhata/Screens/sales_order_list/sales_order_list.dart';
 import 'package:hamrokhata/Screens/splash/splash_screen.dart';
 import 'package:hamrokhata/commons/api/core_bindings.dart';
+import 'package:hamrokhata/test.dart';
 
 part 'app_routes.dart';
 
@@ -30,6 +32,10 @@ class AppPages {
     GetPage(
       name: _Paths.splash,
       page: SplashScreen.new,
+    ),
+    GetPage(
+      name: _Paths.test,
+      page: TableForReceipt.new,
     ),
     GetPage(name: _Paths.login, page: LoginScreen.new, bindings: [
       CoreBindings(),
@@ -44,16 +50,20 @@ class AppPages {
       name: _Paths.register,
       page: RegisterScreen.new,
     ),
-    GetPage(
-      name: _Paths.salesOrderList,
-      page: SalesOrderList.new,
-    ),
+    GetPage(name: _Paths.salesOrderList, page: SalesOrderList.new, bindings: [
+      CoreBindings(),
+      ProductSearchBinding(),
+      PurchaseBinding(),
+      SalesOrderBinding(),
+    ]),
     GetPage(
         name: _Paths.purchaseOrder,
         page: PurchaseOrderScreen.new,
         bindings: [
           CoreBindings(),
+          ProductSearchBinding(),
           PurchaseBinding(),
+          SalesOrderBinding(),
         ]),
     GetPage(name: _Paths.salesOrder, page: SalesOrderScreen.new, bindings: [
       CoreBindings(),
@@ -88,5 +98,6 @@ class AppPages {
           ProductSearchBinding(),
           PurchaseBinding(),
         ]),
+    GetPage(name: _Paths.introScreen, page: IntroScreen.new)
   ];
 }

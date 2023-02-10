@@ -8,6 +8,8 @@ import 'package:hamrokhata/commons/widgets/snackbar.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/get_category_list.dart';
 import 'package:hamrokhata/models/request/product_request_model.dart';
+import 'package:hamrokhata/models/request/purchase_request_model.dart';
+import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
 
 class PurchaseOrderController extends GetxController {
@@ -80,22 +82,51 @@ class PurchaseOrderController extends GetxController {
     update();
   }
 
-  late ApiResponse purchaseOrderResponse;
+  late ApiResponse productOrderResponse;
 
   void createPurchaseOrder(
       ProductRequestModel productRequestModel, BuildContext context) async {
     showLoadingDialog(context);
-    purchaseOrderResponse =
-        await Get.find<PurchaseRepository>().purchaseOrder(productRequestModel);
+    productOrderResponse =
+        await Get.find<PurchaseRepository>().addProduct(productRequestModel);
     hideLoadingDialog(context);
-    if (purchaseOrderResponse.hasError) {
+    if (productOrderResponse.hasError) {
+      AppSnackbar.showError(
+          context: context,
+          message:
+              NetworkException.getErrorMessage(productOrderResponse.error));
+    } else {
+      showSuccessToast(productOrderResponse.data);
+      Get.back();
+    }
+  }
+
+  //purchase order
+
+  PurchaseResponseModel? purchaseOrderResponseList;
+
+  ApiResponse _purchaseOrderResponse = ApiResponse();
+
+  set purchaseOrderResponse(ApiResponse response) {
+    _purchaseOrderResponse = response;
+    update();
+  }
+
+  ApiResponse get purchaseOrderResponse => _purchaseOrderResponse;
+
+  purchaseOrder(
+      PurchaseOrderModel purchaseOrderModel, BuildContext context) async {
+    purchaseOrderResponse =
+        await Get.find<PurchaseRepository>().purchaseOrder(purchaseOrderModel);
+    if (purchaseOrderResponse.hasData) {
+      purchaseOrderResponseList = purchaseOrderResponse.data;
+      showNormalToast(purchaseOrderResponseList!.msg.toString());
+      update();
+    } else {
       AppSnackbar.showError(
           context: context,
           message:
               NetworkException.getErrorMessage(purchaseOrderResponse.error));
-    } else {
-      showSuccessToast(purchaseOrderResponse.data);
-      Get.back();
     }
   }
 }

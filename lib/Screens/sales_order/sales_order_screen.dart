@@ -403,7 +403,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
 
   customBottomSheet(context, int index) {
     resetvalues();
-    bottomSheetSales(context: context, children: [
+    bottomSheet(context: context, children: [
       BaseWidget(builder: (context, config, theme) {
         return GetBuilder<ProductDetailsController>(
           builder: (controller) {

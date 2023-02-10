@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hamrokhata/Screens/auth/auth_controller.dart';
 import 'package:hamrokhata/Screens/auth/data_source/auth_repository.dart';
 import 'package:hamrokhata/Screens/product_detail/product_search_repository.dart';
 import 'package:hamrokhata/commons/api/api_result.dart';
 import 'package:hamrokhata/commons/api/network_exception.dart';
+import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/dialog_box.dart';
 import 'package:hamrokhata/commons/widgets/loading_dialog.dart';
 import 'package:hamrokhata/commons/widgets/snackbar.dart';
@@ -25,15 +27,17 @@ class RegisterController extends GetxController {
   void requestRegister(
       RegisterParams registerParams, BuildContext context) async {
     showLoadingDialog(context);
+
     registerResponse = await registerRepository.registerAuth(registerParams);
-    hideLoadingDialog(context);
+
     if (registerResponse.hasError) {
+      hideLoadingDialog(context);
       AppSnackbar.showError(
           context: context,
           message: NetworkException.getErrorMessage(registerResponse.error));
     } else {
       showSuccessToast(registerResponse.data);
-      Get.back();
+      Get.offNamed(Routes.login);
     }
   }
 }

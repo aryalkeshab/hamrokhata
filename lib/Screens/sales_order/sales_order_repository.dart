@@ -5,11 +5,13 @@ import 'package:hamrokhata/commons/api/network_exception.dart';
 import 'package:hamrokhata/commons/api/network_info.dart';
 import 'package:hamrokhata/models/customer_model.dart';
 import 'package:hamrokhata/models/sales_order_model.dart';
+import 'package:hamrokhata/models/sales_response_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
 
 abstract class SalesOrderRepository {
   Future<ApiResponse> getCustomerList();
   Future<ApiResponse> salesOrder(SalesOrderModel salesOrderModel);
+  Future<ApiResponse> salesOrderList();
 }
 
 class SalesOrderRepositoryImpl extends SalesOrderRepository {
@@ -48,9 +50,32 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
         // final salesOrderResponseList = result
         //     .map<SalesOrderModel>((e) => SalesOrderModel.fromJson(e))
         //     .toList();
-        final salesOrderResponseList = result
-            .map<CustomerModel>((e) => CustomerModel.fromJson(e))
-            .toList();
+        // final salesOrderResponseList = result
+        //     .map<SalesResponseModel>((e) => SalesResponseModel.fromJson(e))
+        //     .toList();
+
+        // final salesOrderResponseList = SalesResponseModel.fromJson(result[0]);
+
+        return ApiResponse(data: result['msg']);
+      } catch (e) {
+        return ApiResponse(error: NetworkException.getException(e));
+      }
+    }
+    return ApiResponse(error: NetworkException.noInternetConnection());
+  }
+
+  @override
+  Future<ApiResponse> salesOrderList() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await salesOrderRemoteDataSource.salesOrderList();
+
+        // final salesOrderResponseList = result
+        //     .map<SalesResponseModel>((e) => SalesResponseModel.fromJson(e))
+        //     .toList();
+
+        //I will implemnet this thing below.
+        final salesOrderResponseList = SalesResponseModel.fromJson(result[0]);
 
         return ApiResponse(data: salesOrderResponseList);
       } catch (e) {

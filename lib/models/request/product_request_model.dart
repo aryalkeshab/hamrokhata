@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:get/get_connect/http/src/multipart/form_data.dart';
+
 class ProductRequestModel {
   String? name;
   String? description;
@@ -45,8 +47,8 @@ class ProductRequestModel {
     // data['sku'] = sku;
     // data['current_stock'] = currentStock;
     data['category'] = category;
-    // data['vendor_name'] = vendorName;
-    data['images'] = imageUrl.toString();
+    data['vendor_name'] = vendorName;
+    data['images'] = imageUrl;
 
     return data;
   }

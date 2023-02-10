@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/product_detail/product_detail_controller.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 
-bottomSheetSales({
+bottomSheet({
   required BuildContext context,
   required List<Widget> children,
 }) {

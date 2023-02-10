@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hamrokhata/Screens/sales_order/sales_order_controller.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 
 class SalesOrderList extends StatefulWidget {
@@ -9,6 +11,14 @@ class SalesOrderList extends StatefulWidget {
 }
 
 class _SalesOrderListState extends State<SalesOrderList> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    Get.put(SalesOrderController()).allSalesOrderList();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,46 +60,54 @@ class _SalesOrderListState extends State<SalesOrderList> {
               const Divider(
                 height: 2,
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 20,
-                child: Row(
-                  children: const [
-                    Expanded(
-                      flex: 1,
-                      child: Text(
-                        "Invoice No. ",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
+              GetBuilder<SalesOrderController>(builder: (controller) {
+                final result = controller.salesOrderListResponse;
+
+                if (result.hasData) {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height / 20,
+                    child: Row(
+                      children: const [
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            "Invoice No. ",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Text(
-                        "Customer Name",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            "Customer Name",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Text(
-                        "Amount",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            "Amount",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
+                  );
+                } else {
+                  return   Center(child: CircularProgressIndicator());
+                }
+              }),
               const Divider(
                 height: 2,
               ),

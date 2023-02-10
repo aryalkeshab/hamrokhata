@@ -21,7 +21,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final RegisterParams registerParams = RegisterParams();
   final _formKey = GlobalKey<FormState>();
-  List<String> positionList = ["administrator", "Staff"];
+  List<String> positionList = ["administrator", "staff"];
   String? dropDownvalue;
 
   @override
@@ -160,7 +160,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             labelColor: Colors.black.withOpacity(0.7),
                             label: 'Login ?',
                             onPressed: () {
-                              Get.toNamed(Routes.login);
+                              Get.offNamed(Routes.login);
                             },
                           ),
                         ),

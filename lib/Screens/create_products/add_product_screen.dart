@@ -70,17 +70,66 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: PrimaryFormField(
-                            onSaved: (saved) {
-                              purchaseOrderParams.sku = saved;
-                            },
-                            label: "Item No.*",
-                            hintTxt: '1017',
-                            keyboardType: TextInputType.number,
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: const [
+                                  Text(
+                                    'Category Selection :',
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 30),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      border: Border.all(color: Colors.black26),
+                                    ),
+                                    child: DropdownButtonHideUnderline(
+                                      child: DropdownButton(
+                                        hint:
+                                            const Text('---Select Vendor ---'),
+                                        value: dropDownvalue,
+                                        icon: const Icon(
+                                            Icons.keyboard_arrow_down),
+                                        items: categoryList
+                                            .map((String categoryList) {
+                                          return DropdownMenuItem(
+                                            value: categoryList,
+                                            child: Text(categoryList),
+                                          );
+                                        }).toList(),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            dropDownvalue = value;
+                                            // purchaseOrderParams
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                         config.horizontalSpaceMedium(),
+                      ],
+                    ),
+                    config.verticalSpaceMedium(),
+                    Row(
+                      children: [
                         Expanded(
+                          flex: 1,
                           child: PrimaryFormField(
                             onSaved: (saved) {
                               purchaseOrderParams.name = saved;
@@ -90,9 +139,41 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             keyboardType: TextInputType.text,
                           ),
                         ),
+                        Expanded(
+                          flex: 1,
+                          child: IconButton(
+                              onPressed: () async {
+                                await testdialog(context);
+
+                                print(imagePath);
+                              },
+                              icon: Icon(
+                                Icons.photo,
+                                size: 40,
+                              )),
+
+                          //  PrimaryButton(
+                          //   label: "Add Image",
+                          //   onPressed: () {
+                          //     //            IconButton(
+                          //     //     onPressed: () async {
+                          //     //       await testdialog(context);
+
+                          //     //       print(imagePath);
+                          //     //     },
+                          //     //     icon: Icon(
+                          //     //       Icons.photo,
+                          //     //       size: 40,
+                          //     //     )),
+
+                          //     // Text("$imagePath"),
+                          //   },
+                          // )
+                        )
                       ],
                     ),
                     config.verticalSpaceMedium(),
+
                     Row(
                       children: [
                         // Expanded(
@@ -133,56 +214,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     ),
                     config.verticalSpaceMedium(),
                     //  config.verticalSpaceExtraLarge(),
-                    Row(
-                      children: [],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'Category Selection :',
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.0),
-                            border: Border.all(color: Colors.black26),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              hint: const Text('---Select Vendor ---'),
-                              value: dropDownvalue,
-                              icon: const Icon(Icons.keyboard_arrow_down),
-                              items: categoryList.map((String categoryList) {
-                                return DropdownMenuItem(
-                                  value: categoryList,
-                                  child: Text(categoryList),
-                                );
-                              }).toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  dropDownvalue = value;
-                                  // purchaseOrderParams
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
                     config.verticalSpaceMedium(),
                     Row(
                       children: [
-                        config.horizontalSpaceMedium(),
                         Expanded(
                           child: PrimaryFormField(
                             keyboardType: TextInputType.text,
@@ -206,26 +240,34 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         ),
                       ],
                     ),
-                    config.horizontalSpaceMedium(),
-
-                    IconButton(
-                        onPressed: () async {
-                          await testdialog(context);
-
-                          print(imagePath);
-                        },
-                        icon: Icon(
-                          Icons.photo,
-                          size: 40,
-                        )),
-
-                    Text("$imagePath"),
-                    config.verticalSpaceExtraLarge(),
+                    config.verticalSpaceMedium(),
+                    imagePath != null
+                        ? SizedBox(
+                            height: 200,
+                            width: 200,
+                            child: Image.file(
+                              imagePath!,
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        : Container(),
+                    config.verticalSpaceMedium(),
                     PrimaryButton(
                         onPressed: () async {
                           // PrintUtils.instance.bluetoothPrint(
                           //     appController.finalBluetoothAddress!,
                           //     "Hello World");
+
+                          // String fileName = imagePath!.path.split('/').last;
+                          // print(fileName);
+
+                          // FormData data = FormData({
+                          //   "file": await MultipartFile(
+                          //     imagePath!.path,
+                          //     filename: fileName,
+                          //   ),
+                          // });
+
                           purchaseOrderParams.category = 1;
                           purchaseOrderParams.imageUrl = imagePath;
                           final currentState =
@@ -239,7 +281,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             }
                           }
                         },
-                        label: 'Proceed')
+                        label: 'Proceed'),
                   ],
                 ),
               ),
@@ -290,7 +332,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       if (image != null) {
         setState(() {
           imagePath = File(image.path);
-          print(imagePath);
+          print(imagePath!.path);
         });
       }
     } catch (e) {
