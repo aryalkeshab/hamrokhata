@@ -123,6 +123,17 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           ),
                         ),
                         config.horizontalSpaceMedium(),
+                        Container(
+                            //show upload button after choosing image
+                            child: ElevatedButton.icon(
+                          onPressed: () async {
+                            await testdialog(context);
+
+                            print(imagePath);
+                          },
+                          icon: const Icon(Icons.file_upload),
+                          label: Text("UPLOAD IMAGE"),
+                        )),
                       ],
                     ),
                     config.verticalSpaceMedium(),
@@ -139,37 +150,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             keyboardType: TextInputType.text,
                           ),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: IconButton(
-                              onPressed: () async {
-                                await testdialog(context);
-
-                                print(imagePath);
-                              },
-                              icon: Icon(
-                                Icons.photo,
-                                size: 40,
-                              )),
-
-                          //  PrimaryButton(
-                          //   label: "Add Image",
-                          //   onPressed: () {
-                          //     //            IconButton(
-                          //     //     onPressed: () async {
-                          //     //       await testdialog(context);
-
-                          //     //       print(imagePath);
-                          //     //     },
-                          //     //     icon: Icon(
-                          //     //       Icons.photo,
-                          //     //       size: 40,
-                          //     //     )),
-
-                          //     // Text("$imagePath"),
-                          //   },
-                          // )
-                        )
                       ],
                     ),
                     config.verticalSpaceMedium(),

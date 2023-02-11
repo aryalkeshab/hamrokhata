@@ -77,21 +77,21 @@ class IntroScreen extends StatelessWidget {
     return IntroductionScreen(
       pages: [
         PageViewModel(
-          title: "Choose Your Needs",
+            image:
+                "https://quickbooks.intuit.com/oidam/intuit/sbseg/en_us/Blog/Graphic/inventory-management-illustration.png",
+            // "https://startupnation.com/wp-content/uploads/2018/02/Screen-Shot-2018-02-05-at-10.29.47-AM.png",
+            title: "Welcome to HamroKhata!",
+            body: dummyIntroBody),
+        PageViewModel(
+          title: "Track your inventory anytime, anywhere with HamroKhata.",
           body: dummyIntroBody,
           image:
-              "https://i.pinimg.com/originals/f8/19/0f/f8190f263b8257fb1939f62a648e2403.jpg",
+              "https://t3.ftcdn.net/jpg/01/81/20/94/360_F_181209420_P2Pa9vacolr2uIOwSJdCq4w5ydtPCAsS.jpg",
         ),
         PageViewModel(
             image:
-                "https://adwisely.com/wp-content/uploads/2010/05/10-great-YouTube-Channels-for-eCommerce.png",
-            title: "Digital or Easy Payment",
-            body: dummyIntroBody),
-        PageViewModel(
-            image:
-                "https://static.vecteezy.com/system/resources/previews/014/550/733/original/trucks-deliver-goods-to-the-recipient-online-ordering-concept-png.png",
-            // "https://startupnation.com/wp-content/uploads/2018/02/Screen-Shot-2018-02-05-at-10.29.47-AM.png",
-            title: "Quick Delivery",
+                "https://st2.depositphotos.com/1518767/6556/i/450/depositphotos_65561347-stock-photo-serious-warehouse-manager-checking-inventory.jpg",
+            title: "You are one step away!",
             body: dummyIntroBody),
       ],
       onDone: () {
