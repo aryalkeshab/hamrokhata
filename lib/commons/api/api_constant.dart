@@ -16,6 +16,10 @@ enum APIPath {
   vendorList,
   addProduct,
   categoryList,
+  //auth
+  otpAuth,
+  changePasswordAuth,
+  forgetPasswordAuth,
 }
 
 class APIPathHelper {
@@ -32,6 +36,18 @@ class APIPathHelper {
 
       case APIPath.register:
         return "/register/";
+
+      case APIPath.otpAuth:
+        return "/checkotp/";
+
+      case APIPath.changePasswordAuth:
+        return "/changepassword/";
+
+      case APIPath.forgetPasswordAuth:
+        return "/passwordreset/";
+
+      case APIPath.refreshToken:
+        return "/token/refresh/";
 
       default:
         return "";

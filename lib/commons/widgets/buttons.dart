@@ -24,11 +24,19 @@ class PrimaryButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             backgroundColor: color ?? Theme.of(context).primaryColor,
             minimumSize: Size(
-                width ?? MediaQuery.of(context).size.width / 2, height ?? 40),
+                width ?? MediaQuery.of(context).size.width / 2, height ?? 45),
             shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(25)))),
+                borderRadius: BorderRadius.all(Radius.circular(12)))),
         onPressed: onPressed,
-        child: Text(label),
+        child: Text(
+          label,
+          style: const TextStyle(
+            color: Colors.white,
+            letterSpacing: 0.5,
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }

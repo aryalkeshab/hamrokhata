@@ -54,13 +54,14 @@ class PrimaryFormField extends HookWidget {
               ),
             ],
           ),
-        SizedBox(
-          height: labelHeight ?? 10,
-        ),
+        // SizedBox(
+        //   height: labelHeight ?? 10,
+        // ),
         Container(),
         SizedBox(
           // height: 60,
           child: TextFormField(
+            style: const TextStyle(color: Colors.white),
             keyboardType: keyboardType,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: validator,
@@ -80,9 +81,12 @@ class PrimaryFormField extends HookWidget {
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15.0),
-                        child: Icon(isPasswordVisible.value
-                            ? Icons.visibility
-                            : Icons.visibility_off),
+                        child: Icon(
+                          color: Colors.white,
+                          isPasswordVisible.value
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
                       ))
                   : const SizedBox.shrink(),
               hintText: hintTxt,
@@ -90,27 +94,27 @@ class PrimaryFormField extends HookWidget {
                   .textTheme
                   .bodyText1
                   ?.copyWith(color: disabledColor),
-              filled: isFilled!,
+              filled: true,
               isDense: true,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              fillColor: Colors.white70,
+              fillColor: const Color(0xFF1F1A30),
               errorBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 borderSide: BorderSide(color: Colors.red),
               ),
               focusedErrorBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
                 borderSide: BorderSide(color: Colors.red),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
                 borderSide: BorderSide(
                   color: textFieldBorderColor ?? Theme.of(context).primaryColor,
                 ),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                 borderSide: BorderSide(color: Theme.of(context).primaryColor),
               ),
             ),

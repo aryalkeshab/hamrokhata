@@ -1,11 +1,13 @@
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:hamrokhata/Screens/Forgot%20Password/Forgot_Password_Screen.dart';
+import 'package:hamrokhata/Screens/Pin%20Code/Pin_Code_Screen.dart';
 import 'package:hamrokhata/Screens/auth/auth_di.dart';
-import 'package:hamrokhata/Screens/auth/login/login.dart';
 import 'package:hamrokhata/Screens/auth/data_source/auth_bindings.dart';
 import 'package:hamrokhata/Screens/auth/register/register.dart';
 import 'package:hamrokhata/Screens/bluetooth/app_setting.dart';
 import 'package:hamrokhata/Screens/bluetooth/bluetooth_device_list_screen.dart';
+import 'package:hamrokhata/Screens/change_password.dart/change_password.dart';
 import 'package:hamrokhata/Screens/create_products/add_product_screen.dart';
 import 'package:hamrokhata/Screens/dashboard/dashboard.dart';
 import 'package:hamrokhata/Screens/intro_screens/intro_screen.dart';
@@ -19,7 +21,10 @@ import 'package:hamrokhata/Screens/sales_order/sales_order_screen.dart';
 import 'package:hamrokhata/Screens/sales_order_list/sales_order_list.dart';
 import 'package:hamrokhata/Screens/splash/splash_screen.dart';
 import 'package:hamrokhata/commons/api/core_bindings.dart';
+import 'package:hamrokhata/models/response/reset_response.dart';
 import 'package:hamrokhata/test.dart';
+
+import '../../Screens/auth/login/login.dart';
 
 part 'app_routes.dart';
 
@@ -37,6 +42,22 @@ class AppPages {
       name: _Paths.test,
       page: TableForReceipt.new,
     ),
+    GetPage(
+        name: _Paths.changePasswordScreeen,
+        page: ChangePasswordScreeen.new,
+        bindings: [CoreBindings(), AuthBinding(), LoginBindings()]),
+    GetPage(
+      name: _Paths.otpScreen,
+      page: () => PinCodeVerificationScreen(
+          // userIdEmailParams: Get.arguments,
+          ),
+      bindings: [CoreBindings(), AuthBinding(), LoginBindings()],
+    ),
+
+    GetPage(
+        name: _Paths.forgotPasswordScreen,
+        page: ForgotPasswordScreen.new,
+        bindings: [CoreBindings(), AuthBinding(), LoginBindings()]),
     GetPage(name: _Paths.login, page: LoginScreen.new, bindings: [
       CoreBindings(),
       LoginBindings(),

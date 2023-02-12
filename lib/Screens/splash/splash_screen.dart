@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
@@ -47,6 +49,7 @@ class SplashAnimationController extends GetxController
   void onInit() {
     initAnimation();
     // Get.toNamed(Routes.onBoarding);
+
     super.onInit();
   }
 
@@ -69,6 +72,18 @@ class SplashAnimationController extends GetxController
     animationController.forward().whenComplete(() async {
       // if (await storage.read(key: StorageConstants.accessToken))
       Get.offAllNamed(Routes.introScreen);
+
+      // Timer(const Duration(seconds: 4), () {
+      //   if (UserController.instance.sharedPref.getOnBordingValue == false) {
+      //     if (UserController.instance.sharedPref.getLoginReminder == false) {
+      //       Get.offNamed(LoginScreen.routeName);
+      //     } else {
+      //       Get.offNamed(HomeScreen.routeName);
+      //     }
+      //   } else {
+      //     Get.offNamed(OnBoardingScreen.routeName);
+      //   }
+      // });
     });
   }
 

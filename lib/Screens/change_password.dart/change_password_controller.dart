@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/Pin%20Code/Pin_Code_Screen.dart';
 import 'package:hamrokhata/Screens/auth/auth_controller.dart';
+import 'package:hamrokhata/Screens/auth/auth_repository_impl.dart';
 import 'package:hamrokhata/Screens/auth/data_source/auth_repository.dart';
 import 'package:hamrokhata/Screens/product_detail/product_search_repository.dart';
 import 'package:hamrokhata/commons/api/api_result.dart';
@@ -12,35 +13,37 @@ import 'package:hamrokhata/commons/widgets/loading_dialog.dart';
 import 'package:hamrokhata/commons/widgets/snackbar.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/product_detail.dart';
+import 'package:hamrokhata/models/request/change_password_params.dart';
+import 'package:hamrokhata/models/request/forget_password.dart';
+import 'package:hamrokhata/models/request/otp_params.dart';
 import 'package:hamrokhata/models/request/register_params.dart';
 
-class RegisterController extends GetxController {
-  late AuthLoginRegisterRepository registerRepository;
+class ChangePasswordController extends GetxController {
+  late AuthLoginRegisterRepository authRepository;
 
   @override
   void onInit() {
-    registerRepository = Get.find<AuthLoginRegisterRepository>();
+    authRepository = Get.find<AuthLoginRegisterRepository>();
     super.onInit();
   }
 
-  late ApiResponse registerResponse;
+  late ApiResponse changePasswordResponse;
 
-  void requestRegister(
-    RegisterParams registerParams,
-    BuildContext context,
-  ) async {
+  void changePasswordVerify(
+      ChangePasswordParams changePasswordParams, BuildContext context) async {
     showLoadingDialog(context);
-    registerResponse = await registerRepository.registerAuth(registerParams);
-    if (registerResponse.hasError && context.mounted) {
+    changePasswordResponse =
+        await authRepository.changePasswordAuth(changePasswordParams);
+    if (changePasswordResponse.hasError && context.mounted) {
       hideLoadingDialog(context);
       AppSnackbar.showError(
           context: context,
-          message: NetworkException.getErrorMessage(registerResponse.error));
+          message:
+              NetworkException.getErrorMessage(changePasswordResponse.error));
     } else {
       hideLoadingDialog(context);
-      // showSuccessToast(registerResponse.data);
-      Get.toNamed(Routes.otpScreen,
-          arguments: [registerParams.email, registerResponse.data]);
+      showSuccessToast(changePasswordResponse.data);
+      Get.toNamed(Routes.dashboard);
     }
   }
 }

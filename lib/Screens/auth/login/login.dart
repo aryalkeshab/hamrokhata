@@ -1,15 +1,19 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
+import 'package:hamrokhata/Screens/Forgot%20Password/Forgot_Password_Screen.dart';
 import 'package:hamrokhata/Screens/auth/login/login_controller.dart';
+import 'package:hamrokhata/commons/Core/Animation/Fade_Animation.dart';
+import 'package:hamrokhata/commons/Core/Colors/Hex_Color.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/utils/SpUtils.dart';
 import 'package:hamrokhata/commons/utils/custom_validators.dart';
-import 'package:hamrokhata/commons/utils/storage_constants.dart';
+
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons.dart';
 import 'package:hamrokhata/commons/widgets/textfields.dart';
-import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/request/login_params.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -28,6 +32,12 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
   }
 
+  Color enabled = const Color.fromARGB(255, 63, 56, 89);
+  Color enabledtxt = Colors.white;
+  Color deaible = Colors.grey;
+  Color backgroundColor = const Color(0xFF1F1A30);
+  bool ispasswordev = true;
+
   PackageInfo packageInfo = PackageInfo(
     appName: 'Unknown',
     packageName: 'Unknown',
@@ -44,121 +54,200 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   final LoginParams loginParams = LoginParams();
+
+  @override
   Widget build(BuildContext context) {
-    final authController = Get.put(LoginController());
-
     return Scaffold(
-      body: GetBuilder<LoginController>(
-        builder: (controller) {
-          return HookBaseWidget(
-            builder: (context, config, theme) {
-              final _loginFormKey = useMemoized(GlobalKey<FormState>.new);
-              return SingleChildScrollView(
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: config.appHorizontalPaddingLarge(),
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 4,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Image.asset("assets/images/app_logo.png"),
-                      ),
-                      config.verticalSpaceMedium(),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Form(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            stops: const [0.1, 0.4, 0.7, 0.9],
+            colors: [
+              HexColor("#4b4213").withOpacity(0.9),
+              HexColor("#4b4293"),
+              HexColor("#08428e"),
+              HexColor("#08417e")
+            ],
+          ),
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+                HexColor("#fff").withOpacity(0.2), BlendMode.dstATop),
+            image: const NetworkImage(
+              'https://quickbooks.intuit.com/oidam/intuit/sbseg/en_us/Blog/Graphic/inventory-management-illustration.png',
+            ),
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: GetBuilder<LoginController>(
+              builder: (controller) {
+                return HookBaseWidget(
+                  builder: (context, config, theme) {
+                    final _loginFormKey = useMemoized(GlobalKey<FormState>.new);
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Card(
+                          elevation: 5,
+                          color: const Color.fromARGB(255, 171, 211, 250)
+                              .withOpacity(0.4),
+                          child: Form(
                             key: _loginFormKey,
-                            child: Column(
-                              // mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                PrimaryFormField(
-                                  hintIcon: Icon(
-                                    Icons.email,
-                                    color: Colors.grey[600],
+                            child: Container(
+                              width: 400,
+                              padding: const EdgeInsets.all(40.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  FadeAnimation(
+                                    delay: 0.8,
+                                    child: Image.asset(
+                                      "assets/images/app_logo.png",
+                                      width: 600,
+                                      height: 100,
+                                    ),
                                   ),
-                                  label: "Username",
-                                  validator: (value) =>
-                                      Validator.validateEmail(value!),
-                                  onSaved: (value) {
-                                    loginParams.email = value;
-                                  },
-                                  hintTxt: "example@gmail.com",
-                                ),
-                                config.verticalSpaceMedium(),
-                                PrimaryFormField(
-                                  isPassword: true,
-                                  hintIcon: Icon(
-                                    Icons.lock,
-                                    color: Colors.grey[600],
+                                  config.verticalSpaceMedium(),
+                                  FadeAnimation(
+                                    delay: 1,
+                                    child: const Text(
+                                      "Please Login to continue",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          letterSpacing: 0.5),
+                                    ),
                                   ),
-                                  label: "Password",
-                                  validator: (value) =>
-                                      Validator.validatePassword(value!),
-                                  onSaved: (value) {
-                                    loginParams.password = value;
-                                  },
-                                  hintTxt: "*********",
-                                ),
-                                config.verticalSpaceMedium(),
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: PrimaryTextButton(
-                                    isSmallButton: false,
-                                    labelColor: Colors.black.withOpacity(0.7),
-                                    label: 'Register ?',
-                                    onPressed: () {
-                                      Get.toNamed(Routes.register);
-                                    },
+                                  config.verticalSpaceMedium(),
+                                  FadeAnimation(
+                                    delay: 1,
+                                    child: PrimaryFormField(
+                                      hintIcon: const Icon(
+                                        Icons.email,
+                                        color: Colors.white,
+                                      ),
+                                      validator: (value) =>
+                                          Validator.validateEmail(value!),
+                                      onSaved: (value) {
+                                        loginParams.email = value;
+                                      },
+                                      hintTxt: "example@gmail.com",
+                                    ),
                                   ),
-                                ),
-                                config.verticalSpaceSmall(),
-                                PrimaryButton(
-                                    label: "Login",
-                                    onPressed: () {
-                                      final currentState =
-                                          _loginFormKey.currentState;
-                                      if (currentState != null) {
-                                        currentState.save();
+                                  config.verticalSpaceMedium(),
+                                  FadeAnimation(
+                                    delay: 1,
+                                    child: PrimaryFormField(
+                                      isPassword: true,
+                                      hintIcon: const Icon(
+                                        Icons.lock,
+                                        color: Colors.white,
+                                      ),
+                                      validator: (value) =>
+                                          Validator.validatePassword(value!),
+                                      onSaved: (value) {
+                                        loginParams.password = value;
+                                      },
+                                      hintTxt: "*********",
+                                    ),
+                                  ),
+                                  config.verticalSpaceMedium(),
+                                  FadeAnimation(
+                                    delay: 1,
+                                    child: PrimaryButton(
+                                        label: "Login",
+                                        onPressed: () {
+                                          final currentState =
+                                              _loginFormKey.currentState;
+                                          if (currentState != null) {
+                                            currentState.save();
 
-                                        if (currentState.validate()) {
-                                          Get.find<LoginController>()
-                                              .requestLogin(
-                                                  loginParams, context);
-                                        }
-                                      }
-                                    }),
-                              ],
+                                            if (currentState.validate()) {
+                                              Get.find<LoginController>()
+                                                  .requestLogin(
+                                                      loginParams, context);
+                                            }
+                                          }
+                                        }),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
-        },
-      ),
-      bottomNavigationBar: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            '(Version: ${packageInfo.version})',
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-                fontSize: 15.5,
-                letterSpacing: 0.5,
-                fontWeight: FontWeight.w300),
+                        ),
+                        config.verticalSpaceSmall(),
+                        FadeAnimation(
+                          delay: 1,
+                          child: GestureDetector(
+                            onTap: (() {
+                              Navigator.pop(context);
+                              Get.toNamed(Routes.forgotPasswordScreen);
+                              // Navigator.of(context)
+                              //     .push(MaterialPageRoute(builder: (context) {
+                              //   return ForgotPasswordScreen();
+                              // }));
+                            }),
+                            child: Text("Can't Log In?",
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(0.9),
+                                  letterSpacing: 0.5,
+                                )),
+                          ),
+                        ),
+                        config.verticalSpaceSmall(),
+                        FadeAnimation(
+                          delay: 1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text("Don't have an account? ",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    letterSpacing: 0.5,
+                                  )),
+                              GestureDetector(
+                                onTap: () {
+                                  Get.back();
+                                  Get.toNamed(Routes.register);
+                                },
+                                child: Text("Sign up",
+                                    style: TextStyle(
+                                        color: Colors.white.withOpacity(0.9),
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 0.5,
+                                        fontSize: 14)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ),
       ),
+      // bottomNavigationBar: Container(
+      //   child: Padding(
+      //     padding: const EdgeInsets.all(8.0),
+      //     child: Text(
+      //       '(Version: ${packageInfo.version})',
+      //       textAlign: TextAlign.center,
+      //       style: const TextStyle(
+      //           fontSize: 15.5,
+      //           letterSpacing: 0.5,
+      //           fontWeight: FontWeight.w300),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }
