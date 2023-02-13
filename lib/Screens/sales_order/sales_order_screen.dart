@@ -370,8 +370,20 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                       showErrorToast(
                           "Customer Name and Order Status is Mendetory!");
                     } else if (salesList.isNotEmpty) {
-                      salesOrderController.salesOrder(
-                          purchaseOrderModel, context);
+                      try {
+                        await salesOrderController.salesOrder(
+                            purchaseOrderModel, context);
+                        salesList.clear();
+                        selectedStatus = null;
+                        selectedStatus = null;
+                        qtyController.clear();
+                        priceController.clear();
+                        searchController.clear();
+                      } catch (e) {
+                        showErrorToast("Something went wrong");
+                      }
+                      // salesOrderController.salesOrder(
+                      //     purchaseOrderModel, context);
                     } else {
                       showErrorToast(
                           "Please add items and customer name to the order first.");

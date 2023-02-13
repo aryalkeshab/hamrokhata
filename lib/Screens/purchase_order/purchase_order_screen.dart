@@ -379,12 +379,18 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                       showErrorToast(
                           "Vendor Name and Order Status is Mendetory!");
                     } else if (purchaseList.isNotEmpty) {
-                      purchaseOrderController.createPurchaseOrder(
-                          purchaseOrderModel, context);
-                      // Get.toNamed(
-                      //   Routes.purchaseOrderConformationScreen,
-                      //   arguments: purchaseList,
-                      // );
+                      try {
+                        await purchaseOrderController.createPurchaseOrder(
+                            purchaseOrderModel, context);
+                        purchaseList.clear();
+                        selectedOrderStatus = null;
+                        selectedVendor = null;
+                        qtyController.clear();
+                        priceController.clear();
+                        searchController.clear();
+                      } catch (e) {
+                        showErrorToast("Something went wrong");
+                      }
                     } else {
                       showErrorToast(
                           "Please add items and customer name to the order first.");
