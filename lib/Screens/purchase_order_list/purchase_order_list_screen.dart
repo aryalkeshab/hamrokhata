@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list.dart';
 import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list_controller.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_controller.dart';
+import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
 
@@ -36,13 +37,13 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                 horizontal: config.appHorizontalPaddingMedium()),
             child: Column(
               children: [
-                Text(
-                  'Total Amount: ${controller.purchaseOrderResponseList!.length ?? 0}',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                // Text(
+                //   'Total Amount: ${controller.purchaseOrderResponseList!.length ?? 0}',
+                //   style: TextStyle(
+                //     fontSize: 16,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -149,7 +150,14 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                                             MainAxisAlignment.center,
                                         children: [
                                           InkWell(
-                                            onTap: () {},
+                                            onTap: () {
+                                              Get.toNamed(Routes.table,
+                                                  arguments: [
+                                                    controller
+                                                            .purchaseOrderResponseList![
+                                                        index]
+                                                  ]);
+                                            },
                                             child: Row(
                                               children: [
                                                 Expanded(

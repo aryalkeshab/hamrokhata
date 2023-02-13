@@ -4,6 +4,7 @@ import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list.dart'
 import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list_controller.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_controller.dart';
 import 'package:hamrokhata/Screens/sales_order_list/sales_order_list_controller.dart';
+import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
 
@@ -27,7 +28,7 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text('sales Order List'),
+        title: const Text('Sales Order List'),
       ),
       body: BaseWidget(builder: (context, config, theme) {
         return GetBuilder<SalesOrderListController>(builder: (controller) {
@@ -36,13 +37,13 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                 horizontal: config.appHorizontalPaddingMedium()),
             child: Column(
               children: [
-                Text(
-                  'Total Amount: ${controller.salesOrderResponseList!.length ?? 0}',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                // Text(
+                //   'Total Amount: ${controller.salesOrderResponseList!.length ?? 0}',
+                //   style: TextStyle(
+                //     fontSize: 16,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -140,7 +141,15 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 8),
                                       child: InkWell(
-                                        onTap: () {},
+                                        onTap: () {
+                                          Get.toNamed(
+                                              Routes.tableForSalesReceipt,
+                                              arguments: [
+                                                controller
+                                                        .salesOrderResponseList![
+                                                    index]
+                                              ]);
+                                        },
                                         child: Row(
                                           children: [
                                             Expanded(
@@ -213,12 +222,12 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
         num total = 0.0;
 
         // if (controller.salesOrderResponseList![0].grandTotal != null) {
-        //   for (int i = 0; i < controller.salesOrderResponseList!.length; i++) {
-        //     total += controller.salesOrderResponseList![i].grandTotal!;
-        //     // print(Get.find<PurchaseOrderListController>()
-        //     //     .purchaseOrderResponseList![i]
-        //     //     .billNumber);
-        //   }
+        for (int i = 0; i < controller.salesOrderResponseList!.length; i++) {
+          total += controller.salesOrderResponseList![i].grandTotal!;
+          // print(Get.find<PurchaseOrderListController>()
+          //     .purchaseOrderResponseList![i]
+          //     .billNumber);
+        }
         // }
 
         print(total);

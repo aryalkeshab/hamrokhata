@@ -39,7 +39,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   final secureStorage = FlutterSecureStorage();
 
-  final ProductRequestModel purchaseOrderParams = ProductRequestModel();
+  final ProductRequestModel addProductParams = ProductRequestModel();
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +96,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                     onChanged: (value) {
                                       setState(() {
                                         dropDownvalue = value;
-                                        // purchaseOrderParams
+                                        // addProductParams
                                       });
                                     },
                                   ),
@@ -129,7 +129,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           flex: 1,
                           child: PrimaryFormField(
                             onSaved: (saved) {
-                              purchaseOrderParams.name = saved;
+                              addProductParams.name = saved;
                             },
                             label: "Product Name*",
                             hintTxt: 'eg. fan',
@@ -145,7 +145,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         // Expanded(
                         //   child: PrimaryFormField(
                         //     onSaved: (String saved) {
-                        //       purchaseOrderParams.currentStock =
+                        //       addProductParams.currentStock =
                         //           int.parse(saved);
                         //     },
                         //     label: "Quantity Added*",
@@ -156,7 +156,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         Expanded(
                           child: PrimaryFormField(
                             onSaved: (String saved) {
-                              purchaseOrderParams.sellingPrice =
+                              addProductParams.sellingPrice =
                                   double.parse(saved);
                             },
                             label: "Selling Price*",
@@ -168,7 +168,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         Expanded(
                           child: PrimaryFormField(
                             onSaved: (String saved) {
-                              purchaseOrderParams.purchasePrice =
+                              addProductParams.purchasePrice =
                                   double.parse(saved);
                             },
                             label: "Purchase Price*",
@@ -187,7 +187,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           child: PrimaryFormField(
                             keyboardType: TextInputType.text,
                             onSaved: (saved) {
-                              purchaseOrderParams.description = saved;
+                              addProductParams.description = saved;
                             },
                             label: "Product Description*",
                             hintTxt: 'description..',
@@ -197,7 +197,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         Expanded(
                           child: PrimaryFormField(
                             onSaved: (String saved) {
-                              purchaseOrderParams.type = saved;
+                              addProductParams.type = saved;
                             },
                             label: "Type*",
                             hintTxt: 'Clothes',
@@ -236,16 +236,15 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           final MultipartFile file = await MultipartFile(
                               imagePath!.path,
                               filename: imagePath!.path.split('/').last);
-                          purchaseOrderParams.category = 1;
-                          purchaseOrderParams.imageUrl = file;
+                          addProductParams.category = 1;
+                          addProductParams.imageUrl = file;
                           final currentState =
                               _purchaseOrderFormKey.currentState;
                           if (currentState != null) {
                             currentState.save();
 
                             if (currentState.validate()) {
-                              controller.createPurchaseOrder(
-                                  purchaseOrderParams, context);
+                              controller.addProduct(addProductParams, context);
                             }
                           }
                         },

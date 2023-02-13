@@ -66,6 +66,7 @@ dependencies:
   build_runner: ^2.1.11
   build_web_compilers: ^3.2.3
   pin_code_fields: ^7.4.0
+  number_to_character: ^0.0.12
 
   # esc_pos_printer: ^4.1.0
   # esc_pos_utils: ^1.1.0

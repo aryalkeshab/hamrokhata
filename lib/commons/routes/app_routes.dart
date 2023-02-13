@@ -32,6 +32,7 @@ abstract class Routes {
 
   static const salesOrderConformationScreen =
       _Paths.salesOrderConformationScreen;
+  static const tableForSalesReceipt = _Paths.tableForSalesReceipt;
 }
 
 abstract class _Paths {
@@ -39,6 +40,8 @@ abstract class _Paths {
   static const table = '/table';
 
   static const splash = '/splash';
+  static const tableForSalesReceipt = '/tableForSalesReceipt';
+
   static const purchaseOrderList = '/purchaseOrderList';
 
   static const otpScreen = '/otpScreen';

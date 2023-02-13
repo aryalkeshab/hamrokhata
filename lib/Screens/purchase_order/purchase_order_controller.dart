@@ -84,9 +84,10 @@ class PurchaseOrderController extends GetxController {
     update();
   }
 
+//product Add
   late ApiResponse productOrderResponse;
 
-  void createPurchaseOrder(
+  void addProduct(
       ProductRequestModel productRequestModel, BuildContext context) async {
     showLoadingDialog(context);
     productOrderResponse =
@@ -103,7 +104,7 @@ class PurchaseOrderController extends GetxController {
     }
   }
 
-  //purchase order
+  // Create purchase order
 
   PurchaseOrderResponse? purchaseOrderResponseList;
 
@@ -116,7 +117,7 @@ class PurchaseOrderController extends GetxController {
 
   ApiResponse get purchaseOrderResponse => _purchaseOrderResponse;
 
-  purchaseOrder(
+  createPurchaseOrder(
       PurchaseOrderModel purchaseOrderModel, BuildContext context) async {
     purchaseOrderResponse =
         await Get.find<PurchaseRepository>().purchaseOrder(purchaseOrderModel);

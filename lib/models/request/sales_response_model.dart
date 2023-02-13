@@ -1,11 +1,11 @@
-class SalesResponseModel {
+class SalesOrderResponse {
   String? msg;
   int? status;
   Data? data;
 
-  SalesResponseModel({this.msg, this.status, this.data});
+  SalesOrderResponse({this.msg, this.status, this.data});
 
-  SalesResponseModel.fromJson(Map<String, dynamic> json) {
+  SalesOrderResponse.fromJson(Map<String, dynamic> json) {
     msg = json['msg'];
     status = json['status'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
@@ -36,6 +36,7 @@ class Data {
   String? createdAt;
   String? updatedAt;
   int? customer;
+  int? salesBy;
 
   Data(
       {this.id,
@@ -50,7 +51,8 @@ class Data {
       this.status,
       this.createdAt,
       this.updatedAt,
-      this.customer});
+      this.customer,
+      this.salesBy});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -71,6 +73,7 @@ class Data {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     customer = json['customer'];
+    salesBy = json['sales_by'];
   }
 
   Map<String, dynamic> toJson() {
@@ -90,6 +93,7 @@ class Data {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['customer'] = this.customer;
+    data['sales_by'] = this.salesBy;
     return data;
   }
 }

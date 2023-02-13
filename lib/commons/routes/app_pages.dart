@@ -19,10 +19,11 @@ import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list_scree
 import 'package:hamrokhata/Screens/sales_order/sales_order_di.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_screen.dart';
 import 'package:hamrokhata/Screens/sales_order_list/sales_order_list.dart';
+import 'package:hamrokhata/Screens/sales_order_list/sales_receipt.dart';
 import 'package:hamrokhata/Screens/splash/splash_screen.dart';
 import 'package:hamrokhata/commons/api/core_bindings.dart';
 import 'package:hamrokhata/models/response/reset_response.dart';
-import 'package:hamrokhata/test.dart';
+import 'package:hamrokhata/Screens/Receipt_table/Receipt-Screen.dart';
 
 import '../../Screens/auth/login/login.dart';
 
@@ -41,8 +42,19 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.table,
-      page: () => TableForReceipt(purchaseItems: Get.arguments),
+      page: () => TableForReceipt(
+        purchaseOrderList: Get.arguments,
+        // purchaseOrderList: Get.arguments,
+      ),
     ),
+    GetPage(
+      name: _Paths.tableForSalesReceipt,
+      page: () => TableForSalesReceipt(
+        salesOrderListResponse: Get.arguments,
+        // purchaseOrderList: Get.arguments,
+      ),
+    ),
+
     GetPage(
         name: _Paths.changePasswordScreeen,
         page: ChangePasswordScreeen.new,

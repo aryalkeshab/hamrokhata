@@ -8,6 +8,7 @@ class SalesOrderModel {
   String? status;
   int? customer;
   List<SalesItems>? salesItems;
+  int? userId;
 
   SalesOrderModel(
       {this.grandTotal,
@@ -18,6 +19,7 @@ class SalesOrderModel {
       this.taxPercent,
       this.status,
       this.customer,
+      this.userId,
       this.salesItems});
 
   SalesOrderModel.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,7 @@ class SalesOrderModel {
     taxPercent = json['tax_percent'];
     status = json['status'];
     customer = json['customer'];
+
     if (json['sales_items'] != null) {
       salesItems = <SalesItems>[];
       json['sales_items'].forEach((v) {
@@ -47,6 +50,8 @@ class SalesOrderModel {
     // data['tax_percent'] = this.taxPercent;
     data['status'] = this.status;
     data['customer'] = this.customer;
+    data['sales_by'] = this.userId;
+
     if (this.salesItems != null) {
       data['sales_items'] = this.salesItems!.map((v) => v.toJson()).toList();
     }
@@ -59,8 +64,9 @@ class SalesItems {
   String? total;
   String? product;
   String? price;
+  String? name;
 
-  SalesItems({this.quantity, this.total, this.product, this.price});
+  SalesItems({this.quantity, this.total, this.product, this.price, this.name});
 
   SalesItems.fromJson(Map<String, dynamic> json) {
     quantity = json['quantity'];

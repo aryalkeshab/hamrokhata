@@ -7,7 +7,7 @@ import 'package:hamrokhata/models/get_category_list.dart';
 import 'package:hamrokhata/models/request/product_request_model.dart';
 import 'package:hamrokhata/models/request/purchase_request_model.dart';
 import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
-import 'package:hamrokhata/models/sales_response_model.dart';
+import 'package:hamrokhata/models/request/sales_response_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
 
 import '../purchase_order_list/purchase_order_list.dart';

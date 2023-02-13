@@ -11,6 +11,7 @@ class PurchaseOrderList {
   String? status;
   int? vendor;
   int? purchasedBy;
+  String? createdAt;
 
   PurchaseOrderList(
       {this.id,
@@ -24,7 +25,8 @@ class PurchaseOrderList {
       this.taxPercent,
       this.status,
       this.vendor,
-      this.purchasedBy});
+      this.purchasedBy,
+      this.createdAt});
 
   PurchaseOrderList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -44,6 +46,7 @@ class PurchaseOrderList {
     status = json['status'];
     vendor = json['vendor'];
     purchasedBy = json['purchased_by'];
+    createdAt = json['created_at'];
   }
 
   Map<String, dynamic> toJson() {

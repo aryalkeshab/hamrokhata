@@ -153,6 +153,17 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                   child: Row(
                     children: const [
                       Expanded(
+                        flex: 1,
+                        child: Text(
+                          "S.N ",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Expanded(
                         flex: 2,
                         child: Text(
                           "Product Name ",
@@ -214,9 +225,21 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            // Get.toNamed(Routes.table, arguments: []);
+                          },
                           child: Row(
                             children: [
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                  "${index + 1}",
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
                               Expanded(
                                 flex: 2,
                                 child: Text(
@@ -258,7 +281,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                                         // '${purchaseModelList.total?.toStringAsFixed(2).toString()}',
                                         "${purchaseModelList.total}",
 //
-                                        textAlign: TextAlign.center,
+                                        textAlign: TextAlign.right,
                                         style: const TextStyle(
                                           fontSize: 14,
                                         ),
@@ -356,7 +379,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                       showErrorToast(
                           "Vendor Name and Order Status is Mendetory!");
                     } else if (purchaseList.isNotEmpty) {
-                      purchaseOrderController.purchaseOrder(
+                      purchaseOrderController.createPurchaseOrder(
                           purchaseOrderModel, context);
                       // Get.toNamed(
                       //   Routes.purchaseOrderConformationScreen,
@@ -426,7 +449,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                       final ProductSearchResponse? productDetails = result.data;
 
                       priceController.text =
-                          productDetails!.sellingPrice.toString();
+                          productDetails!.purchasePrice.toString();
                       // qtyController.text = productDetails.currentStock.toString();
 
                       return Column(
@@ -447,6 +470,9 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                               Expanded(
                                 child: Text(
                                   "Product Name",
+                                  softWrap: false,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                   style: TextStyle(
                                     color: Colors.grey,
                                   ),
@@ -557,8 +583,9 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                             label: 'Proceed',
                             onPressed: () {
                               // if (formKey.currentState!.validate()) {
-
-                              if (productDetails.currentStock! >
+                              if (int.parse(qtyController.text) == 0) {
+                                showErrorToast("You cannot add 0 quantity !");
+                              } else if (productDetails.currentStock! >
                                   int.parse(qtyController.text)) {
                                 if (isSelectedFromUpdate == false) {
                                   double total = 0.00;
@@ -694,8 +721,6 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                                 child: PrimaryFormField(
                                   controller: priceController,
                                   hintTxt: "eg 10 ",
-                                  validator: (value) =>
-                                      Validator.validateNumber(value!),
                                   onChanged: (value) {
                                     setState(() {
                                       price = value;
@@ -715,8 +740,6 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                                 child: PrimaryFormField(
                                     hintTxt: "eg 10 ",
                                     controller: qtyController,
-                                    validator: (value) =>
-                                        Validator.validateNumber(value!),
                                     onChanged: (value) {
                                       setState(() {
                                         qty = value;

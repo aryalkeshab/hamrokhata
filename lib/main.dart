@@ -4,7 +4,6 @@ import 'package:hamrokhata/Screens/auth/login/login.dart';
 import 'package:hamrokhata/commons/resources/app_theme.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/utils/constants.dart';
-import 'package:hamrokhata/test.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../resources/colors.dart';
@@ -17,8 +18,9 @@ class PrimaryFormField extends HookWidget {
   final bool? isPassword;
   final TextInputType? keyboardType;
   final TextEditingController? controller;
+  List<TextInputFormatter>? inputFormatters = [];
 
-  const PrimaryFormField({
+  PrimaryFormField({
     Key? key,
     this.hintTxt,
     this.hintIcon,
@@ -29,6 +31,7 @@ class PrimaryFormField extends HookWidget {
     required this.onSaved,
     this.prefixIcon,
     this.labelHeight,
+    this.inputFormatters,
     this.isPassword = false,
     this.isFilled = false,
     this.keyboardType,
@@ -61,6 +64,7 @@ class PrimaryFormField extends HookWidget {
         SizedBox(
           // height: 60,
           child: TextFormField(
+            inputFormatters: inputFormatters,
             style: const TextStyle(color: Colors.white),
             keyboardType: keyboardType,
             autovalidateMode: AutovalidateMode.onUserInteraction,

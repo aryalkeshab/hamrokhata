@@ -7,7 +7,7 @@ import 'package:hamrokhata/commons/api/network_info.dart';
 import 'package:hamrokhata/models/customer_model.dart';
 import 'package:hamrokhata/models/response/sales_order_list.dart';
 import 'package:hamrokhata/models/sales_order_model.dart';
-import 'package:hamrokhata/models/sales_response_model.dart';
+import 'package:hamrokhata/models/request/sales_response_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
 
 abstract class SalesOrderRepository {
@@ -49,16 +49,11 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
       try {
         final result =
             await salesOrderRemoteDataSource.salesOrder(salesOrderModel);
-        // final salesOrderResponseList = result
-        //     .map<SalesOrderModel>((e) => SalesOrderModel.fromJson(e))
-        //     .toList();
-        // final salesOrderResponseList = result
-        //     .map<SalesResponseModel>((e) => SalesResponseModel.fromJson(e))
-        //     .toList();
+        print(result);
 
-        // final salesOrderResponseList = SalesResponseModel.fromJson(result[0]);
+        final salesOrderResponseList = SalesOrderResponse.fromJson(result);
 
-        return ApiResponse(data: result['msg']);
+        return ApiResponse(data: salesOrderResponseList);
       } catch (e) {
         return ApiResponse(error: NetworkException.getException(e));
       }
