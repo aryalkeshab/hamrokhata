@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_repository.dart';
 import 'package:hamrokhata/commons/api/api_result.dart';
 import 'package:hamrokhata/commons/api/network_exception.dart';
+import 'package:hamrokhata/commons/api/storage_constants.dart';
 import 'package:hamrokhata/commons/widgets/loading_dialog.dart';
 import 'package:hamrokhata/commons/widgets/snackbar.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
@@ -14,7 +16,7 @@ import 'package:hamrokhata/models/vendor_list.dart';
 
 class PurchaseOrderController extends GetxController {
   @override
-  void onInit() {
+  void onInit() async {
     getVendorsList();
     getCategoryList();
 
@@ -103,7 +105,7 @@ class PurchaseOrderController extends GetxController {
 
   //purchase order
 
-  PurchaseResponseModel? purchaseOrderResponseList;
+  PurchaseOrderResponse? purchaseOrderResponseList;
 
   ApiResponse _purchaseOrderResponse = ApiResponse();
 
@@ -118,7 +120,7 @@ class PurchaseOrderController extends GetxController {
       PurchaseOrderModel purchaseOrderModel, BuildContext context) async {
     purchaseOrderResponse =
         await Get.find<PurchaseRepository>().purchaseOrder(purchaseOrderModel);
-    if (purchaseOrderResponse.hasData) {
+    if (purchaseOrderResponse.hasData && context.mounted) {
       purchaseOrderResponseList = purchaseOrderResponse.data;
       showNormalToast(purchaseOrderResponseList!.msg.toString());
       update();

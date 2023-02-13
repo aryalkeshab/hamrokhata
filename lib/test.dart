@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hamrokhata/models/request/purchase_request_model.dart';
 
 class TableForReceipt extends StatefulWidget {
-  const TableForReceipt({super.key});
+  final PurchaseItems purchaseItems;
+  const TableForReceipt({super.key, required this.purchaseItems});
 
   @override
   State<TableForReceipt> createState() => _TableForReceiptState();

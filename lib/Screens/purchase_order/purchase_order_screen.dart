@@ -1,13 +1,16 @@
 import 'package:draggable_fab/draggable_fab.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:hamrokhata/Screens/product_detail/product_detail_controller.dart';
 import 'package:hamrokhata/Screens/product_detail/product_details_screen.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_order_controller.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_controller.dart';
+import 'package:hamrokhata/commons/api/storage_constants.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/utils/custom_validators.dart';
 import 'package:hamrokhata/commons/utils/scanqr.dart';
@@ -23,6 +26,7 @@ import 'package:hamrokhata/models/customer_model.dart';
 import 'package:hamrokhata/models/product_detail.dart';
 import 'package:hamrokhata/models/request/purchase_request_model.dart';
 import 'package:hamrokhata/models/sales_order_model.dart';
+import 'package:hamrokhata/models/vendor_list.dart';
 
 class PurchaseOrderScreen extends StatefulWidget {
   const PurchaseOrderScreen({super.key});
@@ -37,7 +41,10 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
   String? qty;
   String? price;
   String? productName;
-  String? dropDownvalue;
+  String? selectedVendor;
+  int? selectedVendorId;
+
+  String? selectedOrderStatus;
   double netTotal = 0.00;
 
   bool isSelectedFromUpdate = false;
@@ -52,6 +59,8 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
 
   List<PurchaseOrderModel> purchaseOrderList = [];
   final formKey = GlobalKey<FormState>();
+  List<String> orderStatus = ["Pending", "Failed", "Completed"];
+  final secureStorage = Get.find<FlutterSecureStorage>();
 
   incrementCounter() {
     setState(() {
@@ -65,10 +74,13 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
     super.initState();
   }
 
+  List<VendorList> vendorAllList = [];
+
   @override
   Widget build(BuildContext context) {
     final productController = Get.put(ProductDetailsController());
     final purchaseOrderController = Get.put(PurchaseOrderController());
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
@@ -76,10 +88,13 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
         ),
         body: BaseWidget(builder: (context, config, theme) {
           return GetBuilder<PurchaseOrderController>(builder: (controller) {
-            List<String> customerList =
+            List<String> vendorList =
                 Get.find<PurchaseOrderController>().vendorList;
-            List<CustomerModel> customerModelList =
-                Get.put(SalesOrderController()).customerApiResult;
+            final result = controller.vendorslistResponse;
+            if (result.hasData) {
+              vendorAllList = result.data!;
+            }
+
             return Container(
               padding: EdgeInsets.symmetric(
                   horizontal: config.appVerticalPaddingMedium()),
@@ -87,53 +102,44 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                 config.verticalSpaceSmall(),
                 Row(
                   children: [
+                    Expanded(
+                      flex: 1,
+                      child: DropdownSearch<String>(
+                        dropdownDecoratorProps: DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(
+                            hintText: "Select Vendor",
+                            filled: true,
+                          ),
+                        ),
+                        enabled: true,
+                        popupProps: PopupProps.dialog(showSearchBox: true),
+                        items: vendorList,
+                        onChanged: (value) {
+                          selectedVendor = value;
+                        },
+                      ),
+                    ),
                     config.horizontalSpaceSmall(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'Vendor Selection :',
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.0),
-                            border: Border.all(color: Colors.black26),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              hint: const Text('---Select Vendor ---'),
-                              value: dropDownvalue,
-                              icon: const Icon(Icons.keyboard_arrow_down),
-                              items: customerList.map((String customerList) {
-                                return DropdownMenuItem(
-                                  value: customerList,
-                                  child: Text(customerList),
-                                );
-                              }).toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  dropDownvalue = value;
-                                  // purchaseOrderParams
-                                });
-                              },
-                            ),
+                    Expanded(
+                      flex: 1,
+                      child: DropdownSearch<String>(
+                        dropdownDecoratorProps: DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(
+                            hintText: "Order Status",
+                            filled: true,
                           ),
                         ),
-                      ],
+                        enabled: true,
+                        // popupProps: PopupProps.dialog(showSearchBox: true),
+                        items: orderStatus,
+                        onChanged: (value) {
+                          selectedOrderStatus = value;
+                        },
+                      ),
                     ),
-                    config.verticalSpaceMedium(),
                   ],
                 ),
+                config.verticalSpaceMedium(),
                 config.verticalSpaceSmall(),
                 const Divider(
                   height: 2,
@@ -214,7 +220,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                               Expanded(
                                 flex: 2,
                                 child: Text(
-                                  purchaseModelList.product ?? '',
+                                  purchaseModelList.name ?? '',
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
                                     fontSize: 14,
@@ -330,19 +336,32 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
               Center(
                 child: PrimaryButton(
                   label: 'Place purchase Order',
-                  onPressed: () {
+                  onPressed: () async {
+                    vendorAllList.forEach((element) {
+                      if (element.name == selectedVendor) {
+                        selectedVendorId = element.id;
+                      }
+                    });
+                    final userid = await secureStorage.read(
+                        key: StorageConstants.loginStaff);
+
                     final purchaseOrderModel = PurchaseOrderModel(
+                        userId: int.parse(userid.toString()),
                         purchaseItems: purchaseList,
-                        status: "Pending",
-                        vendor: 1);
-                    if (purchaseList.isNotEmpty) {
+                        status: selectedOrderStatus,
+                        vendor: selectedVendorId);
+
+                    if (selectedVendorId == null &&
+                        selectedOrderStatus == null) {
+                      showErrorToast(
+                          "Vendor Name and Order Status is Mendetory!");
+                    } else if (purchaseList.isNotEmpty) {
                       purchaseOrderController.purchaseOrder(
                           purchaseOrderModel, context);
                       // Get.toNamed(
                       //   Routes.purchaseOrderConformationScreen,
                       //   arguments: purchaseList,
                       // );
-
                     } else {
                       showErrorToast(
                           "Please add items and customer name to the order first.");
@@ -376,68 +395,19 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
               // controller.getProductSearch(context, );
               return Column(
                 children: [
-                  // Row(
-                  //   children: [
-                  //     Expanded(
-                  //       flex: 3,
-                  //       child: PrimaryFormField(
-                  //         controller: searchController,
-                  //         validator: (value) =>
-                  //             Validator.validateNumber(value!),
-                  //         onSaved: (saved) {
-                  //           setState(() {
-                  //             scannedCode = saved;
-                  //           });
-                  //         },
-                  //         hintIcon: InkWell(
-                  //           onTap: () async {
-                  //             scannedCode =
-                  //                 await Scanqr.barcodeScanner(context);
-                  //             print(scannedCode);
-                  //           },
-                  //           child: const Icon(CupertinoIcons.barcode),
-                  //         ),
-                  //         onChanged: (value) {
-                  //           setState(() {
-                  //             scannedCode = value;
-                  //             controller.getProductSearch(context, scannedCode);
-                  //           });
-                  //         },
-                  //         hintTxt: "Item No. ",
-                  //       ),
-                  //     ),
-                  //     config.horizontalSpaceMedium(),
-                  //     Expanded(
-                  //       flex: 1,
-                  //       child: Container(
-                  //         height: 40,
-                  //         padding: const EdgeInsets.only(right: 10.0, top: 15),
-                  //         decoration: BoxDecoration(
-                  //           border: Border.all(color: Colors.black),
-                  //         ),
-                  //         child: InkWell(
-                  //           onTap: () {
-                  //             controller.getProductSearch(
-                  //                 context, searchController.text);
-                  //           },
-                  //           child: const Center(
-                  //             child: Text(
-                  //               "Search",
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-
+                  config.verticalSpaceMedium(),
                   TextFieldWidget(
+                    keyboardType: TextInputType.number,
                     onPressed: () {
                       controller.getProductSearch(
                           context, searchController.text);
                     },
                     onSaved: (value) {
                       controller.getProductSearch(context, value);
+                    },
+                    onChanged: (value) {
+                      controller.getProductSearch(
+                          context, searchController.text);
                     },
                     controller: searchController,
                     hintTxt: "Search Item No. ",
@@ -449,7 +419,6 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                       child: const Icon(CupertinoIcons.barcode),
                     ),
                   ),
-
                   config.verticalSpaceMedium(),
                   Builder(builder: (context) {
                     if (controller.productSearchResponse.hasData) {
@@ -542,6 +511,8 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                               Expanded(
                                 child: PrimaryFormField(
                                   controller: priceController,
+                                  keyboardType: TextInputType.number,
+
                                   hintTxt: "eg 10 ",
                                   // validator: (value) =>
                                   //     Validator.validateNumber(value!),
@@ -562,6 +533,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                               ),
                               Expanded(
                                 child: PrimaryFormField(
+                                    keyboardType: TextInputType.number,
                                     hintTxt: "eg 10 ",
                                     controller: qtyController,
                                     // validator: (value) =>
@@ -580,6 +552,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                             ],
                           ),
                           config.verticalSpaceMedium(),
+
                           PrimaryButton(
                             label: 'Proceed',
                             onPressed: () {
@@ -597,9 +570,10 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                                   setState(() {
                                     purchaseList.add(
                                       PurchaseItems(
-                                          product: searchController.text,
+                                          product: productDetails.id.toString(),
                                           quantity: qtyController.text,
                                           price: priceController.text,
+                                          name: productDetails.name,
                                           total: total.toString()),
                                     );
                                   });
@@ -618,15 +592,18 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                                     purchaseList.insert(
                                       index,
                                       PurchaseItems(
-                                          product: searchController.text,
+                                          product: productDetails.id.toString(),
                                           quantity: qtyController.text,
                                           price: priceController.text,
+                                          name: productDetails.name,
                                           total: total2.toString()),
                                     );
                                   });
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                 }
+                              } else {
+                                showSuccessToast("Not enough stock");
                               }
                               // }
                             },

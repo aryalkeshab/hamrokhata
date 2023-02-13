@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:get/get_connect/http/src/multipart/form_data.dart';
+import 'package:get/get_connect/http/src/multipart/multipart_file.dart';
 
 class ProductRequestModel {
   String? name;
@@ -12,7 +13,7 @@ class ProductRequestModel {
   int? currentStock;
   int? category;
   String? vendorName;
-  File? imageUrl;
+  MultipartFile? imageUrl;
 
   ProductRequestModel(
       {this.name,

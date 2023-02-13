@@ -10,9 +10,13 @@ import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
 import 'package:hamrokhata/models/sales_response_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
 
+import '../purchase_order_list/purchase_order_list.dart';
+
 abstract class PurchaseRepository {
   Future<ApiResponse> getVendorsList();
   Future<ApiResponse> getCategoryList();
+  Future<ApiResponse> getpurchaseOrderList();
+
   Future<ApiResponse> addProduct(ProductRequestModel productRequestModel);
   Future<ApiResponse> purchaseOrder(PurchaseOrderModel purchaseOrderModel);
 }
@@ -75,6 +79,32 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
   }
 
   @override
+  Future<ApiResponse> getpurchaseOrderList() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result =
+            await purchaseOrderRemoteDataSource.getpurchaseOrderList();
+        print(result);
+        // final purchaseOrderResponse = PurchaseOrderList.fromJson(result);
+        final purchaseOrderResponseList = result
+            .map<PurchaseOrderList>((e) => PurchaseOrderList.fromJson(e))
+            .toList();
+
+        return ApiResponse(data: purchaseOrderResponseList);
+      } catch (e) {
+        return ApiResponse(error: NetworkException.getException(e));
+        //       if(e is DioError && e.type == DioErrorType.response){
+        //     print(e.response?.data);
+        //     return ApiResponse(error: NetworkException.defaultError(value:e.response?.data[0]['message']));
+        //   }
+        //   return ApiResponse(error: NetworkException.getException(e));
+        // }
+      }
+    }
+    return ApiResponse(error: NetworkException.noInternetConnection());
+  }
+
+  @override
   Future<ApiResponse> addProduct(
       ProductRequestModel productRequestModel) async {
     if (await networkInfo.isConnected) {
@@ -97,14 +127,17 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
       try {
         final result = await purchaseOrderRemoteDataSource
             .purchaseOrder(purchaseOrderModel);
-
+        print(result);
+        final purchaseOrderResponse = PurchaseOrderResponse.fromJson(result);
         // final purchaseOrderResponseList = result
-        //     .map<PurchaseResponseModel>(
-        //         (e) => PurchaseResponseModel.fromJson(e))
+        //     .map<PurchaseOrderResponse>(
+        //         (e) => PurchaseOrderResponse.fromJson(e))
         //     .toList();
-
-        return ApiResponse(data: result['msg']);
+        print(purchaseOrderResponse);
+        showSuccessToast(result['msg']);
+        return ApiResponse(data: purchaseOrderResponse);
       } catch (e) {
+        print(e);
         return ApiResponse(error: NetworkException.getException(e));
       }
     }

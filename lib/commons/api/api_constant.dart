@@ -98,7 +98,7 @@ class APIPathHelper {
   }) {
     switch (path) {
       case APIPath.productSearch:
-        return "/product/$id";
+        return "/productlist/";
 
       case APIPath.allProducts:
         return "/rest/V1/custom/products";

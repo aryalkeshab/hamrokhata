@@ -15,7 +15,7 @@ import 'package:hamrokhata/Screens/product_detail/product_details_screen.dart';
 import 'package:hamrokhata/Screens/product_detail/product_search_di.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_di.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_order_screen.dart';
-import 'package:hamrokhata/Screens/sales_order/sales_order_conform_screen.dart';
+import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list_screen.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_di.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_screen.dart';
 import 'package:hamrokhata/Screens/sales_order_list/sales_order_list.dart';
@@ -37,10 +37,11 @@ class AppPages {
     GetPage(
       name: _Paths.splash,
       page: SplashScreen.new,
+      bindings: [CoreBindings()],
     ),
     GetPage(
-      name: _Paths.test,
-      page: TableForReceipt.new,
+      name: _Paths.table,
+      page: () => TableForReceipt(purchaseItems: Get.arguments),
     ),
     GetPage(
         name: _Paths.changePasswordScreeen,
@@ -71,12 +72,22 @@ class AppPages {
       name: _Paths.register,
       page: RegisterScreen.new,
     ),
-    GetPage(name: _Paths.salesOrderList, page: SalesOrderList.new, bindings: [
-      CoreBindings(),
-      ProductSearchBinding(),
-      PurchaseBinding(),
-      SalesOrderBinding(),
-    ]),
+    GetPage(
+        name: _Paths.salesOrderList,
+        page: SalesOrderListScreen.new,
+        bindings: [
+          CoreBindings(),
+          SalesOrderBinding(),
+        ]),
+    GetPage(
+        name: _Paths.purchaseOrderList,
+        page: PurchaseOrderListScreen.new,
+        bindings: [
+          CoreBindings(),
+          ProductSearchBinding(),
+          PurchaseBinding(),
+          // SalesOrderBinding(),
+        ]),
     GetPage(
         name: _Paths.purchaseOrder,
         page: PurchaseOrderScreen.new,
@@ -102,14 +113,14 @@ class AppPages {
       CoreBindings(),
       ProductSearchBinding(),
     ]),
-    GetPage(
-        name: _Paths.salesOrderConformationScreen,
-        page: () => SalesOrderListScreen(salesList: Get.arguments),
-        bindings: [
-          CoreBindings(),
-          SalesOrderBinding(),
-          ProductSearchBinding(),
-        ]),
+    // GetPage(
+    //     name: _Paths.salesOrderConformationScreen,
+    //     page: () => PurchaseOrderList(),
+    //     bindings: [
+    //       CoreBindings(),
+    //       SalesOrderBinding(),
+    //       ProductSearchBinding(),
+    //     ]),
     GetPage(
         name: _Paths.addProductScreen,
         page: AddProductScreen.new,

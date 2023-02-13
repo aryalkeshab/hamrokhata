@@ -1,28 +1,4 @@
-class SalesResponseModel {
-  String? msg;
-  int? status;
-  Data? data;
-
-  SalesResponseModel({this.msg, this.status, this.data});
-
-  SalesResponseModel.fromJson(Map<String, dynamic> json) {
-    msg = json['msg'];
-    status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['msg'] = this.msg;
-    data['status'] = this.status;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
-  }
-}
-
-class Data {
+class SalesOrderListResponse {
   int? id;
   List<SalesItems>? salesItems;
   String? invoiceNumber;
@@ -36,8 +12,9 @@ class Data {
   String? createdAt;
   String? updatedAt;
   int? customer;
+  int? salesBy;
 
-  Data(
+  SalesOrderListResponse(
       {this.id,
       this.salesItems,
       this.invoiceNumber,
@@ -50,9 +27,10 @@ class Data {
       this.status,
       this.createdAt,
       this.updatedAt,
-      this.customer});
+      this.customer,
+      this.salesBy});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  SalesOrderListResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     if (json['sales_items'] != null) {
       salesItems = <SalesItems>[];
@@ -71,6 +49,7 @@ class Data {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     customer = json['customer'];
+    salesBy = json['sales_by'];
   }
 
   Map<String, dynamic> toJson() {
@@ -90,6 +69,7 @@ class Data {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['customer'] = this.customer;
+    data['sales_by'] = this.salesBy;
     return data;
   }
 }

@@ -8,6 +8,7 @@ class PurchaseOrderModel {
   String? status;
   int? vendor;
   List<PurchaseItems>? purchaseItems;
+  int? userId;
 
   PurchaseOrderModel(
       {this.grandTotal,
@@ -18,7 +19,8 @@ class PurchaseOrderModel {
       this.taxPercent,
       this.status,
       this.vendor,
-      this.purchaseItems});
+      this.purchaseItems,
+      this.userId});
 
   PurchaseOrderModel.fromJson(Map<String, dynamic> json) {
     grandTotal = json['grand_total'];
@@ -47,6 +49,8 @@ class PurchaseOrderModel {
     // data['tax_percent'] = this.taxPercent;
     data['status'] = this.status;
     data['vendor'] = this.vendor;
+    data['purchased_by'] = this.userId;
+
     if (this.purchaseItems != null) {
       data['purchase_items'] =
           this.purchaseItems!.map((v) => v.toJson()).toList();
@@ -60,8 +64,10 @@ class PurchaseItems {
   String? total;
   String? product;
   String? price;
+  String? name;
 
-  PurchaseItems({this.quantity, this.total, this.product, this.price});
+  PurchaseItems(
+      {this.quantity, this.total, this.product, this.price, this.name});
 
   PurchaseItems.fromJson(Map<String, dynamic> json) {
     quantity = json['quantity'];

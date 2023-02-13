@@ -8,6 +8,7 @@ abstract class PurchaseOrderRemoteDataSource {
   Future<dynamic> getCategoryList();
   Future<dynamic> addProduct(ProductRequestModel productRequestModel);
   Future<dynamic> purchaseOrder(PurchaseOrderModel purchaseOrderModel);
+  Future<dynamic> getpurchaseOrderList();
 }
 
 class PurchaseOrderRemoteDataSourceImpl extends PurchaseOrderRemoteDataSource {
@@ -33,5 +34,12 @@ class PurchaseOrderRemoteDataSourceImpl extends PurchaseOrderRemoteDataSource {
   purchaseOrder(PurchaseOrderModel purchaseOrderModel) {
     return apiClient.authPost(APIPathHelper.purchaseAPIs(APIPath.purchaseOrder),
         data: purchaseOrderModel.toJson());
+  }
+
+  @override
+  getpurchaseOrderList() {
+    return apiClient.authGet(
+      APIPathHelper.purchaseAPIs(APIPath.purchaseOrder),
+    );
   }
 }

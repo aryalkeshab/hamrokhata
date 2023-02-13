@@ -1,9 +1,11 @@
 import 'package:hamrokhata/Screens/sales_order/sales_order_remote_data_source.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_screen.dart';
+import 'package:hamrokhata/Screens/sales_order_list/sakes_order_list_model.dart';
 import 'package:hamrokhata/commons/api/api_result.dart';
 import 'package:hamrokhata/commons/api/network_exception.dart';
 import 'package:hamrokhata/commons/api/network_info.dart';
 import 'package:hamrokhata/models/customer_model.dart';
+import 'package:hamrokhata/models/response/sales_order_list.dart';
 import 'package:hamrokhata/models/sales_order_model.dart';
 import 'package:hamrokhata/models/sales_response_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
@@ -69,13 +71,15 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await salesOrderRemoteDataSource.salesOrderList();
+        print(result);
 
-        // final salesOrderResponseList = result
-        //     .map<SalesResponseModel>((e) => SalesResponseModel.fromJson(e))
-        //     .toList();
+        final salesOrderResponseList = result
+            .map<SalesOrderListResponse>(
+                (e) => SalesOrderListResponse.fromJson(e))
+            .toList();
 
         //I will implemnet this thing below.
-        final salesOrderResponseList = SalesResponseModel.fromJson(result[0]);
+        // final salesOrderResponseList = SalesResponseModel.fromJson(result[0]);
 
         return ApiResponse(data: salesOrderResponseList);
       } catch (e) {

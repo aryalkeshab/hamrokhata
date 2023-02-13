@@ -18,13 +18,15 @@ abstract class Routes {
   static const bluetoothList = _Paths.bluetoothList;
 
   static const salesOrder = _Paths.salesOrder;
-  static const test = _Paths.test;
+  static const table = _Paths.table;
   static const introScreen = _Paths.introScreen;
 
   static const otpScreen = _Paths.otpScreen;
   static const forgotPasswordScreen = _Paths.forgotPasswordScreen;
 
   static const appSetting = _Paths.appSetting;
+  static const purchaseOrderList = _Paths.purchaseOrderList;
+
   static const addProductScreen = _Paths.addProductScreen;
   static const changePasswordScreeen = _Paths.changePasswordScreeen;
 
@@ -34,9 +36,11 @@ abstract class Routes {
 
 abstract class _Paths {
   static const home = '/home';
-  static const test = '/test';
+  static const table = '/table';
 
   static const splash = '/splash';
+  static const purchaseOrderList = '/purchaseOrderList';
+
   static const otpScreen = '/otpScreen';
   static const forgotPasswordScreen = '/forgotPasswordScreen';
 

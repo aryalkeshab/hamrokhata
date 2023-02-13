@@ -44,6 +44,7 @@ class SplashAnimationController extends GetxController
     with GetSingleTickerProviderStateMixin {
   late AnimationController animationController;
   late Animation<double> animation;
+  final secureStorage = Get.find<FlutterSecureStorage>();
 
   @override
   void onInit() {
@@ -71,19 +72,35 @@ class SplashAnimationController extends GetxController
     animation.addListener(() => update());
     animationController.forward().whenComplete(() async {
       // if (await storage.read(key: StorageConstants.accessToken))
-      Get.offAllNamed(Routes.introScreen);
+      // Get.offAllNamed(Routes.introScreen);
 
-      // Timer(const Duration(seconds: 4), () {
-      //   if (UserController.instance.sharedPref.getOnBordingValue == false) {
-      //     if (UserController.instance.sharedPref.getLoginReminder == false) {
-      //       Get.offNamed(LoginScreen.routeName);
-      //     } else {
-      //       Get.offNamed(HomeScreen.routeName);
-      //     }
-      //   } else {
-      //     Get.offNamed(OnBoardingScreen.routeName);
-      //   }
-      // });
+      Timer(const Duration(seconds: 1), () async {
+        final accessToken =
+            await secureStorage.read(key: StorageConstants.accessToken);
+        final isLoggedIn =
+            await secureStorage.read(key: StorageConstants.isLoggedIn);
+        final introPageDone =
+            await secureStorage.read(key: StorageConstants.introPageDone);
+        print(introPageDone);
+
+        if (introPageDone == "false" || accessToken == null) {
+          Get.offNamed(Routes.introScreen);
+        } else if (accessToken.isNotEmpty || isLoggedIn == "true") {
+          Get.offNamed(Routes.dashboard);
+        } else {
+          Get.offNamed(Routes.login);
+        }
+
+        // if (secureStorage.instance.sharedPref.getOnBordingValue == false) {
+        //   if (UserController.instance.sharedPref.getLoginReminder == false) {
+        //     Get.offNamed(LoginScreen.routeName);
+        //   } else {
+        //     Get.offNamed(HomeScreen.routeName);
+        //   }
+        // } else {
+        //   Get.offNamed(OnBoardingScreen.routeName);
+        // }
+      });
     });
   }
 

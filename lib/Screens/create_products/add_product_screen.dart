@@ -70,70 +70,56 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: Column(
+                          flex: 2,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
-                                  Text(
-                                    'Category Selection :',
-                                    textAlign: TextAlign.left,
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 30),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  border: Border.all(color: Colors.black26),
+                                ),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                    hint: const Text('--Select Category--'),
+                                    value: dropDownvalue,
+                                    icon: const Icon(Icons.keyboard_arrow_down),
+                                    items:
+                                        categoryList.map((String categoryList) {
+                                      return DropdownMenuItem(
+                                        value: categoryList,
+                                        child: Text(categoryList),
+                                      );
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        dropDownvalue = value;
+                                        // purchaseOrderParams
+                                      });
+                                    },
                                   ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 30),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      border: Border.all(color: Colors.black26),
-                                    ),
-                                    child: DropdownButtonHideUnderline(
-                                      child: DropdownButton(
-                                        hint:
-                                            const Text('---Select Vendor ---'),
-                                        value: dropDownvalue,
-                                        icon: const Icon(
-                                            Icons.keyboard_arrow_down),
-                                        items: categoryList
-                                            .map((String categoryList) {
-                                          return DropdownMenuItem(
-                                            value: categoryList,
-                                            child: Text(categoryList),
-                                          );
-                                        }).toList(),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            dropDownvalue = value;
-                                            // purchaseOrderParams
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
                             ],
                           ),
                         ),
                         config.horizontalSpaceMedium(),
-                        Container(
-                            //show upload button after choosing image
-                            child: ElevatedButton.icon(
-                          onPressed: () async {
-                            await testdialog(context);
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                              //show upload button after choosing image
+                              child: ElevatedButton.icon(
+                            onPressed: () async {
+                              await testdialog(context);
 
-                            print(imagePath);
-                          },
-                          icon: const Icon(Icons.file_upload),
-                          label: Text("UPLOAD IMAGE"),
-                        )),
+                              print(imagePath);
+                            },
+                            icon: const Icon(Icons.file_upload),
+                            label: const Text("UPLOAD IMAGE"),
+                          )),
+                        ),
                       ],
                     ),
                     config.verticalSpaceMedium(),
@@ -247,9 +233,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           //     filename: fileName,
                           //   ),
                           // });
-
+                          final MultipartFile file = await MultipartFile(
+                              imagePath!.path,
+                              filename: imagePath!.path.split('/').last);
                           purchaseOrderParams.category = 1;
-                          purchaseOrderParams.imageUrl = imagePath;
+                          purchaseOrderParams.imageUrl = file;
                           final currentState =
                               _purchaseOrderFormKey.currentState;
                           if (currentState != null) {
@@ -310,8 +298,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
       XFile? image = await _picker.pickImage(source: ImageSource.camera);
 
       if (image != null) {
-        setState(() {
+        setState(() async {
           imagePath = File(image.path);
+
+          // final file = await MultipartFile.fromFile(imagePath,
+          //     filename: imagePath?.name);
+
           print(imagePath!.path);
         });
       }

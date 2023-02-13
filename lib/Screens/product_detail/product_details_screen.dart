@@ -5,6 +5,7 @@ import 'package:hamrokhata/Screens/product_detail/product_detail_controller.dart
 import 'package:hamrokhata/commons/utils/scanqr.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons.dart';
+import 'package:hamrokhata/commons/widgets/text_form_widget.dart';
 import 'package:hamrokhata/commons/widgets/textfields.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/product_detail.dart';
@@ -33,54 +34,23 @@ class _ProductDetailsState extends State<ProductDetails> {
                 horizontal: config.appVerticalPaddingMedium()),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Stack(
-                        children: [
-                          PrimaryFormField(
-                            onSaved: (saved) {},
-                            onChanged: (value) {
-                              // Get.find<ProductDetailsController>()
-                              //     .getProductSearch(context, value);
-                            },
-                            hintIcon: IconButton(
-                              icon: const Icon(CupertinoIcons.barcode),
-                              onPressed: (() async {
-                                searchController.text =
-                                    await Scanqr.barcodeScanner(context);
-                                print(searchController);
-                              }),
-                            ),
-                            hintTxt: "Item No. ",
-                            controller: searchController,
-                          ),
-                        ],
-                      ),
-                    ),
-                    config.horizontalSpaceMedium(),
-                    Expanded(
-                      flex: 1,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                          ),
-                          child: PrimaryButton(
-                              label: "Search",
-                              onPressed: () {
-                                Get.find<ProductDetailsController>()
-                                    .getProductSearch(
-                                        context, searchController.text);
-                                // showSuccessToast(
-                                //     'Successfully register the user. ');
-                              }),
-                        ),
-                      ),
-                    ),
-                  ],
+                config.verticalSpaceMedium(),
+                TextFieldWidget(
+                  onPressed: () {
+                    controller.getProductSearch(context, searchController.text);
+                  },
+                  onSaved: (value) {
+                    controller.getProductSearch(context, value);
+                  },
+                  controller: searchController,
+                  hintTxt: "Search Item No. ",
+                  hintIcon: InkWell(
+                    onTap: () async {
+                      scannedCode = await Scanqr.barcodeScanner(context);
+                      print(scannedCode);
+                    },
+                    child: const Icon(CupertinoIcons.barcode),
+                  ),
                 ),
                 config.verticalSpaceMedium(),
                 GetBuilder<ProductDetailsController>(builder: (controller) {

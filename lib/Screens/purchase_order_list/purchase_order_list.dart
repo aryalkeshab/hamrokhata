@@ -1,28 +1,4 @@
-class PurchaseOrderResponse {
-  String? msg;
-  int? status;
-  Data? data;
-
-  PurchaseOrderResponse({this.msg, this.status, this.data});
-
-  PurchaseOrderResponse.fromJson(Map<String, dynamic> json) {
-    msg = json['msg'];
-    status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['msg'] = this.msg;
-    data['status'] = this.status;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
-  }
-}
-
-class Data {
+class PurchaseOrderList {
   int? id;
   List<PurchaseItems>? purchaseItems;
   String? billNumber;
@@ -33,11 +9,10 @@ class Data {
   double? discPercent;
   double? taxPercent;
   String? status;
-
   int? vendor;
   int? purchasedBy;
 
-  Data(
+  PurchaseOrderList(
       {this.id,
       this.purchaseItems,
       this.billNumber,
@@ -51,7 +26,7 @@ class Data {
       this.vendor,
       this.purchasedBy});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  PurchaseOrderList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     if (json['purchase_items'] != null) {
       purchaseItems = <PurchaseItems>[];
@@ -67,7 +42,6 @@ class Data {
     discPercent = json['disc_percent'];
     taxPercent = json['tax_percent'];
     status = json['status'];
-
     vendor = json['vendor'];
     purchasedBy = json['purchased_by'];
   }
@@ -87,7 +61,6 @@ class Data {
     data['disc_percent'] = this.discPercent;
     data['tax_percent'] = this.taxPercent;
     data['status'] = this.status;
-
     data['vendor'] = this.vendor;
     data['purchased_by'] = this.purchasedBy;
     return data;
@@ -98,24 +71,14 @@ class PurchaseItems {
   int? id;
   int? quantity;
   double? total;
-  String? createdAt;
-  String? updatedAt;
   int? product;
 
-  PurchaseItems(
-      {this.id,
-      this.quantity,
-      this.total,
-      this.createdAt,
-      this.updatedAt,
-      this.product});
+  PurchaseItems({this.id, this.quantity, this.total, this.product});
 
   PurchaseItems.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     quantity = json['quantity'];
     total = json['total'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
     product = json['product'];
   }
 
@@ -124,8 +87,6 @@ class PurchaseItems {
     data['id'] = this.id;
     data['quantity'] = this.quantity;
     data['total'] = this.total;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
     data['product'] = this.product;
     return data;
   }

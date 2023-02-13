@@ -54,7 +54,7 @@ class SalesOrderController extends GetxController {
   salesOrder(SalesOrderModel salesOrderModel, BuildContext context) async {
     salesOrderResponse =
         await Get.find<SalesOrderRepository>().salesOrder(salesOrderModel);
-    if (salesOrderResponse.hasData) {
+    if (salesOrderResponse.hasData && context.mounted) {
       salesOrderResponseList = salesOrderResponse.data;
       showNormalToast(salesOrderResponseList!.msg.toString());
       update();
@@ -62,31 +62,6 @@ class SalesOrderController extends GetxController {
       AppSnackbar.showError(
           context: context,
           message: NetworkException.getErrorMessage(salesOrderResponse.error));
-    }
-  }
-
-//sales Order List
-
-  List<SalesResponseModel> salesOrderList = [];
-
-  ApiResponse _salesOrderListResponse = ApiResponse();
-
-  set salesOrderListResponse(ApiResponse response) {
-    _salesOrderListResponse = response;
-    update();
-  }
-
-  ApiResponse get salesOrderListResponse => _salesOrderListResponse;
-
-  allSalesOrderList() async {
-    salesOrderResponse =
-        await Get.find<SalesOrderRepository>().salesOrderList();
-    if (salesOrderResponse.hasData) {
-      salesOrderResponseList = salesOrderResponse.data;
-      showNormalToast(salesOrderResponseList!.msg.toString());
-      update();
-    } else {
-      showNormalToast(salesOrderResponse.error.toString());
     }
   }
 

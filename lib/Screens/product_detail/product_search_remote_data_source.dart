@@ -10,7 +10,12 @@ class ProductSearchRemoteDataSourceImpl extends ProductSearchRemoteDataSource {
   ProductSearchRemoteDataSourceImpl({required this.apiClient});
   @override
   getProductDetail(id) {
-    return apiClient
-        .authGet(APIPathHelper.productSearch(APIPath.productSearch, id: id));
+    return apiClient.authGet(
+        APIPathHelper.productSearch(
+          APIPath.productSearch,
+        ),
+        queryParameters: {
+          "search": id,
+        });
   }
 }

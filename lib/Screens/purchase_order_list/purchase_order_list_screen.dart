@@ -3,21 +3,21 @@ import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list.dart';
 import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list_controller.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_controller.dart';
-import 'package:hamrokhata/Screens/sales_order_list/sales_order_list_controller.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
 
-class SalesOrderListScreen extends StatefulWidget {
-  const SalesOrderListScreen({super.key});
+class PurchaseOrderListScreen extends StatefulWidget {
+  const PurchaseOrderListScreen({super.key});
 
   @override
-  State<SalesOrderListScreen> createState() => _SalesOrderListScreenState();
+  State<PurchaseOrderListScreen> createState() =>
+      _PurchaseOrderListScreenState();
 }
 
-class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
+class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
   @override
   void initState() {
-    Get.put(SalesOrderListController()).getsalesOrderList();
+    Get.put(PurchaseOrderListController()).getpurchaseOrderList();
 
     super.initState();
   }
@@ -27,17 +27,17 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text('sales Order List'),
+        title: const Text('Purchase Order List'),
       ),
       body: BaseWidget(builder: (context, config, theme) {
-        return GetBuilder<SalesOrderListController>(builder: (controller) {
+        return GetBuilder<PurchaseOrderListController>(builder: (controller) {
           return Container(
             padding: EdgeInsets.symmetric(
                 horizontal: config.appHorizontalPaddingMedium()),
             child: Column(
               children: [
                 Text(
-                  'Total Amount: ${controller.salesOrderResponseList!.length ?? 0}',
+                  'Total Amount: ${controller.purchaseOrderResponseList!.length ?? 0}',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -89,7 +89,7 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                       Expanded(
                         flex: 1,
                         child: Text(
-                          "Customer Name",
+                          "Vendor Name",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 13,
@@ -115,10 +115,15 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                   height: 2,
                 ),
                 Builder(builder: (context) {
-                  if (controller.salesOrderResponse.hasData) {
-                    if (controller.salesOrderResponseList!.isEmpty) {
-                      return const Center(
-                        child: Text('No Data Found'),
+                  if (controller.purchaseOrderResponse.hasData) {
+                    if (controller.purchaseOrderResponseList!.isEmpty) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Center(
+                            child: Text('No Data Found'),
+                          ),
+                        ],
                       );
                     } else {
                       return Column(
@@ -128,10 +133,10 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemCount:
-                                  controller.salesOrderResponseList!.length,
+                                  controller.purchaseOrderResponseList!.length,
                               itemBuilder: (BuildContext context, int index) {
-                                // print(
-                                //     controller.salesOrderResponseList![0].billNumber);
+                                print(controller
+                                    .purchaseOrderResponseList![0].billNumber);
                                 // TrackingModel trackingModel = trackingList[index];
                                 return Visibility(
                                   child: Card(
@@ -139,54 +144,60 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                                       height: 40,
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 8),
-                                      child: InkWell(
-                                        onTap: () {},
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 1,
-                                              child: Text(
-                                                controller
-                                                    .salesOrderResponseList![
-                                                        index]
-                                                    .invoiceNumber
-                                                    .toString(),
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 14,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {},
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: Text(
+                                                    controller
+                                                        .purchaseOrderResponseList![
+                                                            index]
+                                                        .billNumber
+                                                        .toString(),
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Text(
-                                                controller
-                                                    .salesOrderResponseList![
-                                                        index]
-                                                    .customer
-                                                    .toString(),
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 14,
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: Text(
+                                                    controller
+                                                        .purchaseOrderResponseList![
+                                                            index]
+                                                        .vendor
+                                                        .toString(),
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Text(
-                                                controller
-                                                    .salesOrderResponseList![
-                                                        index]
-                                                    .grandTotal
-                                                    .toString(),
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 14,
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: Text(
+                                                    controller
+                                                        .purchaseOrderResponseList![
+                                                            index]
+                                                        .grandTotal
+                                                        .toString(),
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -199,7 +210,9 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Center(child: CircularProgressIndicator()),
+                        const Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       ],
                     );
                   }
@@ -209,18 +222,17 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
           );
         });
       }),
-      bottomSheet: GetBuilder<SalesOrderListController>(builder: (controller) {
+      bottomSheet:
+          GetBuilder<PurchaseOrderListController>(builder: (controller) {
         num total = 0.0;
-
-        // if (controller.salesOrderResponseList![0].grandTotal != null) {
-        //   for (int i = 0; i < controller.salesOrderResponseList!.length; i++) {
-        //     total += controller.salesOrderResponseList![i].grandTotal!;
-        //     // print(Get.find<PurchaseOrderListController>()
-        //     //     .purchaseOrderResponseList![i]
-        //     //     .billNumber);
-        //   }
-        // }
-
+        for (int i = 0; i < controller.purchaseOrderResponseList!.length; i++) {
+          total += Get.find<PurchaseOrderListController>()
+              .purchaseOrderResponseList![i]
+              .grandTotal!;
+          // print(Get.find<PurchaseOrderListController>()
+          //     .purchaseOrderResponseList![i]
+          //     .billNumber);
+        }
         print(total);
         // controller.purchaseOrderResponseList![]
 
