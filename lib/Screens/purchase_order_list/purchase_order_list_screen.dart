@@ -250,7 +250,7 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Total',
+                    'Total Amount :',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   ),
                   Text(
