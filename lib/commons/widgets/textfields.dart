@@ -16,6 +16,7 @@ class PrimaryFormField extends HookWidget {
   final Widget? prefixIcon;
   final double? labelHeight;
   final bool? isPassword;
+  bool? enabled = true;
   final TextInputType? keyboardType;
   final TextEditingController? controller;
   List<TextInputFormatter>? inputFormatters = [];
@@ -31,6 +32,7 @@ class PrimaryFormField extends HookWidget {
     required this.onSaved,
     this.prefixIcon,
     this.labelHeight,
+    this.enabled,
     this.inputFormatters,
     this.isPassword = false,
     this.isFilled = false,
@@ -64,6 +66,7 @@ class PrimaryFormField extends HookWidget {
         SizedBox(
           // height: 60,
           child: TextFormField(
+            enabled: enabled,
             inputFormatters: inputFormatters,
             style: const TextStyle(color: Colors.white),
             keyboardType: keyboardType,

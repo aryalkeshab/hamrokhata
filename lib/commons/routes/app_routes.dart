@@ -33,6 +33,8 @@ abstract class Routes {
   static const salesOrderConformationScreen =
       _Paths.salesOrderConformationScreen;
   static const tableForSalesReceipt = _Paths.tableForSalesReceipt;
+  static const purchaseOrderReceipt = _Paths.purchaseOrderReceipt;
+  static const salesTableReceipt = _Paths.salesTableReceipt;
 }
 
 abstract class _Paths {
@@ -40,6 +42,9 @@ abstract class _Paths {
   static const table = '/table';
 
   static const splash = '/splash';
+  static const salesTableReceipt = '/salesTableReceipt';
+  static const purchaseOrderReceipt = '/purchaseOrderReceipt';
+
   static const tableForSalesReceipt = '/tableForSalesReceipt';
 
   static const purchaseOrderList = '/purchaseOrderList';

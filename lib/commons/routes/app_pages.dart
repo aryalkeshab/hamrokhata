@@ -14,9 +14,11 @@ import 'package:hamrokhata/Screens/intro_screens/intro_screen.dart';
 import 'package:hamrokhata/Screens/product_detail/product_details_screen.dart';
 import 'package:hamrokhata/Screens/product_detail/product_search_di.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_di.dart';
+import 'package:hamrokhata/Screens/purchase_order/purchase_order_receipt.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_order_screen.dart';
 import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list_screen.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_di.dart';
+import 'package:hamrokhata/Screens/sales_order/sales_order_receipt.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_screen.dart';
 import 'package:hamrokhata/Screens/sales_order_list/sales_order_list.dart';
 import 'package:hamrokhata/Screens/sales_order_list/sales_receipt.dart';
@@ -142,6 +144,20 @@ class AppPages {
           ProductSearchBinding(),
           PurchaseBinding(),
         ]),
-    GetPage(name: _Paths.introScreen, page: IntroScreen.new)
+    GetPage(name: _Paths.introScreen, page: IntroScreen.new),
+    GetPage(
+      name: _Paths.purchaseOrderReceipt,
+      page: () => PurchaseOrderReceipt(
+        purchaseOrderResponse: Get.arguments,
+        // purchaseOrderList: Get.arguments,
+      ),
+    ),
+    GetPage(
+      name: _Paths.salesTableReceipt,
+      page: () => SalesOrderReceipt(
+        salesOrderResponse: Get.arguments,
+        // purchaseOrderList: Get.arguments,
+      ),
+    ),
   ];
 }

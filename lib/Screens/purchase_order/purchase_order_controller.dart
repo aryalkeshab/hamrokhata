@@ -5,6 +5,7 @@ import 'package:hamrokhata/Screens/purchase_order/purchase_repository.dart';
 import 'package:hamrokhata/commons/api/api_result.dart';
 import 'package:hamrokhata/commons/api/network_exception.dart';
 import 'package:hamrokhata/commons/api/storage_constants.dart';
+import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/loading_dialog.dart';
 import 'package:hamrokhata/commons/widgets/snackbar.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
@@ -124,6 +125,8 @@ class PurchaseOrderController extends GetxController {
     if (purchaseOrderResponse.hasData && context.mounted) {
       purchaseOrderResponseList = purchaseOrderResponse.data;
       showNormalToast(purchaseOrderResponseList!.msg.toString());
+      Get.toNamed(Routes.purchaseOrderReceipt,
+          arguments: [purchaseOrderResponseList!]);
       update();
     } else {
       AppSnackbar.showError(

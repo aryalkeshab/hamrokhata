@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list.dart';
-import 'package:hamrokhata/Screens/sales_order_list/sakes_order_list_model.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons.dart';
+import 'package:hamrokhata/models/request/sales_response_model.dart';
+import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
 import 'package:number_to_character/number_to_character.dart';
 
-class TableForSalesReceipt extends StatefulWidget {
+class SalesOrderReceipt extends StatefulWidget {
   // final PurchaseItems purchaseItems;
-  final List<SalesOrderListResponse>? salesOrderListResponse;
-  // final List<PurchaseOrderList>? purchaseOrderList;
+  // final SalesOrderListResponse? salesOrderListResponse;
+  final List<SalesOrderResponse> salesOrderResponse;
 
-  const TableForSalesReceipt({super.key, this.salesOrderListResponse});
+  const SalesOrderReceipt({super.key, required this.salesOrderResponse});
 
   @override
-  State<TableForSalesReceipt> createState() => _TableForSalesReceiptState();
+  State<SalesOrderReceipt> createState() => _SalesOrderReceiptState();
 }
 
-class _TableForSalesReceiptState extends State<TableForSalesReceipt> {
+class _SalesOrderReceiptState extends State<SalesOrderReceipt> {
   var converter = NumberToCharacterConverter('en');
 
   int qtyExpanded = 2;
@@ -27,16 +27,16 @@ class _TableForSalesReceiptState extends State<TableForSalesReceipt> {
 
   @override
   Widget build(BuildContext context) {
-    SalesOrderListResponse? salesOrderListResponse =
-        widget.salesOrderListResponse![0];
+    SalesOrderResponse? salesOrderResponse = widget.salesOrderResponse[0];
+    final data = salesOrderResponse.data;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(salesOrderListResponse.invoiceNumber!),
+        title: Text(data!.invoiceNumber!),
       ),
       body: BaseWidget(
         builder: (context, config, theme) {
-          salesOrderListResponse.salesItems!.forEach((element) {
+          data.salesItems!.forEach((element) {
             print(element.product);
           });
           return Padding(
@@ -72,7 +72,7 @@ class _TableForSalesReceiptState extends State<TableForSalesReceipt> {
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           Text(
-                            salesOrderListResponse.invoiceNumber!,
+                            data.invoiceNumber!,
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
@@ -88,10 +88,7 @@ class _TableForSalesReceiptState extends State<TableForSalesReceipt> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
-                          Text(
-                              salesOrderListResponse.createdAt!
-                                      .substring(0, 10) ??
-                                  '',
+                          Text(data.createdAt!.substring(0, 10) ?? '',
                               softWrap: false,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
@@ -166,10 +163,9 @@ class _TableForSalesReceiptState extends State<TableForSalesReceipt> {
                 ),
                 ListView.builder(
                     shrinkWrap: true,
-                    itemCount: salesOrderListResponse.salesItems!.length,
+                    itemCount: data.salesItems!.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final SalesItems salesItems =
-                          salesOrderListResponse.salesItems![index];
+                      final SalesItems purchaseItems = data.salesItems![index];
                       return Row(
                         children: [
                           // Container(
@@ -192,7 +188,7 @@ class _TableForSalesReceiptState extends State<TableForSalesReceipt> {
                                 decoration: BoxDecoration(
                                     border: Border.all(color: Colors.black)),
                                 child: Text(
-                                  salesItems.productName!.toString(),
+                                  purchaseItems.productName!.toString(),
                                   textAlign: TextAlign.center,
                                   maxLines: 1,
                                   softWrap: false,
@@ -205,7 +201,7 @@ class _TableForSalesReceiptState extends State<TableForSalesReceipt> {
                                 decoration: BoxDecoration(
                                     border: Border.all(color: Colors.black)),
                                 child: Text(
-                                  salesItems.quantity.toString(),
+                                  purchaseItems.quantity.toString(),
                                   textAlign: TextAlign.center,
                                 )),
                           ),
@@ -215,7 +211,7 @@ class _TableForSalesReceiptState extends State<TableForSalesReceipt> {
                                 decoration: BoxDecoration(
                                     border: Border.all(color: Colors.black)),
                                 child: Text(
-                                  salesItems.sellingPrice.toString(),
+                                  purchaseItems.sellingPrice.toString(),
                                   textAlign: TextAlign.center,
                                 )),
                           ),
@@ -226,7 +222,7 @@ class _TableForSalesReceiptState extends State<TableForSalesReceipt> {
                                     border: Border.all(color: Colors.black)),
                                 child: Text(
                                     textAlign: TextAlign.right,
-                                    salesItems.total!.toString())),
+                                    purchaseItems.total!.toString())),
                           ),
                         ],
                       );
@@ -268,7 +264,7 @@ class _TableForSalesReceiptState extends State<TableForSalesReceipt> {
                               border: Border.all(color: Colors.black)),
                           child: Text(
                               textAlign: TextAlign.right,
-                              salesOrderListResponse.subTotal.toString())),
+                              data.subTotal.toString())),
                     ),
                   ],
                 ),
@@ -309,8 +305,7 @@ class _TableForSalesReceiptState extends State<TableForSalesReceipt> {
                               border: Border.all(color: Colors.black)),
                           child: Text(
                               textAlign: TextAlign.right,
-                              salesOrderListResponse.discountAmount
-                                  .toString())),
+                              data.discountAmount.toString())),
                     ),
                   ],
                 ),
@@ -351,7 +346,7 @@ class _TableForSalesReceiptState extends State<TableForSalesReceipt> {
                               border: Border.all(color: Colors.black)),
                           child: Text(
                               textAlign: TextAlign.right,
-                              salesOrderListResponse.taxAmount.toString())),
+                              data.taxAmount.toString())),
                     ),
                   ],
                 ),
@@ -392,7 +387,7 @@ class _TableForSalesReceiptState extends State<TableForSalesReceipt> {
                               border: Border.all(color: Colors.black)),
                           child: Text(
                             textAlign: TextAlign.right,
-                            salesOrderListResponse.grandTotal.toString(),
+                            data.grandTotal.toString(),
                             style: TextStyle(fontWeight: FontWeight.bold),
                           )),
                     ),
@@ -408,8 +403,7 @@ class _TableForSalesReceiptState extends State<TableForSalesReceipt> {
                     ),
                     Expanded(
                       child: Text(
-                        converter.convertInt(
-                            salesOrderListResponse.grandTotal!.toInt()),
+                        converter.convertInt(data.grandTotal!.toInt()),
                         maxLines: 2,
                         softWrap: false,
                         overflow: TextOverflow.ellipsis,

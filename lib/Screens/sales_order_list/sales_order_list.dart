@@ -32,99 +32,99 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
       ),
       body: BaseWidget(builder: (context, config, theme) {
         return GetBuilder<SalesOrderListController>(builder: (controller) {
-          return Container(
-            padding: EdgeInsets.symmetric(
-                horizontal: config.appHorizontalPaddingMedium()),
-            child: Column(
-              children: [
-                // Text(
-                //   'Total Amount: ${controller.salesOrderResponseList!.length ?? 0}',
-                //   style: TextStyle(
-                //     fontSize: 16,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                // ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Date Filter: ',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.date_range, size: 25),
-                      onPressed: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1950),
-                            lastDate: DateTime(2100));
+          return SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                  horizontal: config.appHorizontalPaddingMedium()),
+              child: Column(
+                children: [
+                  // Text(
+                  //   'Total Amount: ${controller.salesOrderResponseList!.length ?? 0}',
+                  //   style: TextStyle(
+                  //     fontSize: 16,
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Date Filter: ',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.date_range, size: 25),
+                        onPressed: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1950),
+                              lastDate: DateTime(2100));
 
-                        if (pickedDate != null) {
-                          print(
-                              pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                        } else {}
-                      },
-                    ),
-                  ],
-                ),
-                const Divider(
-                  height: 2,
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 20,
-                  child: Row(
-                    children: const [
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          "Invoice No. ",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          "Customer Name",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          "Amount",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                          if (pickedDate != null) {
+                            print(
+                                pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                          } else {}
+                        },
                       ),
                     ],
                   ),
-                ),
-                const Divider(
-                  height: 2,
-                ),
-                Builder(builder: (context) {
-                  if (controller.salesOrderResponse.hasData) {
-                    if (controller.salesOrderResponseList!.isEmpty) {
-                      return const Center(
-                        child: Text('No Data Found'),
-                      );
-                    } else {
-                      return Column(
-                        children: [
-                          ListView.builder(
+                  const Divider(
+                    height: 2,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 20,
+                    child: Row(
+                      children: const [
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            "Invoice No. ",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            "Customer Name",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            "Amount",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(
+                    height: 2,
+                  ),
+                  Builder(builder: (context) {
+                    if (controller.salesOrderResponse.hasData) {
+                      if (controller.salesOrderResponseList!.isEmpty) {
+                        return const Center(
+                          child: Text('No Data Found'),
+                        );
+                      } else {
+                        return SingleChildScrollView(
+                          child: ListView.builder(
                               scrollDirection: Axis.vertical,
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
@@ -134,86 +134,88 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                                 // print(
                                 //     controller.salesOrderResponseList![0].billNumber);
                                 // TrackingModel trackingModel = trackingList[index];
-                                return Visibility(
-                                  child: Card(
-                                    child: Container(
-                                      height: 40,
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Get.toNamed(
-                                              Routes.tableForSalesReceipt,
-                                              arguments: [
-                                                controller
-                                                        .salesOrderResponseList![
-                                                    index]
-                                              ]);
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 1,
-                                              child: Text(
-                                                controller
-                                                    .salesOrderResponseList![
-                                                        index]
-                                                    .invoiceNumber
-                                                    .toString(),
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 14,
+                                return Expanded(
+                                  child: Visibility(
+                                    child: Card(
+                                      child: Container(
+                                        height: 40,
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8),
+                                        child: InkWell(
+                                          onTap: () {
+                                            Get.toNamed(
+                                                Routes.tableForSalesReceipt,
+                                                arguments: [
+                                                  controller
+                                                          .salesOrderResponseList![
+                                                      index]
+                                                ]);
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                flex: 1,
+                                                child: Text(
+                                                  controller
+                                                      .salesOrderResponseList![
+                                                          index]
+                                                      .invoiceNumber
+                                                      .toString(),
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Text(
-                                                controller
-                                                    .salesOrderResponseList![
-                                                        index]
-                                                    .customer
-                                                    .toString(),
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 14,
+                                              Expanded(
+                                                flex: 1,
+                                                child: Text(
+                                                  controller
+                                                      .salesOrderResponseList![
+                                                          index]
+                                                      .customer
+                                                      .toString(),
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Text(
-                                                controller
-                                                    .salesOrderResponseList![
-                                                        index]
-                                                    .grandTotal
-                                                    .toString(),
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 14,
+                                              Expanded(
+                                                flex: 1,
+                                                child: Text(
+                                                  controller
+                                                      .salesOrderResponseList![
+                                                          index]
+                                                      .grandTotal
+                                                      .toString(),
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 );
                               }),
+                        );
+                      }
+                    } else {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Center(child: CircularProgressIndicator()),
                         ],
                       );
                     }
-                  } else {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Center(child: CircularProgressIndicator()),
-                      ],
-                    );
-                  }
-                }),
-              ],
+                  }),
+                ],
+              ),
             ),
           );
         });

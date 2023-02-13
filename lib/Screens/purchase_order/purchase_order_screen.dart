@@ -538,6 +538,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                                 child: PrimaryFormField(
                                   controller: priceController,
                                   keyboardType: TextInputType.number,
+                                  enabled: false,
 
                                   hintTxt: "eg 10 ",
                                   // validator: (value) =>
@@ -583,7 +584,10 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                             label: 'Proceed',
                             onPressed: () {
                               // if (formKey.currentState!.validate()) {
-                              if (int.parse(qtyController.text) == 0) {
+
+                              if (qtyController.text.isEmpty) {
+                                showErrorToast("Please enter quantity !");
+                              } else if (int.parse(qtyController.text) == 0) {
                                 showErrorToast("You cannot add 0 quantity !");
                               } else if (productDetails.currentStock! >
                                   int.parse(qtyController.text)) {

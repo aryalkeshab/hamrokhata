@@ -190,7 +190,7 @@ class _TableForReceiptState extends State<TableForReceipt> {
                                 decoration: BoxDecoration(
                                     border: Border.all(color: Colors.black)),
                                 child: Text(
-                                  purchaseItems.product!.toString(),
+                                  purchaseItems.productName!.toString(),
                                   textAlign: TextAlign.center,
                                   maxLines: 1,
                                   softWrap: false,
@@ -213,7 +213,7 @@ class _TableForReceiptState extends State<TableForReceipt> {
                                 decoration: BoxDecoration(
                                     border: Border.all(color: Colors.black)),
                                 child: Text(
-                                  "121",
+                                  purchaseItems.purchasePrice.toString(),
                                   textAlign: TextAlign.center,
                                 )),
                           ),

@@ -1,6 +1,8 @@
 class SalesOrderListResponse {
   int? id;
   List<SalesItems>? salesItems;
+  String? sellingByName;
+  String? customer;
   String? invoiceNumber;
   double? grandTotal;
   double? subTotal;
@@ -11,12 +13,13 @@ class SalesOrderListResponse {
   String? status;
   String? createdAt;
   String? updatedAt;
-  int? customer;
   int? salesBy;
 
   SalesOrderListResponse(
       {this.id,
       this.salesItems,
+      this.sellingByName,
+      this.customer,
       this.invoiceNumber,
       this.grandTotal,
       this.subTotal,
@@ -27,7 +30,6 @@ class SalesOrderListResponse {
       this.status,
       this.createdAt,
       this.updatedAt,
-      this.customer,
       this.salesBy});
 
   SalesOrderListResponse.fromJson(Map<String, dynamic> json) {
@@ -38,6 +40,8 @@ class SalesOrderListResponse {
         salesItems!.add(new SalesItems.fromJson(v));
       });
     }
+    sellingByName = json['selling_by_name'];
+    customer = json['customer'];
     invoiceNumber = json['invoice_number'];
     grandTotal = json['grand_total'];
     subTotal = json['sub_total'];
@@ -48,7 +52,6 @@ class SalesOrderListResponse {
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    customer = json['customer'];
     salesBy = json['sales_by'];
   }
 
@@ -58,6 +61,8 @@ class SalesOrderListResponse {
     if (this.salesItems != null) {
       data['sales_items'] = this.salesItems!.map((v) => v.toJson()).toList();
     }
+    data['selling_by_name'] = this.sellingByName;
+    data['customer'] = this.customer;
     data['invoice_number'] = this.invoiceNumber;
     data['grand_total'] = this.grandTotal;
     data['sub_total'] = this.subTotal;
@@ -68,7 +73,6 @@ class SalesOrderListResponse {
     data['status'] = this.status;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
-    data['customer'] = this.customer;
     data['sales_by'] = this.salesBy;
     return data;
   }
@@ -76,6 +80,8 @@ class SalesOrderListResponse {
 
 class SalesItems {
   int? id;
+  String? productName;
+  String? sellingPrice;
   int? quantity;
   double? total;
   String? createdAt;
@@ -84,6 +90,8 @@ class SalesItems {
 
   SalesItems(
       {this.id,
+      this.productName,
+      this.sellingPrice,
       this.quantity,
       this.total,
       this.createdAt,
@@ -92,6 +100,8 @@ class SalesItems {
 
   SalesItems.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    productName = json['product_name'];
+    sellingPrice = json['selling_price'];
     quantity = json['quantity'];
     total = json['total'];
     createdAt = json['created_at'];
@@ -102,6 +112,8 @@ class SalesItems {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['product_name'] = this.productName;
+    data['selling_price'] = this.sellingPrice;
     data['quantity'] = this.quantity;
     data['total'] = this.total;
     data['created_at'] = this.createdAt;

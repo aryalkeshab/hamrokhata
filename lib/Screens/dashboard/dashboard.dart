@@ -66,7 +66,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 12,
+                        height: MediaQuery.of(context).size.height / 30,
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
@@ -97,20 +97,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               icons: Icons.add_circle_rounded,
                             ),
                             DashboardModule(
-                              text: 'Change Password',
-                              onPressed: () {
-                                Get.toNamed(Routes.changePasswordScreeen);
-                              },
-                              icons: Icons.password,
-                            ),
-                            DashboardModule(
-                              text: 'Add Products',
-                              onPressed: () {
-                                Get.toNamed(Routes.addProductScreen);
-                              },
-                              icons: Icons.production_quantity_limits_sharp,
-                            ),
-                            DashboardModule(
                               text: 'Purchase Order List',
                               onPressed: () {
                                 Get.toNamed(Routes.purchaseOrderList);
@@ -132,6 +118,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               icons: Icons.account_box,
                             ),
                             DashboardModule(
+                              text: 'Add Products',
+                              onPressed: () {
+                                Get.toNamed(Routes.addProductScreen);
+                              },
+                              icons: Icons.production_quantity_limits_sharp,
+                            ),
+                            DashboardModule(
                               text: 'Print Setting',
                               onPressed: () {
                                 Navigator.push(
@@ -141,6 +134,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 );
                               },
                               icons: Icons.print,
+                            ),
+                            DashboardModule(
+                              text: 'Change Password',
+                              onPressed: () {
+                                Get.toNamed(Routes.changePasswordScreeen);
+                              },
+                              icons: Icons.password,
                             ),
                           ]),
                     ],

@@ -24,6 +24,7 @@ class PurchaseOrderResponse {
 
 class Data {
   int? id;
+  String? purchaseByName;
   List<PurchaseItems>? purchaseItems;
   String? billNumber;
   double? grandTotal;
@@ -33,12 +34,13 @@ class Data {
   double? discPercent;
   double? taxPercent;
   String? status;
-
-  int? vendor;
+  String? createdAt;
+  String? updatedAt;
   int? purchasedBy;
 
   Data(
       {this.id,
+      this.purchaseByName,
       this.purchaseItems,
       this.billNumber,
       this.grandTotal,
@@ -48,11 +50,13 @@ class Data {
       this.discPercent,
       this.taxPercent,
       this.status,
-      this.vendor,
+      this.createdAt,
+      this.updatedAt,
       this.purchasedBy});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    purchaseByName = json['purchase_by_name'];
     if (json['purchase_items'] != null) {
       purchaseItems = <PurchaseItems>[];
       json['purchase_items'].forEach((v) {
@@ -67,14 +71,15 @@ class Data {
     discPercent = json['disc_percent'];
     taxPercent = json['tax_percent'];
     status = json['status'];
-
-    vendor = json['vendor'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
     purchasedBy = json['purchased_by'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['purchase_by_name'] = this.purchaseByName;
     if (this.purchaseItems != null) {
       data['purchase_items'] =
           this.purchaseItems!.map((v) => v.toJson()).toList();
@@ -87,8 +92,8 @@ class Data {
     data['disc_percent'] = this.discPercent;
     data['tax_percent'] = this.taxPercent;
     data['status'] = this.status;
-
-    data['vendor'] = this.vendor;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     data['purchased_by'] = this.purchasedBy;
     return data;
   }
@@ -96,6 +101,8 @@ class Data {
 
 class PurchaseItems {
   int? id;
+  String? productName;
+  String? purchasePrice;
   int? quantity;
   double? total;
   String? createdAt;
@@ -104,6 +111,8 @@ class PurchaseItems {
 
   PurchaseItems(
       {this.id,
+      this.productName,
+      this.purchasePrice,
       this.quantity,
       this.total,
       this.createdAt,
@@ -112,6 +121,8 @@ class PurchaseItems {
 
   PurchaseItems.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    productName = json['product_name'];
+    purchasePrice = json['purchase_price'];
     quantity = json['quantity'];
     total = json['total'];
     createdAt = json['created_at'];
@@ -122,6 +133,8 @@ class PurchaseItems {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['product_name'] = this.productName;
+    data['purchase_price'] = this.purchasePrice;
     data['quantity'] = this.quantity;
     data['total'] = this.total;
     data['created_at'] = this.createdAt;

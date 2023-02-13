@@ -4,6 +4,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_repository.dart';
 import 'package:hamrokhata/commons/api/api_result.dart';
 import 'package:hamrokhata/commons/api/network_exception.dart';
+import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/snackbar.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/customer_model.dart';
@@ -57,6 +58,8 @@ class SalesOrderController extends GetxController {
     if (salesOrderResponse.hasData && context.mounted) {
       salesOrderResponseList = salesOrderResponse.data;
       showSuccessToast(salesOrderResponseList!.msg.toString());
+      Get.toNamed(Routes.salesTableReceipt,
+          arguments: [salesOrderResponseList!]);
       update();
     } else {
       AppSnackbar.showError(
