@@ -122,7 +122,7 @@ class PurchaseOrderController extends GetxController {
       PurchaseOrderModel purchaseOrderModel, BuildContext context) async {
     purchaseOrderResponse =
         await Get.find<PurchaseRepository>().purchaseOrder(purchaseOrderModel);
-    if (purchaseOrderResponse.hasData && context.mounted) {
+    if (purchaseOrderResponse.hasData) {
       purchaseOrderResponseList = purchaseOrderResponse.data;
       showNormalToast(purchaseOrderResponseList!.msg.toString());
       Get.toNamed(Routes.purchaseOrderReceipt,

@@ -15,7 +15,7 @@ class AuthInterceptor extends QueuedInterceptor {
   void onError(DioError err, ErrorInterceptorHandler handler) {
     super.onError(err, handler);
     if (err.response?.statusCode == 401) {
-      logout();
+      refreshAccessToken();
     }
     return handler.next(err);
   }
@@ -53,5 +53,29 @@ class AuthInterceptor extends QueuedInterceptor {
     Get.find<AuthController>().logout();
     Get.key.currentState
         ?.popUntil((route) => route.settings.name == Routes.login);
+  }
+
+  void refreshAccessToken() async {
+    final refreshToken = await storage.read(key: StorageConstants.refreshToken);
+    if (refreshToken == null) {
+      logout();
+    } else {
+      try {
+        final response = await _dio.post(
+          '/token/refresh/',
+          data: {'refresh': refreshToken},
+        );
+        print(" refresh token ${response.statusCode}");
+
+        final accessToken = response.data['access'];
+        final refreshToken2 = response.data['refresh'];
+        await storage.write(
+            key: StorageConstants.accessToken, value: accessToken);
+        await storage.write(
+            key: StorageConstants.refreshToken, value: refreshToken2);
+      } catch (e) {
+        logout();
+      }
+    }
   }
 }

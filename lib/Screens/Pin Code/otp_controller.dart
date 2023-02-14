@@ -29,7 +29,7 @@ class OtpController extends GetxController {
   void otpVerify(OtpParams otpParams, BuildContext context) async {
     showLoadingDialog(context);
     otpResopnse = await authRepository.otpAuth(otpParams);
-    if (otpResopnse.hasError && context.mounted) {
+    if (otpResopnse.hasError) {
       hideLoadingDialog(context);
       AppSnackbar.showError(
           context: context,

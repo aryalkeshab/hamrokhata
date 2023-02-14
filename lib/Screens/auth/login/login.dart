@@ -59,27 +59,22 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            stops: const [0.1, 0.4, 0.7, 0.9],
-            colors: [
-              HexColor("#4b4213").withOpacity(0.9),
-              HexColor("#4b4293"),
-              HexColor("#08428e"),
-              HexColor("#08417e")
-            ],
-          ),
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-                HexColor("#fff").withOpacity(0.2), BlendMode.dstATop),
-            image: const NetworkImage(
-              'https://quickbooks.intuit.com/oidam/intuit/sbseg/en_us/Blog/Graphic/inventory-management-illustration.png',
-            ),
-          ),
-        ),
+        color: Color.fromARGB(255, 156, 79, 16),
+        // decoration: BoxDecoration(
+        //   gradient: LinearGradient(
+        //       begin: Alignment.topLeft,
+        //       end: Alignment.bottomRight,
+        //       stops: const [0.1, 0.4, 0.7, 0.9],
+        //       colors: Color.fromARGB(255, 171, 211, 250)),
+        //   // image: DecorationImage(
+        //   //   fit: BoxFit.cover,
+        //   //   colorFilter: ColorFilter.mode(
+        //   //       HexColor("#fff").withOpacity(0.2), BlendMode.dstATop),
+        //   //   image: const NetworkImage(
+        //   //     'https://quickbooks.intuit.com/oidam/intuit/sbseg/en_us/Blog/Graphic/inventory-management-illustration.png',
+        //   //   ),
+        //   // ),
+        // ),
         child: Center(
           child: SingleChildScrollView(
             child: GetBuilder<LoginController>(
@@ -185,12 +180,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           delay: 1,
                           child: GestureDetector(
                             onTap: (() {
-                              Navigator.pop(context);
+                              Get.back();
                               Get.toNamed(Routes.forgotPasswordScreen);
-                              // Navigator.of(context)
-                              //     .push(MaterialPageRoute(builder: (context) {
-                              //   return ForgotPasswordScreen();
-                              // }));
                             }),
                             child: Text("Can't Log In?",
                                 style: TextStyle(

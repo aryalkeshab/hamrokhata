@@ -121,7 +121,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               children: const [
                                 Expanded(
                                   child: Text(
-                                    "Price",
+                                    "Purchase Price",
                                     style: TextStyle(
                                       color: Colors.grey,
                                     ),
@@ -132,7 +132,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "Discount Price",
+                                    "Selling Price",
                                     style: TextStyle(
                                       color: Colors.grey,
                                     ),

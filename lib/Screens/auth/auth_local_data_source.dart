@@ -15,6 +15,7 @@ class AuthLocalDataSourceImpl extends AuthLocalDataSource {
   @override
   Future<void> clearToken() async {
     await _secureStorage.delete(key: StorageConstants.accessToken);
+    await _secureStorage.delete(key: StorageConstants.refreshToken);
   }
 
   @override

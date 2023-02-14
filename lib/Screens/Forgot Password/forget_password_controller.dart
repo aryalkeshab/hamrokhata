@@ -17,6 +17,7 @@ import 'package:hamrokhata/models/product_detail.dart';
 import 'package:hamrokhata/models/request/forget_password.dart';
 import 'package:hamrokhata/models/request/otp_params.dart';
 import 'package:hamrokhata/models/request/register_params.dart';
+import 'package:hamrokhata/models/response/reset_response.dart';
 
 class ForgetPasswordController extends GetxController {
   late AuthLoginRegisterRepository authRepository;
@@ -36,7 +37,7 @@ class ForgetPasswordController extends GetxController {
     showLoadingDialog(context);
     forgetPasswordResponse =
         await authRepository.forgetPasswordAuth(forgetPasswordParams);
-    if (forgetPasswordResponse.hasError && context.mounted) {
+    if (forgetPasswordResponse.hasError) {
       hideLoadingDialog(context);
       AppSnackbar.showError(
           context: context,
@@ -44,29 +45,10 @@ class ForgetPasswordController extends GetxController {
               NetworkException.getErrorMessage(forgetPasswordResponse.error));
     } else {
       hideLoadingDialog(context);
-      // showSuccessToast(forgetPasswordResponse.data);
-
-      Navigator.pop(context);
-      // // Navigator.push(
-      // //   context,
-      // //   MaterialPageRoute(
-      // //     builder: (context) => PinCodeVerificationScreen(
-      // //       email: forgetPasswordParams.email,
-      // //       user_id: forgetPasswordResponse.data,
-      // //     ),
-      // //   ),
-      // // );
-
-      // Get.toNamed(Routes.otpScreen, arguments: [
-      //   forgetPasswordParams.email,
-      //   forgetPasswordResponse.data
-      // ]);
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        return PinCodeVerificationScreen(
-          email: forgetPasswordParams.email,
-          user_id: forgetPasswordResponse.data,
-        );
-      }));
+      Get.toNamed(Routes.otpScreen,
+          arguments: UserIdEmailParams(
+              email: forgetPasswordParams.email,
+              user_id: forgetPasswordResponse.data));
     }
   }
 }

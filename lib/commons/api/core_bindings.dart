@@ -15,9 +15,12 @@ class CoreBindings extends Bindings {
       ..put(const FlutterSecureStorage(), permanent: true)
       ..put(Dio(), permanent: true)
       ..put(InternetConnectionChecker(), permanent: true)
-      ..put<NetworkInfo>(NetworkInfoImpl(
-          dataConnectionChecker: Get.find<InternetConnectionChecker>()))
-      ..put(AuthInterceptor(Get.find<Dio>(), Get.find<FlutterSecureStorage>()))
+      ..put<NetworkInfo>(
+          NetworkInfoImpl(
+              dataConnectionChecker: Get.find<InternetConnectionChecker>()),
+          permanent: true)
+      ..put(AuthInterceptor(Get.find<Dio>(), Get.find<FlutterSecureStorage>()),
+          permanent: true)
       ..put(
           ApiClient(
               baseUrl: baseUrl,

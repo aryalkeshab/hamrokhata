@@ -34,7 +34,7 @@ class ChangePasswordController extends GetxController {
     showLoadingDialog(context);
     changePasswordResponse =
         await authRepository.changePasswordAuth(changePasswordParams);
-    if (changePasswordResponse.hasError && context.mounted) {
+    if (changePasswordResponse.hasError) {
       hideLoadingDialog(context);
       AppSnackbar.showError(
           context: context,

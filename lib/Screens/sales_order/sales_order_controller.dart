@@ -55,7 +55,7 @@ class SalesOrderController extends GetxController {
   salesOrder(SalesOrderModel salesOrderModel, BuildContext context) async {
     salesOrderResponse =
         await Get.find<SalesOrderRepository>().salesOrder(salesOrderModel);
-    if (salesOrderResponse.hasData && context.mounted) {
+    if (salesOrderResponse.hasData) {
       salesOrderResponseList = salesOrderResponse.data;
       showSuccessToast(salesOrderResponseList!.msg.toString());
       Get.toNamed(Routes.salesTableReceipt,

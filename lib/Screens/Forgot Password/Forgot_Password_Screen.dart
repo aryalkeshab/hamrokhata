@@ -11,6 +11,7 @@ import 'package:hamrokhata/commons/utils/custom_validators.dart';
 import 'package:hamrokhata/commons/widgets/textfields.dart';
 import 'package:hamrokhata/models/request/forget_password.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import '../../commons/widgets/buttons.dart';
 import '../Pin Code/Pin_Code_Screen.dart';
 
 enum FormData { Email }
@@ -39,27 +40,29 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     Get.put(ForgetPasswordController());
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            stops: const [0.1, 0.4, 0.7, 0.9],
-            colors: [
-              HexColor("#4b4293").withOpacity(0.8),
-              HexColor("#4b4293"),
-              HexColor("#08418e"),
-              HexColor("#08418e")
-            ],
-          ),
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-                HexColor("#fff").withOpacity(0.2), BlendMode.dstATop),
-            image: const NetworkImage(
-              'https://quickbooks.intuit.com/oidam/intuit/sbseg/en_us/Blog/Graphic/inventory-management-illustration.png',
-            ),
-          ),
-        ),
+        // decoration: BoxDecoration(
+        //   gradient: LinearGradient(
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.bottomRight,
+        //     stops: const [0.1, 0.4, 0.7, 0.9],
+        //     colors: [
+        //       HexColor("#4b4293").withOpacity(0.8),
+        //       HexColor("#4b4293"),
+        //       HexColor("#08418e"),
+        //       HexColor("#08418e")
+        //     ],
+        //   ),
+        //   image: DecorationImage(
+        //     fit: BoxFit.cover,
+        //     colorFilter: ColorFilter.mode(
+        //         HexColor("#fff").withOpacity(0.2), BlendMode.dstATop),
+        //     image: const NetworkImage(
+        //       'https://quickbooks.intuit.com/oidam/intuit/sbseg/en_us/Blog/Graphic/inventory-management-illustration.png',
+        //     ),
+        //   ),
+        // ),
+        color: Color.fromARGB(255, 156, 79, 16),
+
         child: Center(
           child: GetBuilder<ForgetPasswordController>(builder: (controller) {
             return SingleChildScrollView(
@@ -132,49 +135,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             ),
                             FadeAnimation(
                               delay: 1,
-                              child: TextButton(
-                                style: TextButton.styleFrom(
-                                    backgroundColor: const Color(0xFF2697FF),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 14.0, horizontal: 80),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(12.0))),
-                                onPressed: () {
-                                  // Navigator.pop(context);
-                                  // Navigator.of(context)
-                                  //     .push(MaterialPageRoute(builder: (context) {
-                                  //   return PinCodeVerificationScreen(
-                                  //     email: '0102756960',
-                                  //   );
-                                  // }));
-
-                                  final currentState = formKey.currentState;
-                                  // if (currentState != null) {
-                                  //   currentState.save();
-                                  //   if (currentState.validate()) {
-                                  //     setState(
-                                  //       () {
-                                  controller.forgetPasswordVerify(
-                                      forgetPasswordParams, context);
-                                  //       },
-                                  //     );
-                                  //   } else {
-                                  //     errorController!
-                                  //         .add(ErrorAnimationType.shake);
-                                  //   }
-                                  // }
-                                },
-                                child: const Text(
-                                  "Continue",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    letterSpacing: 0.5,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
+                              child: PrimaryButton(
+                                  label: "Continue",
+                                  onPressed: () {
+                                    controller.forgetPasswordVerify(
+                                        forgetPasswordParams, context);
+                                  }),
                             ),
                           ],
                         ),

@@ -31,7 +31,7 @@ class RegisterController extends GetxController {
   ) async {
     showLoadingDialog(context);
     registerResponse = await registerRepository.registerAuth(registerParams);
-    if (registerResponse.hasError && context.mounted) {
+    if (registerResponse.hasError ) {
       hideLoadingDialog(context);
       AppSnackbar.showError(
           context: context,

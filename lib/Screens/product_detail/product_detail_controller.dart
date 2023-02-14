@@ -23,7 +23,7 @@ class ProductDetailsController extends GetxController {
   getProductSearch(BuildContext context, id) async {
     productSearchResponse =
         await Get.find<ProductSearchRepository>().getProductDetail(id);
-    if (productSearchResponse.hasError && context.mounted) {
+    if (productSearchResponse.hasError) {
       AppSnackbar.showError(
           context: context,
           message:

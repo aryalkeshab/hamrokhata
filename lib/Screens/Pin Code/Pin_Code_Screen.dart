@@ -3,9 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:hamrokhata/Screens/Forgot%20Password/forget_password_controller.dart';
 import 'package:hamrokhata/Screens/Pin%20Code/otp_controller.dart';
 import 'package:hamrokhata/commons/api/storage_constants.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
+import 'package:hamrokhata/commons/widgets/buttons.dart';
+import 'package:hamrokhata/commons/widgets/toast.dart';
+import 'package:hamrokhata/models/request/forget_password.dart';
 import 'package:hamrokhata/models/request/otp_params.dart';
 import 'package:hamrokhata/models/response/reset_response.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -14,11 +18,11 @@ import 'package:hamrokhata/commons/Core/Animation/Fade_Animation.dart';
 import 'package:hamrokhata/commons/Core/Colors/Hex_Color.dart';
 
 class PinCodeVerificationScreen extends StatefulWidget {
-  // final UserIdEmailParams userIdEmailParams;
-  String? email = "keshabaryal03@gmail.com";
-  int? user_id = 1;
+  final UserIdEmailParams userIdEmailParams;
+  // String? email = "keshabaryal03@gmail.com";
+  // int? user_id = 1;
 
-  PinCodeVerificationScreen({Key? key, this.email, this.user_id})
+  const PinCodeVerificationScreen({Key? key, required this.userIdEmailParams})
       : super(key: key);
   @override
   State<PinCodeVerificationScreen> createState() =>
@@ -63,30 +67,34 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    UserIdEmailParams userIdEmailParams = widget.userIdEmailParams;
+
     Get.put(OtpController());
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            stops: const [0.1, 0.4, 0.7, 0.9],
-            colors: [
-              HexColor("#4b4293").withOpacity(0.8),
-              HexColor("#4b4293"),
-              HexColor("#08418e"),
-              HexColor("#08418e")
-            ],
-          ),
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-                HexColor("#fff").withOpacity(0.2), BlendMode.dstATop),
-            image: const NetworkImage(
-              'https://quickbooks.intuit.com/oidam/intuit/sbseg/en_us/Blog/Graphic/inventory-management-illustration.png',
-            ),
-          ),
-        ),
+        color: Color.fromARGB(255, 156, 79, 16),
+
+        // decoration: BoxDecoration(
+        //   gradient: LinearGradient(
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.bottomRight,
+        //     stops: const [0.1, 0.4, 0.7, 0.9],
+        //     colors: [
+        //       HexColor("#4b4293").withOpacity(0.8),
+        //       HexColor("#4b4293"),
+        //       HexColor("#08418e"),
+        //       HexColor("#08418e")
+        //     ],
+        //   ),
+        //   image: DecorationImage(
+        //     fit: BoxFit.cover,
+        //     colorFilter: ColorFilter.mode(
+        //         HexColor("#fff").withOpacity(0.2), BlendMode.dstATop),
+        //     image: const NetworkImage(
+        //       'https://quickbooks.intuit.com/oidam/intuit/sbseg/en_us/Blog/Graphic/inventory-management-illustration.png',
+        //     ),
+        //   ),
+        // ),
         child: Center(
           child: GetBuilder<OtpController>(builder: (controller) {
             return SingleChildScrollView(
@@ -148,7 +156,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                                   text: "Enter the code sent to ",
                                   children: [
                                     TextSpan(
-                                        text: "${widget.email}",
+                                        text: "${userIdEmailParams.email}",
                                         style: const TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,
@@ -254,7 +262,15 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                                     color: Colors.black54, fontSize: 15),
                               ),
                               TextButton(
-                                onPressed: () => snackBar("OTP resend!!"),
+                                onPressed: () {
+                                  Get.find<ForgetPasswordController>()
+                                      .forgetPasswordVerify(
+                                          ForgetPasswordParams(
+                                              email: userIdEmailParams.email
+                                                  .toString()),
+                                          context);
+                                  showSuccessToast("OTP resend!!");
+                                },
                                 child: const Text(
                                   "RESEND",
                                   style: TextStyle(
@@ -270,44 +286,11 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                           ),
                           FadeAnimation(
                             delay: 1,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                  backgroundColor: const Color(0xFF2697FF),
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 14.0, horizontal: 80),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(12.0))),
-                              onPressed: () async {
-                                otpParams.user_id = 2;
-                                // final currentState = formKey.currentState;
-                                // if (currentState != null) {
-                                //   currentState.save();
-                                //   if (currentState.validate() ||
-                                //       currentText.length == 6 ||
-                                //       currentText.isNotEmpty ||
-                                //       currentText == "123456") {
-                                //     setState(
-                                //       () {
-                                controller.otpVerify(otpParams, context);
-                                //       },
-                                //     );
-                                //   } else {
-                                //     errorController!
-                                //         .add(ErrorAnimationType.shake);
-                                //   }
-                                // }
-                              },
-                              child: const Text(
-                                "Verify",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  letterSpacing: 0.5,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                            child: PrimaryButton(
+                                label: "Verify",
+                                onPressed: () {
+                                  controller.otpVerify(otpParams, context);
+                                }),
                           ),
                         ],
                       ),

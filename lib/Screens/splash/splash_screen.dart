@@ -14,7 +14,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      // backgroundColor: Theme.of(context).primaryColor,
       body: GetBuilder<SplashAnimationController>(
         init: SplashAnimationController(),
         builder: (controller) {
@@ -82,24 +82,17 @@ class SplashAnimationController extends GetxController
         final introPageDone =
             await secureStorage.read(key: StorageConstants.introPageDone);
         print(introPageDone);
+        print(accessToken);
 
-        if (introPageDone == "false" || accessToken == null) {
+        if (introPageDone == null) {
           Get.offNamed(Routes.introScreen);
+        } else if (accessToken == null) {
+          Get.offNamed(Routes.login);
         } else if (accessToken.isNotEmpty || isLoggedIn == "true") {
           Get.offNamed(Routes.dashboard);
         } else {
           Get.offNamed(Routes.login);
         }
-
-        // if (secureStorage.instance.sharedPref.getOnBordingValue == false) {
-        //   if (UserController.instance.sharedPref.getLoginReminder == false) {
-        //     Get.offNamed(LoginScreen.routeName);
-        //   } else {
-        //     Get.offNamed(HomeScreen.routeName);
-        //   }
-        // } else {
-        //   Get.offNamed(OnBoardingScreen.routeName);
-        // }
       });
     });
   }

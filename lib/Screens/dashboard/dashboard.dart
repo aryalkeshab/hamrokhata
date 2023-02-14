@@ -39,10 +39,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       primaryText: "Are you sure want to logout?",
                       onApproveButtonPressed: () {
                         Get.find<AuthController>().logout();
-                        // Get.until((route) {
-                        //   print(route);
-                        //   return route.settings.name == Routes.dashboard;
-                        // });
                       },
                       onCancelButtonPressed: Get.back,
                     );
@@ -54,102 +50,100 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           }),
         ],
       ),
-      body: Container(
-        child: BaseWidget(
-          builder: (context, config, theme) {
-            return SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: config.appHorizontalPaddingLarge(),
-                ),
-                child: Center(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 30,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Image.asset("assets/images/app_logo.png"),
-                      ),
-                      config.verticalSpaceMedium(),
-                      GridView.count(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          crossAxisCount: 2,
-                          childAspectRatio: 1,
-                          padding: const EdgeInsets.all(8.0),
-                          mainAxisSpacing: 2.0,
-                          crossAxisSpacing: 2.0,
-                          children: [
-                            DashboardModule(
-                              text: 'Product Details',
-                              onPressed: () {
-                                Get.toNamed(Routes.productDetails);
-                              },
-                              icons: Icons.price_check_rounded,
-                            ),
-                            DashboardModule(
-                              text: 'Purchase Order',
-                              onPressed: () {
-                                Get.toNamed(Routes.purchaseOrder);
-                              },
-                              icons: Icons.add_circle_rounded,
-                            ),
-                            DashboardModule(
-                              text: 'Purchase Order List',
-                              onPressed: () {
-                                Get.toNamed(Routes.purchaseOrderList);
-                              },
-                              icons: Icons.add_circle_rounded,
-                            ),
-                            DashboardModule(
-                              text: 'Sales Order',
-                              onPressed: () {
-                                Get.toNamed(Routes.salesOrder);
-                              },
-                              icons: Icons.microwave_rounded,
-                            ),
-                            DashboardModule(
-                              text: 'Sales Order List',
-                              onPressed: () {
-                                Get.toNamed(Routes.salesOrderList);
-                              },
-                              icons: Icons.account_box,
-                            ),
-                            DashboardModule(
-                              text: 'Add Products',
-                              onPressed: () {
-                                Get.toNamed(Routes.addProductScreen);
-                              },
-                              icons: Icons.production_quantity_limits_sharp,
-                            ),
-                            DashboardModule(
-                              text: 'Print Setting',
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const AppSetting()),
-                                );
-                              },
-                              icons: Icons.print,
-                            ),
-                            DashboardModule(
-                              text: 'Change Password',
-                              onPressed: () {
-                                Get.toNamed(Routes.changePasswordScreeen);
-                              },
-                              icons: Icons.password,
-                            ),
-                          ]),
-                    ],
-                  ),
+      body: BaseWidget(
+        builder: (context, config, theme) {
+          return SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: config.appHorizontalPaddingLarge(),
+              ),
+              child: Center(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 30,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Image.asset("assets/images/app_logo.png"),
+                    ),
+                    config.verticalSpaceMedium(),
+                    GridView.count(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: 2,
+                        childAspectRatio: 1,
+                        padding: const EdgeInsets.all(8.0),
+                        mainAxisSpacing: 2.0,
+                        crossAxisSpacing: 2.0,
+                        children: [
+                          DashboardModule(
+                            text: 'Product Details',
+                            onPressed: () {
+                              Get.toNamed(Routes.productDetails);
+                            },
+                            icons: Icons.price_check_rounded,
+                          ),
+                          DashboardModule(
+                            text: 'Purchase Order',
+                            onPressed: () {
+                              Get.toNamed(Routes.purchaseOrder);
+                            },
+                            icons: Icons.add_circle_rounded,
+                          ),
+                          DashboardModule(
+                            text: 'Purchase Order List',
+                            onPressed: () {
+                              Get.toNamed(Routes.purchaseOrderList);
+                            },
+                            icons: Icons.add_circle_rounded,
+                          ),
+                          DashboardModule(
+                            text: 'Sales Order',
+                            onPressed: () {
+                              Get.toNamed(Routes.salesOrder);
+                            },
+                            icons: Icons.microwave_rounded,
+                          ),
+                          DashboardModule(
+                            text: 'Sales Order List',
+                            onPressed: () {
+                              Get.toNamed(Routes.salesOrderList);
+                            },
+                            icons: Icons.account_box,
+                          ),
+                          DashboardModule(
+                            text: 'Add Products',
+                            onPressed: () {
+                              Get.toNamed(Routes.addProductScreen);
+                            },
+                            icons: Icons.production_quantity_limits_sharp,
+                          ),
+                          DashboardModule(
+                            text: 'Print Setting',
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const AppSetting()),
+                              );
+                            },
+                            icons: Icons.print,
+                          ),
+                          DashboardModule(
+                            text: 'Change Password',
+                            onPressed: () {
+                              Get.toNamed(Routes.changePasswordScreeen);
+                            },
+                            icons: Icons.password,
+                          ),
+                        ]),
+                  ],
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

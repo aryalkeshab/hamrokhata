@@ -20,7 +20,7 @@ class LoginBindings extends Bindings {
         networkInfo: Get.find<NetworkInfo>(),
         secureStorage: Get.find<FlutterSecureStorage>(),
       ))
-      ..put(LoginController())
+      ..put(LoginController(), permanent: true)
       ..put(RegisterController());
   }
 }

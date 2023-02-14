@@ -16,19 +16,12 @@ class LoginController extends GetxController {
   late ApiResponse loginResponse;
   final secureStorage = Get.find<FlutterSecureStorage>();
 
-  @override
-  void onInit() async {
-    await secureStorage.write(
-        key: StorageConstants.introPageDone, value: "true");
-    super.onInit();
-  }
-
   void requestLogin(LoginParams loginParams, BuildContext context) async {
     showLoadingDialog(context);
     loginResponse =
         await Get.find<AuthLoginRegisterRepository>().loginAuth(loginParams);
 
-    if (loginResponse.hasData && context.mounted) {
+    if (loginResponse.hasData) {
       hideLoadingDialog(context);
       showSuccessToast(loginResponse.data);
       Get.find<AuthController>().authorize();

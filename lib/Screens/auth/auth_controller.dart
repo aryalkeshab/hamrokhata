@@ -18,8 +18,7 @@ class AuthController extends GetxController {
     return await authRepository.isAuthenticated();
   }
 
-  void logout() {
-    // Get.offAndToNamed(Routes.login);
+  void logout() async {
     Get.offNamed(Routes.login);
     authRepository.logout();
     isLoggedIn.value = false;

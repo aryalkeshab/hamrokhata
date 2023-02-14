@@ -89,34 +89,37 @@ class _ChangePasswordScreeenState extends State<ChangePasswordScreeen> {
                     ),
                   ),
                   config.verticalSpaceMedium(),
-                  PrimaryButton(
-                      // width: 40,
-                      // height: 25,
-                      label: "Change Password",
-                      onPressed: () async {
-                        changePasswordParams.id = await secureStorage.read(
-                            key: StorageConstants.loginStaff);
-                        // print("-------$userId");
+                  FadeAnimation(
+                    delay: 1,
+                    child: PrimaryButton(
+                        // width: 40,
+                        // height: 25,
+                        label: "Change Password",
+                        onPressed: () async {
+                          changePasswordParams.id = await secureStorage.read(
+                              key: StorageConstants.loginStaff);
+                          // print("-------$userId");
 
-                        // setState(() {
-                        //   changePasswordParams.id = userId.toString();
-                        // });
-                        if (changePasswordParams.confirmNewPassword !=
-                            changePasswordParams.newPassword) {
-                          showErrorToast(
-                              "New Password and Confirm Password does not match");
-                        } else {
-                          final currentState = formKey.currentState;
-                          if (currentState != null) {
-                            currentState.save();
+                          // setState(() {
+                          //   changePasswordParams.id = userId.toString();
+                          // });
+                          if (changePasswordParams.confirmNewPassword !=
+                              changePasswordParams.newPassword) {
+                            showErrorToast(
+                                "New Password and Confirm Password does not match");
+                          } else {
+                            final currentState = formKey.currentState;
+                            if (currentState != null) {
+                              currentState.save();
 
-                            if (currentState.validate()) {
-                              controller.changePasswordVerify(
-                                  changePasswordParams, context);
+                              if (currentState.validate()) {
+                                controller.changePasswordVerify(
+                                    changePasswordParams, context);
+                              }
                             }
                           }
-                        }
-                      }),
+                        }),
+                  ),
                 ],
               ),
             ),

@@ -34,8 +34,9 @@ class ProductSearchRepositoryImpl extends ProductSearchRepository {
         if (e is DioError && e.type == DioErrorType.response) {
           return ApiResponse(
               error: NetworkException.defaultError(
-                  // value: e.response?.data['message'].toString()
-                  value: "Product not found"));
+                  value: e.response?.data['message'].toString()
+                  // value: "Product not found"
+                  ));
         }
         print(e);
         return ApiResponse(error: NetworkException.getException(e));

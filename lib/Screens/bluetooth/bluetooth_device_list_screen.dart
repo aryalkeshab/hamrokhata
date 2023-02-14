@@ -41,7 +41,7 @@ class BluetoothDeviceScreen extends HookWidget {
                               onTap: () {
                                 appController.saveBlutoothPrinterDetails(
                                     list[index].address);
-                                Navigator.pop(context);
+                                Get.back();
                               },
                               title: Text(list[index].name ?? ""),
                               subtitle: Text(list[index].address.toString()),

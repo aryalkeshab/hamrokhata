@@ -8,5 +8,5 @@ class StorageConstants {
   static const resetpassworduserId = "22";
   static const registeruserId = "22";
   static const isLoggedIn = "false";
-  static const introPageDone = "false";
+  static const introPageDone = "NotDone";
 }
