@@ -83,6 +83,12 @@ class AuthLoginRegisterRepositoryImpl extends AuthLoginRegisterRepository {
         //     key: StorageConstants.registeruserId,
         //     value: result['user_id'].toString());
         showSuccessToast(result['msg']);
+        await secureStorage.write(
+            key: StorageConstants.registeruserId,
+            value: result['user_id'].toString());
+        final user_id =
+            await secureStorage.read(key: StorageConstants.registeruserId);
+        print(user_id);
 
         return ApiResponse(data: result['user_id']);
       } catch (e) {
@@ -109,7 +115,7 @@ class AuthLoginRegisterRepositoryImpl extends AuthLoginRegisterRepository {
             .otpAuth(otpParams);
         print(result);
 
-        return ApiResponse(data: result[0]['message']);
+        return ApiResponse(data: result['message']);
       } catch (e) {
         if (e is DioError && e.type == DioErrorType.response) {
           return ApiResponse(

@@ -8,7 +8,9 @@ import 'package:hamrokhata/Screens/auth/data_source/auth_repository.dart';
 import 'package:hamrokhata/Screens/product_detail/product_search_repository.dart';
 import 'package:hamrokhata/commons/api/api_result.dart';
 import 'package:hamrokhata/commons/api/network_exception.dart';
+import 'package:hamrokhata/commons/api/storage_constants.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
+import 'package:hamrokhata/commons/utils/storage_constants.dart';
 import 'package:hamrokhata/commons/widgets/dialog_box.dart';
 import 'package:hamrokhata/commons/widgets/loading_dialog.dart';
 import 'package:hamrokhata/commons/widgets/snackbar.dart';
@@ -21,11 +23,11 @@ import 'package:hamrokhata/models/response/reset_response.dart';
 
 class ForgetPasswordController extends GetxController {
   late AuthLoginRegisterRepository authRepository;
+  final secureStorage = Get.find<FlutterSecureStorage>();
 
   @override
   void onInit() {
     authRepository = Get.find<AuthLoginRegisterRepository>();
-    final secureStorage = Get.find<FlutterSecureStorage>();
 
     super.onInit();
   }
@@ -45,10 +47,16 @@ class ForgetPasswordController extends GetxController {
               NetworkException.getErrorMessage(forgetPasswordResponse.error));
     } else {
       hideLoadingDialog(context);
-      Get.toNamed(Routes.otpScreen,
-          arguments: UserIdEmailParams(
-              email: forgetPasswordParams.email,
-              user_id: forgetPasswordResponse.data));
+      final user_id =
+          await secureStorage.read(key: StorageConstants.resetpassworduserId);
+
+      Get.toNamed(
+        Routes.otpScreen,
+        arguments: UserIdEmailParams(
+          email: forgetPasswordParams.email,
+          user_id: forgetPasswordResponse.data,
+        ),
+      );
     }
   }
 }

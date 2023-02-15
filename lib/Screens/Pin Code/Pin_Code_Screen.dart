@@ -289,7 +289,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                             child: PrimaryButton(
                                 label: "Verify",
                                 onPressed: () {
-                                  controller.otpVerify(otpParams, context);
+                                  controller.otpVerify(otpParams, context,
+                                      userIdEmailParams.user_id!);
                                 }),
                           ),
                         ],

@@ -80,6 +80,17 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                         Expanded(
                           flex: 1,
                           child: Text(
+                            "S.N.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Text(
                             "Invoice No. ",
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -89,7 +100,7 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                           ),
                         ),
                         Expanded(
-                          flex: 1,
+                          flex: 2,
                           child: Text(
                             "Vendor Name",
                             textAlign: TextAlign.center,
@@ -100,7 +111,7 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                           ),
                         ),
                         Expanded(
-                          flex: 1,
+                          flex: 2,
                           child: Text(
                             "Amount",
                             textAlign: TextAlign.center,
@@ -141,80 +152,100 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                                       .billNumber);
                                   // TrackingModel trackingModel = trackingList[index];
                                   return Visibility(
-                                    child: Card(
-                                      child: Container(
-                                        height: 40,
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 8),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                Get.toNamed(Routes.table,
-                                                    arguments: [
-                                                      controller
-                                                              .purchaseOrderResponseList![
-                                                          index]
-                                                    ]);
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: Text(
-                                                      controller
-                                                          .purchaseOrderResponseList![
-                                                              index]
-                                                          .billNumber
-                                                          .toString(),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                        fontSize: 14,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Get.toNamed(Routes.table, arguments: [
+                                          controller
+                                              .purchaseOrderResponseList![index]
+                                        ]);
+                                      },
+                                      child: Card(
+                                        child: Container(
+                                          height: 40,
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  Get.toNamed(Routes.table,
+                                                      arguments: [
+                                                        controller
+                                                                .purchaseOrderResponseList![
+                                                            index]
+                                                      ]);
+                                                },
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Text(
+                                                        "${index + 1}",
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: Text(
-                                                      controller
-                                                          .purchaseOrderResponseList![
-                                                              index]
-                                                          .vendor
-                                                          .toString(),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                        fontSize: 14,
+                                                    Expanded(
+                                                      flex: 2,
+                                                      child: Text(
+                                                        controller
+                                                            .purchaseOrderResponseList![
+                                                                index]
+                                                            .billNumber
+                                                            .toString(),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: Text(
-                                                      controller
-                                                          .purchaseOrderResponseList![
-                                                              index]
-                                                          .grandTotal
-                                                          .toString(),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                        fontSize: 14,
+                                                    Expanded(
+                                                      flex: 2,
+                                                      child: Text(
+                                                        controller
+                                                            .purchaseOrderResponseList![
+                                                                index]
+                                                            .vendor
+                                                            .toString(),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
+                                                    Expanded(
+                                                      flex: 2,
+                                                      child: Text(
+                                                        controller
+                                                            .purchaseOrderResponseList![
+                                                                index]
+                                                            .grandTotal
+                                                            .toString(),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
                                   );
                                 }),
+                            config.verticalSpaceExtraLarge(),
                           ],
                         );
                       }
@@ -252,12 +283,15 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
         return Container(
           // color: Colors.black45,
 
-          height: 40,
+          height: 50,
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(
             children: [
               const Divider(
                 height: 2,
+              ),
+              const SizedBox(
+                height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

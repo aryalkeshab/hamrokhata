@@ -15,9 +15,14 @@ bottomSheet({
           topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
     ),
     builder: (BuildContext context) {
-      return StatefulBuilder(builder: (context, bottomSheetSetState) {
-        return Column(children: children);
-      });
+      return StatefulBuilder(
+        builder: (context, bottomSheetSetState) {
+          return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: children);
+        },
+      );
     },
   ));
 

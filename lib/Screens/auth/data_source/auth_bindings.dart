@@ -13,14 +13,17 @@ class LoginBindings extends Bindings {
     Get
       ..put<AuthLoginRegisterRepositoryRemoteDataSource>(
           AuthLoginRegisterRepositoryRemoteDataSourceImpl(
-              apiClient: Get.find<ApiClient>()))
-      ..put<AuthLoginRegisterRepository>(AuthLoginRegisterRepositoryImpl(
-        authLoginRegisterRepositoryRemoteDataSource:
-            Get.find<AuthLoginRegisterRepositoryRemoteDataSource>(),
-        networkInfo: Get.find<NetworkInfo>(),
-        secureStorage: Get.find<FlutterSecureStorage>(),
-      ))
+              apiClient: Get.find<ApiClient>()),
+          permanent: true)
+      ..put<AuthLoginRegisterRepository>(
+          AuthLoginRegisterRepositoryImpl(
+            authLoginRegisterRepositoryRemoteDataSource:
+                Get.find<AuthLoginRegisterRepositoryRemoteDataSource>(),
+            networkInfo: Get.find<NetworkInfo>(),
+            secureStorage: Get.find<FlutterSecureStorage>(),
+          ),
+          permanent: true)
       ..put(LoginController(), permanent: true)
-      ..put(RegisterController());
+      ..put(RegisterController(), permanent: true);
   }
 }

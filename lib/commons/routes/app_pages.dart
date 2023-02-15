@@ -42,7 +42,51 @@ class AppPages {
       page: SplashScreen.new,
       bindings: [
         CoreBindings(),
+        AuthBinding(),
       ],
+    ),
+    GetPage(
+      name: _Paths.otpScreen,
+      page: () => PinCodeVerificationScreen(
+        userIdEmailParams: Get.arguments,
+      ),
+      bindings: [
+        // CoreBindings(),
+        // AuthBinding(),
+        LoginBindings(),
+      ],
+    ),
+    GetPage(
+      name: _Paths.login,
+      page: LoginScreen.new,
+      bindings: [
+        // CoreBindings(),
+        LoginBindings(),
+        // AuthBinding(),
+      ],
+    ),
+
+    GetPage(
+      name: _Paths.forgotPasswordScreen,
+      page: ForgotPasswordScreen.new,
+      bindings: [
+        // CoreBindings(),
+        // AuthBinding(),
+        LoginBindings(),
+      ],
+    ),
+
+    GetPage(
+      name: _Paths.dashboard,
+      page: DashBoardScreen.new,
+      bindings: [
+        // CoreBindings(),
+        // AuthBinding(),
+      ],
+    ),
+    GetPage(
+      name: _Paths.register,
+      page: RegisterScreen.new,
     ),
     GetPage(
       name: _Paths.table,
@@ -67,44 +111,7 @@ class AppPages {
         LoginBindings(),
       ],
     ),
-    GetPage(
-      name: _Paths.otpScreen,
-      page: () => PinCodeVerificationScreen(
-        userIdEmailParams: Get.arguments,
-      ),
-      bindings: [
-        CoreBindings(),
-        AuthBinding(),
-        LoginBindings(),
-      ],
-    ),
 
-    GetPage(
-      name: _Paths.forgotPasswordScreen,
-      page: ForgotPasswordScreen.new,
-      bindings: [
-        CoreBindings(),
-        AuthBinding(),
-        LoginBindings(),
-      ],
-    ),
-    GetPage(name: _Paths.login, page: LoginScreen.new, bindings: [
-      CoreBindings(),
-      LoginBindings(),
-      AuthBinding(),
-    ]),
-    GetPage(
-      name: _Paths.dashboard,
-      page: DashBoardScreen.new,
-      bindings: [
-        CoreBindings(),
-        AuthBinding(),
-      ],
-    ),
-    GetPage(
-      name: _Paths.register,
-      page: RegisterScreen.new,
-    ),
     GetPage(
         name: _Paths.salesOrderList,
         page: SalesOrderListScreen.new,
@@ -119,7 +126,6 @@ class AppPages {
         CoreBindings(),
         ProductSearchBinding(),
         PurchaseBinding(),
-        // SalesOrderBinding(),
       ],
     ),
     GetPage(
@@ -160,14 +166,6 @@ class AppPages {
         ProductSearchBinding(),
       ],
     ),
-    // GetPage(
-    //     name: _Paths.salesOrderConformationScreen,
-    //     page: () => PurchaseOrderList(),
-    //     bindings: [
-    //       CoreBindings(),
-    //       SalesOrderBinding(),
-    //       ProductSearchBinding(),
-    //     ]),
     GetPage(
       name: _Paths.addProductScreen,
       page: AddProductScreen.new,
@@ -183,14 +181,12 @@ class AppPages {
       name: _Paths.purchaseOrderReceipt,
       page: () => PurchaseOrderReceipt(
         purchaseOrderResponse: Get.arguments,
-        // purchaseOrderList: Get.arguments,
       ),
     ),
     GetPage(
       name: _Paths.salesTableReceipt,
       page: () => SalesOrderReceipt(
         salesOrderResponse: Get.arguments,
-        // purchaseOrderList: Get.arguments,
       ),
     ),
   ];

@@ -80,6 +80,17 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                         Expanded(
                           flex: 1,
                           child: Text(
+                            "S.N",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Text(
                             "Invoice No. ",
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -89,7 +100,7 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                           ),
                         ),
                         Expanded(
-                          flex: 1,
+                          flex: 2,
                           child: Text(
                             "Customer Name",
                             textAlign: TextAlign.center,
@@ -100,7 +111,7 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                           ),
                         ),
                         Expanded(
-                          flex: 1,
+                          flex: 2,
                           child: Text(
                             "Amount",
                             textAlign: TextAlign.center,
@@ -134,69 +145,77 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                                 // print(
                                 //     controller.salesOrderResponseList![0].billNumber);
                                 // TrackingModel trackingModel = trackingList[index];
-                                return Expanded(
-                                  child: Visibility(
-                                    child: Card(
-                                      child: Container(
-                                        height: 40,
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 8),
-                                        child: InkWell(
-                                          onTap: () {
-                                            Get.toNamed(
-                                                Routes.tableForSalesReceipt,
-                                                arguments: [
-                                                  controller
-                                                          .salesOrderResponseList![
-                                                      index]
-                                                ]);
-                                          },
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                flex: 1,
-                                                child: Text(
-                                                  controller
-                                                      .salesOrderResponseList![
-                                                          index]
-                                                      .invoiceNumber
-                                                      .toString(),
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                  ),
+                                return Visibility(
+                                  child: Card(
+                                    child: Container(
+                                      height: 40,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8),
+                                      child: InkWell(
+                                        onTap: () {
+                                          Get.toNamed(
+                                              Routes.tableForSalesReceipt,
+                                              arguments: [
+                                                controller
+                                                        .salesOrderResponseList![
+                                                    index]
+                                              ]);
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 1,
+                                              child: Text(
+                                                "${index + 1}",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 14,
                                                 ),
                                               ),
-                                              Expanded(
-                                                flex: 1,
-                                                child: Text(
-                                                  controller
-                                                      .salesOrderResponseList![
-                                                          index]
-                                                      .customer
-                                                      .toString(),
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                  ),
+                                            ),
+                                            Expanded(
+                                              flex: 2,
+                                              child: Text(
+                                                controller
+                                                    .salesOrderResponseList![
+                                                        index]
+                                                    .invoiceNumber
+                                                    .toString(),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 14,
                                                 ),
                                               ),
-                                              Expanded(
-                                                flex: 1,
-                                                child: Text(
-                                                  controller
-                                                      .salesOrderResponseList![
-                                                          index]
-                                                      .grandTotal
-                                                      .toString(),
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                  ),
+                                            ),
+                                            Expanded(
+                                              flex: 2,
+                                              child: Text(
+                                                controller
+                                                    .salesOrderResponseList![
+                                                        index]
+                                                    .customer
+                                                    .toString(),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 14,
                                                 ),
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                            Expanded(
+                                              flex: 2,
+                                              child: Text(
+                                                controller
+                                                    .salesOrderResponseList![
+                                                        index]
+                                                    .grandTotal
+                                                    .toString(),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
@@ -214,6 +233,7 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                       );
                     }
                   }),
+                  config.verticalSpaceExtraLarge(),
                 ],
               ),
             ),
@@ -238,12 +258,15 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
         return Container(
           // color: Colors.black45,
 
-          height: 40,
+          height: 45,
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(
             children: [
               const Divider(
                 height: 2,
+              ),
+              SizedBox(
+                height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

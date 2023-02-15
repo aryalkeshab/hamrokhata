@@ -42,12 +42,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                   onSaved: (value) {
                     controller.getProductSearch(context, value);
                   },
+                  onChanged: (value) {
+                    controller.getProductSearch(context, value);
+                  },
                   controller: searchController,
                   hintTxt: "Search Item No. ",
                   hintIcon: InkWell(
                     onTap: () async {
                       scannedCode = await Scanqr.barcodeScanner(context);
                       print(scannedCode);
+                      controller.getProductSearch(context, scannedCode);
                     },
                     child: const Icon(CupertinoIcons.barcode),
                   ),
