@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:hamrokhata/Screens/Forgot%20Password/Forgot_Password_Screen.dart';
-import 'package:hamrokhata/Screens/Pin%20Code/Pin_Code_Screen.dart';
+import 'package:hamrokhata/Screens/Forgot%20Password/reset_password_screen.dart';
+import 'package:hamrokhata/Screens/Pin%20Code/otp_screen.dart';
 import 'package:hamrokhata/Screens/auth/auth_di.dart';
 import 'package:hamrokhata/Screens/auth/data_source/auth_bindings.dart';
 import 'package:hamrokhata/Screens/auth/register/register.dart';
@@ -47,7 +48,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.otpScreen,
-      page: () => PinCodeVerificationScreen(
+      page: () => OTPVerificationScreen(
         userIdEmailParams: Get.arguments,
       ),
       bindings: [
@@ -83,6 +84,10 @@ class AppPages {
         // CoreBindings(),
         // AuthBinding(),
       ],
+    ),
+    GetPage(
+      name: _Paths.resetPasswordScreen,
+      page: () => ResetPasswordScreen(user_id: Get.arguments),
     ),
     GetPage(
       name: _Paths.register,

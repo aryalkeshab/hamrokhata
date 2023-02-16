@@ -9,13 +9,14 @@ import 'package:hamrokhata/commons/widgets/toast.dart';
 class AuthInterceptor extends QueuedInterceptor {
   final Dio _dio;
   final FlutterSecureStorage storage;
+  
 
   AuthInterceptor(this._dio, this.storage);
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     super.onError(err, handler);
     if (err.response?.statusCode == 401) {
-      refreshAccessToken();
+      refreshAccessToken(err, handler);
     }
     return handler.next(err);
   }
@@ -24,6 +25,8 @@ class AuthInterceptor extends QueuedInterceptor {
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
     print("here...");
+    print(options.headers);
+
     if (options.headers['requiresToken'] == false) {
       return handler.next(options);
     } else {
@@ -31,9 +34,6 @@ class AuthInterceptor extends QueuedInterceptor {
       print(accessToken);
       if (accessToken == null) {
         logout();
-
-        //TODO: perform logout , return to sign in page
-
         final error =
             DioError(requestOptions: options, type: DioErrorType.other);
         return handler.reject(error);
@@ -55,7 +55,7 @@ class AuthInterceptor extends QueuedInterceptor {
         ?.popUntil((route) => route.settings.name == Routes.login);
   }
 
-  void refreshAccessToken() async {
+  void refreshAccessToken(DioError err, ErrorInterceptorHandler handler) async {
     final refreshToken = await storage.read(key: StorageConstants.refreshToken);
     if (refreshToken == null) {
       logout();
@@ -73,7 +73,14 @@ class AuthInterceptor extends QueuedInterceptor {
             key: StorageConstants.accessToken, value: accessToken);
         await storage.write(
             key: StorageConstants.refreshToken, value: refreshToken2);
+
+        //continue to the original request
+        // _dio.interceptors.requestLock.lock();
+        // _dio.interceptors.responseLock.lock();
       } catch (e) {
+        showErrorToast(
+          "Refresh token expired. Please login again",
+        );
         logout();
       }
     }

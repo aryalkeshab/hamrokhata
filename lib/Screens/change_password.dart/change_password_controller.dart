@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hamrokhata/Screens/Pin%20Code/Pin_Code_Screen.dart';
+import 'package:hamrokhata/Screens/Pin%20Code/otp_screen.dart';
 import 'package:hamrokhata/Screens/auth/auth_controller.dart';
 import 'package:hamrokhata/Screens/auth/auth_repository_impl.dart';
 import 'package:hamrokhata/Screens/auth/data_source/auth_repository.dart';

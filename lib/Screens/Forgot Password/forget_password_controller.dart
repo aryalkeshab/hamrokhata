@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:hamrokhata/Screens/Pin%20Code/Pin_Code_Screen.dart';
 import 'package:hamrokhata/Screens/auth/auth_controller.dart';
 import 'package:hamrokhata/Screens/auth/auth_repository_impl.dart';
 import 'package:hamrokhata/Screens/auth/data_source/auth_repository.dart';
@@ -19,6 +18,7 @@ import 'package:hamrokhata/models/product_detail.dart';
 import 'package:hamrokhata/models/request/forget_password.dart';
 import 'package:hamrokhata/models/request/otp_params.dart';
 import 'package:hamrokhata/models/request/register_params.dart';
+import 'package:hamrokhata/models/request/reset_password_params.dart';
 import 'package:hamrokhata/models/response/reset_response.dart';
 
 class ForgetPasswordController extends GetxController {
@@ -55,8 +55,29 @@ class ForgetPasswordController extends GetxController {
         arguments: UserIdEmailParams(
           email: forgetPasswordParams.email,
           user_id: forgetPasswordResponse.data,
+          fromForgetPassword: true,
         ),
       );
+    }
+  }
+
+  late ApiResponse passwordResetResponse;
+
+  void passwordResetAuth(
+      ResetPasswordParams resetPasswordParams, BuildContext context) async {
+    showLoadingDialog(context);
+    passwordResetResponse =
+        await authRepository.passwordResetAuth(resetPasswordParams);
+    if (forgetPasswordResponse.hasError) {
+      hideLoadingDialog(context);
+      AppSnackbar.showError(
+          context: context,
+          message:
+              NetworkException.getErrorMessage(passwordResetResponse.error));
+    } else {
+      hideLoadingDialog(context);
+      showSuccessToast(passwordResetResponse.data);
+      Get.toNamed(Routes.login);
     }
   }
 }

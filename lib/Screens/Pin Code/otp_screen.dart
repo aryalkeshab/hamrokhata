@@ -17,19 +17,18 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:hamrokhata/commons/Core/Animation/Fade_Animation.dart';
 import 'package:hamrokhata/commons/Core/Colors/Hex_Color.dart';
 
-class PinCodeVerificationScreen extends StatefulWidget {
+class OTPVerificationScreen extends StatefulWidget {
   final UserIdEmailParams userIdEmailParams;
   // String? email = "keshabaryal03@gmail.com";
   // int? user_id = 1;
 
-  const PinCodeVerificationScreen({Key? key, required this.userIdEmailParams})
+  const OTPVerificationScreen({Key? key, required this.userIdEmailParams})
       : super(key: key);
   @override
-  State<PinCodeVerificationScreen> createState() =>
-      _PinCodeVerificationScreenState();
+  State<OTPVerificationScreen> createState() => _OTPVerificationScreenState();
 }
 
-class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
+class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
   TextEditingController textEditingController = TextEditingController();
   // ignore: close_sinks
   StreamController<ErrorAnimationType>? errorController;
@@ -289,8 +288,11 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                             child: PrimaryButton(
                                 label: "Verify",
                                 onPressed: () {
-                                  controller.otpVerify(otpParams, context,
-                                      userIdEmailParams.user_id!);
+                                  controller.otpVerify(
+                                      otpParams,
+                                      context,
+                                      userIdEmailParams.user_id!,
+                                      userIdEmailParams.fromForgetPassword!);
                                 }),
                           ),
                         ],
@@ -317,7 +319,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                             )),
                         GestureDetector(
                           onTap: () {
-                            Get.back();
                             Get.toNamed(Routes.login);
                           },
                           child: Text("Sign in",

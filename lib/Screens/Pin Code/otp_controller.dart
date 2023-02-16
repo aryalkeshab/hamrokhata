@@ -26,13 +26,15 @@ class OtpController extends GetxController {
 
   late ApiResponse otpResopnse;
 
-  void otpVerify(OtpParams otpParams, BuildContext context, int user_id) async {
+  void otpVerify(OtpParams otpParams, BuildContext context, int user_id,
+      bool fromForgetPassword) async {
     showLoadingDialog(context);
     otpResopnse = await authRepository.otpAuth(OtpParams(
       otp: otpParams.otp,
       user_id: user_id,
     ));
     if (otpResopnse.hasError) {
+      
       hideLoadingDialog(context);
       AppSnackbar.showError(
           context: context,
@@ -40,7 +42,11 @@ class OtpController extends GetxController {
     } else {
       hideLoadingDialog(context);
       showSuccessToast(otpResopnse.data);
-      Get.offNamed(Routes.login);
+      if (fromForgetPassword == true) {
+        Get.toNamed(Routes.resetPasswordScreen, arguments: user_id);
+      } else {
+        Get.offNamed(Routes.login);
+      }
     }
   }
 }

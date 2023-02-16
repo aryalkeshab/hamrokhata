@@ -20,8 +20,9 @@ class EmailResponse {
 class UserIdEmailParams {
   int? user_id;
   String? email;
+  bool? fromForgetPassword;
 
-  UserIdEmailParams({this.user_id, this.email});
+  UserIdEmailParams({this.user_id, this.email, this.fromForgetPassword});
 
   UserIdEmailParams.fromJson(Map<String, dynamic> json) {
     user_id = json['status'];

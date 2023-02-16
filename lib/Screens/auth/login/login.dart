@@ -58,174 +58,177 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Color.fromARGB(255, 156, 79, 16),
-        // decoration: BoxDecoration(
-        //   gradient: LinearGradient(
-        //       begin: Alignment.topLeft,
-        //       end: Alignment.bottomRight,
-        //       stops: const [0.1, 0.4, 0.7, 0.9],
-        //       colors: Color.fromARGB(255, 171, 211, 250)),
-        //   // image: DecorationImage(
-        //   //   fit: BoxFit.cover,
-        //   //   colorFilter: ColorFilter.mode(
-        //   //       HexColor("#fff").withOpacity(0.2), BlendMode.dstATop),
-        //   //   image: const NetworkImage(
-        //   //     'https://quickbooks.intuit.com/oidam/intuit/sbseg/en_us/Blog/Graphic/inventory-management-illustration.png',
-        //   //   ),
-        //   // ),
-        // ),
-        child: Center(
-          child: SingleChildScrollView(
-            child: GetBuilder<LoginController>(
-              builder: (controller) {
-                return HookBaseWidget(
-                  builder: (context, config, theme) {
-                    final _loginFormKey = useMemoized(GlobalKey<FormState>.new);
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Card(
-                          elevation: 5,
-                          color: const Color.fromARGB(255, 171, 211, 250)
-                              .withOpacity(0.4),
-                          child: Form(
-                            key: _loginFormKey,
-                            child: Container(
-                              width: 400,
-                              padding: const EdgeInsets.all(40.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  FadeAnimation(
-                                    delay: 0.8,
-                                    child: Image.asset(
-                                      "assets/images/app_logo.png",
-                                      width: 600,
-                                      height: 100,
+      body: BaseWidget(builder: (context, config, theme) {
+        return Container(
+          color: Color.fromARGB(255, 156, 79, 16),
+          padding: EdgeInsets.symmetric(
+              horizontal: config.appHorizontalPaddingMedium()),
+          // decoration: BoxDecoration(
+          //   gradient: LinearGradient(
+          //       begin: Alignment.topLeft,
+          //       end: Alignment.bottomRight,
+          //       stops: const [0.1, 0.4, 0.7, 0.9],
+          //       colors: Color.fromARGB(255, 171, 211, 250)),
+          //   // image: DecorationImage(
+          //   //   fit: BoxFit.cover,
+          //   //   colorFilter: ColorFilter.mode(
+          //   //       HexColor("#fff").withOpacity(0.2), BlendMode.dstATop),
+          //   //   image: const NetworkImage(
+          //   //     'https://quickbooks.intuit.com/oidam/intuit/sbseg/en_us/Blog/Graphic/inventory-management-illustration.png',
+          //   //   ),
+          //   // ),
+          // ),
+          child: Center(
+            child: SingleChildScrollView(
+              child: GetBuilder<LoginController>(
+                builder: (controller) {
+                  return HookBaseWidget(
+                    builder: (context, config, theme) {
+                      final _loginFormKey =
+                          useMemoized(GlobalKey<FormState>.new);
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Card(
+                            elevation: 5,
+                            color: const Color.fromARGB(255, 171, 211, 250)
+                                .withOpacity(0.4),
+                            child: Form(
+                              key: _loginFormKey,
+                              child: Container(
+                                width: 400,
+                                padding: const EdgeInsets.all(40.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    FadeAnimation(
+                                      delay: 0.8,
+                                      child: Image.asset(
+                                        "assets/images/app_logo.png",
+                                        width: 600,
+                                        height: 100,
+                                      ),
                                     ),
-                                  ),
-                                  config.verticalSpaceMedium(),
-                                  FadeAnimation(
-                                    delay: 1,
-                                    child: const Text(
-                                      "Please Login to continue",
-                                      style: TextStyle(
+                                    config.verticalSpaceSmall(),
+                                    FadeAnimation(
+                                      delay: 1,
+                                      child: const Text(
+                                        "Please Login to Continue",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            letterSpacing: 0.5),
+                                      ),
+                                    ),
+                                    config.verticalSpaceMedium(),
+                                    FadeAnimation(
+                                      delay: 1,
+                                      child: PrimaryFormField(
+                                        hintIcon: const Icon(
+                                          Icons.email,
                                           color: Colors.white,
-                                          letterSpacing: 0.5),
-                                    ),
-                                  ),
-                                  config.verticalSpaceMedium(),
-                                  FadeAnimation(
-                                    delay: 1,
-                                    child: PrimaryFormField(
-                                      hintIcon: const Icon(
-                                        Icons.email,
-                                        color: Colors.white,
+                                        ),
+                                        validator: (value) =>
+                                            Validator.validateEmail(value!),
+                                        onSaved: (value) {
+                                          loginParams.email = value;
+                                        },
+                                        hintTxt: "example@gmail.com",
                                       ),
-                                      validator: (value) =>
-                                          Validator.validateEmail(value!),
-                                      onSaved: (value) {
-                                        loginParams.email = value;
-                                      },
-                                      hintTxt: "example@gmail.com",
                                     ),
-                                  ),
-                                  config.verticalSpaceMedium(),
-                                  FadeAnimation(
-                                    delay: 1,
-                                    child: PrimaryFormField(
-                                      isPassword: true,
-                                      hintIcon: const Icon(
-                                        Icons.lock,
-                                        color: Colors.white,
+                                    config.verticalSpaceMedium(),
+                                    FadeAnimation(
+                                      delay: 1,
+                                      child: PrimaryFormField(
+                                        isPassword: true,
+                                        hintIcon: const Icon(
+                                          Icons.lock,
+                                          color: Colors.white,
+                                        ),
+                                        validator: (value) =>
+                                            Validator.validatePassword(value!),
+                                        onSaved: (value) {
+                                          loginParams.password = value;
+                                        },
+                                        hintTxt: "*********",
                                       ),
-                                      validator: (value) =>
-                                          Validator.validatePassword(value!),
-                                      onSaved: (value) {
-                                        loginParams.password = value;
-                                      },
-                                      hintTxt: "*********",
                                     ),
-                                  ),
-                                  config.verticalSpaceMedium(),
-                                  FadeAnimation(
-                                    delay: 1,
-                                    child: PrimaryButton(
-                                        label: "Login",
-                                        onPressed: () {
-                                          final currentState =
-                                              _loginFormKey.currentState;
-                                          if (currentState != null) {
-                                            currentState.save();
+                                    config.verticalSpaceMedium(),
+                                    FadeAnimation(
+                                      delay: 1,
+                                      child: PrimaryButton(
+                                          label: "Login",
+                                          onPressed: () {
+                                            final currentState =
+                                                _loginFormKey.currentState;
+                                            if (currentState != null) {
+                                              currentState.save();
 
-                                            if (currentState.validate()) {
-                                              Get.find<LoginController>()
-                                                  .requestLogin(
-                                                      loginParams, context);
+                                              if (currentState.validate()) {
+                                                Get.find<LoginController>()
+                                                    .requestLogin(
+                                                        loginParams, context);
+                                              }
                                             }
-                                          }
-                                        }),
-                                  ),
-                                ],
+                                          }),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        config.verticalSpaceSmall(),
-                        FadeAnimation(
-                          delay: 1,
-                          child: GestureDetector(
-                            onTap: (() {
-                              Get.back();
-                              Get.toNamed(Routes.forgotPasswordScreen);
-                            }),
-                            child: Text("Can't Log In?",
-                                style: TextStyle(
-                                  color: Colors.white.withOpacity(0.9),
-                                  letterSpacing: 0.5,
-                                )),
-                          ),
-                        ),
-                        config.verticalSpaceSmall(),
-                        FadeAnimation(
-                          delay: 1,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Text("Don't have an account? ",
+                          config.verticalSpaceSmall(),
+                          FadeAnimation(
+                            delay: 1,
+                            child: GestureDetector(
+                              onTap: (() {
+                                Get.toNamed(Routes.forgotPasswordScreen);
+                              }),
+                              child: Text("Can't Log In?",
                                   style: TextStyle(
-                                    color: Colors.grey,
+                                    color: Colors.white.withOpacity(0.9),
                                     letterSpacing: 0.5,
                                   )),
-                              GestureDetector(
-                                onTap: () {
-                                  Get.back();
-                                  Get.toNamed(Routes.register);
-                                },
-                                child: Text("Sign up",
-                                    style: TextStyle(
-                                        color: Colors.white.withOpacity(0.9),
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 0.5,
-                                        fontSize: 14)),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
+                          config.verticalSpaceSmall(),
+                          FadeAnimation(
+                            delay: 1,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text("Don't have an account?",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      letterSpacing: 0.5,
+                                    )),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.toNamed(Routes.register);
+                                  },
+                                  child: Text(" Sign up",
+                                      style: TextStyle(
+                                          color: Colors.white.withOpacity(0.9),
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 0.5,
+                                          fontSize: 14)),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      }),
       // bottomNavigationBar: Container(
       //   child: Padding(
       //     padding: const EdgeInsets.all(8.0),

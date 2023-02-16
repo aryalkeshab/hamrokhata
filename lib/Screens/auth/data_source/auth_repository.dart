@@ -15,6 +15,7 @@ import 'package:hamrokhata/models/request/forget_password.dart';
 import 'package:hamrokhata/models/request/login_params.dart';
 import 'package:hamrokhata/models/request/otp_params.dart';
 import 'package:hamrokhata/models/request/register_params.dart';
+import 'package:hamrokhata/models/request/reset_password_params.dart';
 
 abstract class AuthLoginRegisterRepository {
   Future<ApiResponse> loginAuth(LoginParams loginParams);
@@ -25,6 +26,8 @@ abstract class AuthLoginRegisterRepository {
       ChangePasswordParams changePasswordParams);
   Future<ApiResponse> forgetPasswordAuth(
       ForgetPasswordParams forgetPasswordParams);
+  Future<ApiResponse> passwordResetAuth(
+      ResetPasswordParams resetPasswordParams);
 }
 
 class AuthLoginRegisterRepositoryImpl extends AuthLoginRegisterRepository {
@@ -120,8 +123,7 @@ class AuthLoginRegisterRepositoryImpl extends AuthLoginRegisterRepository {
         if (e is DioError && e.type == DioErrorType.response) {
           return ApiResponse(
             error: NetworkException.defaultError(
-              // value: e.response?.data[0]['message'],
-              value: "Something went wrong",
+              value: e.response?.data['message'],
             ),
           );
         }
@@ -146,8 +148,7 @@ class AuthLoginRegisterRepositoryImpl extends AuthLoginRegisterRepository {
         if (e is DioError && e.type == DioErrorType.response) {
           return ApiResponse(
             error: NetworkException.defaultError(
-              // value: e.response?.data[0]['message'],
-              value: "Something went wrong",
+              value: e.response?.data['message'],
             ),
           );
         }
@@ -177,7 +178,30 @@ class AuthLoginRegisterRepositoryImpl extends AuthLoginRegisterRepository {
         if (e is DioError && e.type == DioErrorType.response) {
           return ApiResponse(
               error: NetworkException.defaultError(
-                  value: "Email must not be empty"));
+                  value: e.response?.data['error ']));
+        }
+        return ApiResponse(error: NetworkException.getException(e));
+      }
+    } else {
+      return ApiResponse(error: NetworkException.noInternetConnection());
+    }
+  }
+
+  @override
+  Future<ApiResponse> passwordResetAuth(
+      ResetPasswordParams resetPasswordParams) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await authLoginRegisterRepositoryRemoteDataSource
+            .passwordResetAuth(resetPasswordParams);
+        print(result);
+
+        return ApiResponse(data: result['message']);
+      } catch (e) {
+        if (e is DioError && e.type == DioErrorType.response) {
+          return ApiResponse(
+              error: NetworkException.defaultError(
+                  value: e.response?.data['error']));
         }
         return ApiResponse(error: NetworkException.getException(e));
       }

@@ -27,8 +27,6 @@ class LoginController extends GetxController {
       Get.find<AuthController>().authorize();
       await secureStorage.write(
           key: StorageConstants.isLoggedIn, value: "true");
-
-      Get.back();
     } else {
       hideLoadingDialog(context);
       AppSnackbar.showError(

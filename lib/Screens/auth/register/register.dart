@@ -316,7 +316,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   )),
                               GestureDetector(
                                 onTap: () {
-                                  Get.back();
                                   Get.toNamed(Routes.login);
                                 },
                                 child: Text("Sign in",

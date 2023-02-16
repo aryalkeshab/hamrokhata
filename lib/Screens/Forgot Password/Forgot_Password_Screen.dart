@@ -12,7 +12,6 @@ import 'package:hamrokhata/commons/widgets/textfields.dart';
 import 'package:hamrokhata/models/request/forget_password.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../commons/widgets/buttons.dart';
-import '../Pin Code/Pin_Code_Screen.dart';
 
 enum FormData { Email }
 
@@ -167,7 +166,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             )),
                         GestureDetector(
                           onTap: () {
-                            Get.back();
                             Get.toNamed(Routes.login);
                           },
                           child: Text("Sign in",

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:hamrokhata/Screens/Pin%20Code/Pin_Code_Screen.dart';
-import 'package:hamrokhata/Screens/auth/auth_controller.dart';
 import 'package:hamrokhata/Screens/auth/data_source/auth_repository.dart';
 import 'package:hamrokhata/Screens/product_detail/product_search_repository.dart';
 import 'package:hamrokhata/commons/api/api_result.dart';
@@ -49,7 +47,9 @@ class RegisterController extends GetxController {
 
       Get.toNamed(Routes.otpScreen,
           arguments: UserIdEmailParams(
-              email: registerParams.email, user_id: registerResponse.data));
+              email: registerParams.email,
+              user_id: registerResponse.data,
+              fromForgetPassword: false));
     }
   }
 }

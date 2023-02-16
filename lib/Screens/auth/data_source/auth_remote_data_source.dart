@@ -5,6 +5,7 @@ import 'package:hamrokhata/models/request/forget_password.dart';
 import 'package:hamrokhata/models/request/login_params.dart';
 import 'package:hamrokhata/models/request/otp_params.dart';
 import 'package:hamrokhata/models/request/register_params.dart';
+import 'package:hamrokhata/models/request/reset_password_params.dart';
 
 abstract class AuthLoginRegisterRepositoryRemoteDataSource {
   Future<dynamic> loginAuth(LoginParams loginParams);
@@ -13,6 +14,7 @@ abstract class AuthLoginRegisterRepositoryRemoteDataSource {
   Future<dynamic> otpAuth(OtpParams otpParams);
   Future<dynamic> changePasswordAuth(ChangePasswordParams changePasswordParams);
   Future<dynamic> forgetPasswordAuth(ForgetPasswordParams forgetPasswordParams);
+  Future<dynamic> passwordResetAuth(ResetPasswordParams resetPasswordParams);
 }
 
 class AuthLoginRegisterRepositoryRemoteDataSourceImpl
@@ -54,5 +56,15 @@ class AuthLoginRegisterRepositoryRemoteDataSourceImpl
           APIPath.forgetPasswordAuth,
         ),
         data: forgetPasswordParams.toJson());
+  }
+
+  @override
+  passwordResetAuth(ResetPasswordParams resetPasswordParams) {
+    return apiClient.post(
+        APIPathHelper.authAPIs(
+          APIPath.resetPassword,
+          id: resetPasswordParams.user_id.toString(),
+        ),
+        data: resetPasswordParams.toJson());
   }
 }

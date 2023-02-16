@@ -20,8 +20,10 @@ enum APIPath {
   otpAuth,
   changePasswordAuth,
   forgetPasswordAuth,
+  resetPassword,
 }
-// TODO: 
+
+// TODO:
 class APIPathHelper {
   static const String apiUrl = "http://192.168.1.74:2112/api";
 
@@ -45,6 +47,9 @@ class APIPathHelper {
 
       case APIPath.forgetPasswordAuth:
         return "/passwordreset/";
+
+      case APIPath.resetPassword:
+        return "/passwordresetconfirm/$id/";
 
       case APIPath.refreshToken:
         return "/token/refresh/";
