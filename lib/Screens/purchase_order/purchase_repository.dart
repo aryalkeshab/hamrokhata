@@ -11,13 +11,15 @@ import 'package:hamrokhata/models/request/sales_response_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
 
 import '../purchase_order_list/purchase_order_list.dart';
+import 'package:dio/dio.dart' as dio;
 
 abstract class PurchaseRepository {
   Future<ApiResponse> getVendorsList();
   Future<ApiResponse> getCategoryList();
   Future<ApiResponse> getpurchaseOrderList();
 
-  Future<ApiResponse> addProduct(ProductRequestModel productRequestModel);
+  Future<ApiResponse> addProduct(
+      ProductRequestModel productRequestModel, dio.FormData formData);
   Future<ApiResponse> purchaseOrder(PurchaseOrderModel purchaseOrderModel);
 }
 
@@ -106,11 +108,11 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
 
   @override
   Future<ApiResponse> addProduct(
-      ProductRequestModel productRequestModel) async {
+      ProductRequestModel productRequestModel, dio.FormData formData) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await purchaseOrderRemoteDataSource.addProduct(productRequestModel);
+        final result = await purchaseOrderRemoteDataSource.addProduct(
+            productRequestModel, formData);
 
         return ApiResponse(data: "Product is Successfully Added");
       } catch (e) {

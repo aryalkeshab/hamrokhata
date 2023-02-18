@@ -265,7 +265,8 @@ class _SalesOrderReceiptState extends State<SalesOrderReceipt> {
                           child: Text(
                               textAlign: TextAlign.right,
                               style: TextStyle(fontWeight: FontWeight.bold),
-                              data.subTotal.toString())),
+                              double.parse(data.subTotal.toString())
+                                  .toStringAsFixed(2))),
                     ),
                   ],
                 ),
@@ -306,7 +307,8 @@ class _SalesOrderReceiptState extends State<SalesOrderReceipt> {
                               border: Border.all(color: Colors.black)),
                           child: Text(
                               textAlign: TextAlign.right,
-                              data.discountAmount.toString())),
+                              double.parse(data.discountAmount.toString())
+                                  .toStringAsFixed(2))),
                     ),
                   ],
                 ),
@@ -348,7 +350,7 @@ class _SalesOrderReceiptState extends State<SalesOrderReceipt> {
                           child: Text(
                               textAlign: TextAlign.right,
                               double.parse(data.taxAmount.toString())
-                                  .toStringAsFixed(1))),
+                                  .toStringAsFixed(2))),
                     ),
                   ],
                 ),
@@ -389,7 +391,8 @@ class _SalesOrderReceiptState extends State<SalesOrderReceipt> {
                               border: Border.all(color: Colors.black)),
                           child: Text(
                             textAlign: TextAlign.right,
-                            data.grandTotal.toString(),
+                            double.parse(data.grandTotal.toString())
+                                .toStringAsFixed(2),
                             style: TextStyle(fontWeight: FontWeight.bold),
                           )),
                     ),

@@ -303,7 +303,8 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
                               border: Border.all(color: Colors.black)),
                           child: Text(
                             textAlign: TextAlign.right,
-                            data.subTotal.toString(),
+                            double.parse(data.subTotal.toString())
+                                .toStringAsFixed(2),
                             style: TextStyle(fontWeight: FontWeight.bold),
                           )),
                     ),
@@ -346,7 +347,8 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
                               border: Border.all(color: Colors.black)),
                           child: Text(
                               textAlign: TextAlign.right,
-                              data.discountAmount.toString())),
+                              double.parse(data.discountAmount.toString())
+                                  .toStringAsFixed(2))),
                     ),
                   ],
                 ),
@@ -387,7 +389,8 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
                               border: Border.all(color: Colors.black)),
                           child: Text(
                               textAlign: TextAlign.right,
-                              data.taxAmount.toString())),
+                              double.parse(data.taxAmount.toString())
+                                  .toStringAsFixed(2))),
                     ),
                   ],
                 ),
@@ -428,7 +431,8 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
                               border: Border.all(color: Colors.black)),
                           child: Text(
                             textAlign: TextAlign.right,
-                            data.grandTotal.toString(),
+                            double.parse(data.grandTotal.toString())
+                                .toStringAsFixed(2),
                             style: TextStyle(fontWeight: FontWeight.bold),
                           )),
                     ),

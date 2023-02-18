@@ -130,6 +130,31 @@ class ApiClient {
     }
   }
 
+  Future<dynamic> authPostWithFile(
+    String uri, {
+    // ignore: type_annotate_public_apis
+    data,
+    File? file,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    try {
+      final response = await _dio.post(
+        uri,
+        data: data,
+        options: options ?? Options(headers: {"requiresToken": true}),
+      );
+      print(response);
+      return response.data;
+    } on SocketException catch (e) {
+      throw SocketException(e.toString());
+    } on FormatException catch (_) {
+      throw const FormatException("Unable to process the data");
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<dynamic> authPut(
     String uri, {
     // ignore: type_annotate_public_apis

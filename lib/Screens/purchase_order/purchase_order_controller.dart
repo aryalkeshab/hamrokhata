@@ -14,6 +14,7 @@ import 'package:hamrokhata/models/request/product_request_model.dart';
 import 'package:hamrokhata/models/request/purchase_request_model.dart';
 import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
+import 'package:dio/dio.dart' as dio;
 
 class PurchaseOrderController extends GetxController {
   @override
@@ -88,11 +89,11 @@ class PurchaseOrderController extends GetxController {
 //product Add
   late ApiResponse productOrderResponse;
 
-  void addProduct(
-      ProductRequestModel productRequestModel, BuildContext context) async {
+  void addProduct(ProductRequestModel productRequestModel, BuildContext context,
+      dio.FormData formData) async {
     showLoadingDialog(context);
-    productOrderResponse =
-        await Get.find<PurchaseRepository>().addProduct(productRequestModel);
+    productOrderResponse = await Get.find<PurchaseRepository>()
+        .addProduct(productRequestModel, formData);
     hideLoadingDialog(context);
     if (productOrderResponse.hasError) {
       AppSnackbar.showError(
@@ -101,7 +102,6 @@ class PurchaseOrderController extends GetxController {
               NetworkException.getErrorMessage(productOrderResponse.error));
     } else {
       showSuccessToast(productOrderResponse.data);
-      Get.back();
     }
   }
 

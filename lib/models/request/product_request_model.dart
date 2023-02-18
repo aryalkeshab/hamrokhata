@@ -1,7 +1,6 @@
 import 'dart:io';
-
-import 'package:get/get_connect/http/src/multipart/form_data.dart';
-import 'package:get/get_connect/http/src/multipart/multipart_file.dart';
+import 'package:dio/dio.dart' as dio;
+import 'package:flutter/material.dart';
 
 class ProductRequestModel {
   String? name;
@@ -13,7 +12,7 @@ class ProductRequestModel {
   int? currentStock;
   int? category;
   String? vendorName;
-  MultipartFile? imageUrl;
+  File? imageUrl;
 
   ProductRequestModel(
       {this.name,
@@ -49,7 +48,8 @@ class ProductRequestModel {
     // data['current_stock'] = currentStock;
     data['category'] = category;
     data['vendor_name'] = vendorName;
-    data['images'] = imageUrl;
+
+    data['images'] = dio.MultipartFile.fromFile(imageUrl!.path);
 
     return data;
   }

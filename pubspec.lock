@@ -185,6 +185,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
+  charset_converter:
+    dependency: transitive
+    description:
+      name: charset_converter
+      sha256: e4827b2d623ab75c2b6767d69e03485ea5bc894db6f6bdcb2ffeda58446bbe26
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
   checked_yaml:
     dependency: transitive
     description:
@@ -305,6 +313,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.5"
+  esc_pos_bluetooth:
+    dependency: "direct main"
+    description:
+      name: esc_pos_bluetooth
+      sha256: "46455b48afeeb5eabdfdde59697e0328247df6537f6d5e8d8f6664975e886e4b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.1"
+  esc_pos_printer:
+    dependency: "direct main"
+    description:
+      name: esc_pos_printer
+      sha256: "312b05f909f3f7dd1e6a3332cf384dcee2c3a635138823654cd9c0133d8b5c45"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.0"
+  esc_pos_utils:
+    dependency: transitive
+    description:
+      name: esc_pos_utils
+      sha256: "8ec0013d7a7f1e790ced6b09b95ce3bf2c6f9468a3e2bc49ece000761d86c6f8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   esc_pos_utils_plus:
     dependency: transitive
     description:
@@ -350,6 +382,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_bluetooth_basic:
+    dependency: "direct main"
+    description:
+      name: flutter_bluetooth_basic
+      sha256: e81a2c5e9340660b4832831b33d9f3c1f1b098c8f924bc1dafef9702c5985921
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.7"
   flutter_bluetooth_printer:
     dependency: "direct main"
     description:
@@ -488,6 +528,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
+  gbk_codec:
+    dependency: transitive
+    description:
+      name: gbk_codec
+      sha256: "3af5311fc9393115e3650ae6023862adf998051a804a08fb804f042724999f61"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   get:
     dependency: "direct main"
     description:
@@ -892,10 +940,10 @@ packages:
     dependency: transitive
     description:
       name: rxdart
-      sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
+      sha256: "2ef8b4e91cb3b55d155e0e34eeae0ac7107974e451495c955ac04ddee8cc21fd"
       url: "https://pub.dev"
     source: hosted
-    version: "0.27.7"
+    version: "0.26.0"
   scratch_space:
     dependency: transitive
     description:

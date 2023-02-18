@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+
 import 'package:hamrokhata/Screens/bluetooth/app_setting.dart';
 import 'package:hamrokhata/Screens/bluetooth/app_setting_controller.dart';
 import 'package:hamrokhata/Screens/bluetooth/print_utils.dart';
@@ -28,6 +30,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   String? dropDownvalue;
   File? imagePath;
   String? imageName;
+  int? category;
   final ImagePicker _picker = ImagePicker();
 
   @override
@@ -54,8 +57,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
           final _purchaseOrderFormKey = useMemoized(GlobalKey<FormState>.new);
 
           return GetBuilder<PurchaseOrderController>(builder: (controller) {
-            List<String> vendorList =
-                Get.find<PurchaseOrderController>().vendorList;
             List<String> categoryList =
                 Get.find<PurchaseOrderController>().categoryList;
 
@@ -220,31 +221,38 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     config.verticalSpaceMedium(),
                     PrimaryButton(
                         onPressed: () async {
-                          // PrintUtils.instance.bluetoothPrint(
-                          //     appController.finalBluetoothAddress!,
-                          //     "Hello World");
+                          controller.categoryModelList.forEach((element) {
+                            if (element.name == dropDownvalue) {
+                              category = element.id!;
+                            }
+                          });
 
-                          // String fileName = imagePath!.path.split('/').last;
-                          // print(fileName);
-
-                          // FormData data = FormData({
-                          //   "file": await MultipartFile(
-                          //     imagePath!.path,
-                          //     filename: fileName,
-                          //   ),
-                          // });
-                          final MultipartFile file = await MultipartFile(
-                              imagePath!.path,
-                              filename: imagePath!.path.split('/').last);
-                          addProductParams.category = 1;
-                          addProductParams.imageUrl = file;
                           final currentState =
                               _purchaseOrderFormKey.currentState;
                           if (currentState != null) {
                             currentState.save();
 
                             if (currentState.validate()) {
-                              controller.addProduct(addProductParams, context);
+                              dio.FormData formData = dio.FormData.fromMap({
+                                "name": addProductParams.name,
+                                "description": addProductParams.description,
+                                "purchase_price":
+                                    addProductParams.purchasePrice,
+                                "selling_price": addProductParams.sellingPrice,
+                                "type": addProductParams.type,
+                                'category': category,
+                                'image': await dio.MultipartFile.fromFile(
+                                    imagePath!.path),
+                              });
+                              try {
+                                controller.addProduct(
+                                    addProductParams, context, formData);
+                                currentState.reset();
+                                imagePath == null;
+                                dropDownvalue == null;
+                              } catch (e) {
+                                print(e);
+                              }
                             }
                           }
                         },
@@ -299,9 +307,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
       if (image != null) {
         setState(() async {
           imagePath = File(image.path);
-
-          // final file = await MultipartFile.fromFile(imagePath,
-          //     filename: imagePath?.name);
 
           print(imagePath!.path);
         });

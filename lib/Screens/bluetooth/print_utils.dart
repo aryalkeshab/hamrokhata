@@ -22,4 +22,18 @@ class PrintUtils {
       }
     }
   }
+
+  Future posbluetoothPrint(String address, String text) async {
+    try {
+      await FlutterBluetoothPrinter.printBytes(
+          keepConnected: true,
+          address: address,
+          data: utf8.encode(text) as Uint8List);
+    } catch (e) {
+      showErrorToast("Error Printing");
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
 }

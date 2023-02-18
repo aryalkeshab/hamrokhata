@@ -269,7 +269,7 @@ class _TableForReceiptState extends State<TableForReceipt> {
                               style: TextStyle(fontWeight: FontWeight.bold),
                               double.parse(
                                       purchaseOrderList.subTotal.toString())
-                                  .toStringAsFixed(1))),
+                                  .toStringAsFixed(2))),
                     ),
                   ],
                 ),
@@ -310,7 +310,9 @@ class _TableForReceiptState extends State<TableForReceipt> {
                               border: Border.all(color: Colors.black)),
                           child: Text(
                               textAlign: TextAlign.right,
-                              purchaseOrderList.discountAmount.toString())),
+                              double.parse(purchaseOrderList.discountAmount
+                                      .toString())
+                                  .toStringAsFixed(2))),
                     ),
                   ],
                 ),
@@ -394,7 +396,9 @@ class _TableForReceiptState extends State<TableForReceipt> {
                               border: Border.all(color: Colors.black)),
                           child: Text(
                             textAlign: TextAlign.right,
-                            purchaseOrderList.grandTotal.toString(),
+                            double.parse(
+                                    purchaseOrderList.grandTotal.toString())
+                                .toStringAsFixed(2),
                             style: TextStyle(fontWeight: FontWeight.bold),
                           )),
                     ),
