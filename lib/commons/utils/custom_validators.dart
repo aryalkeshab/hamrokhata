@@ -45,6 +45,18 @@ class Validator {
     return null;
   }
 
+  static String? validatePercentage(String value) {
+    const pattern = r'^[0-9]+$';
+    final regExp = RegExp(pattern);
+    if (value.isEmpty) {
+      return "This field is required";
+    } else if (!regExp.hasMatch(value)) {
+      return "Value must be [0-9]";
+    } else if (int.parse(value.toString()) > 100) {
+      return "Value must be less than 100";
+    }
+    return null;
+  }
 
   static String? validatePasswordLength(String value) {
     if (value.isEmpty) {

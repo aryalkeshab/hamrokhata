@@ -45,8 +45,8 @@ class PurchaseOrderModel {
     // data['sub_total'] = this.subTotal;
     // data['tax_amount'] = this.taxAmount;
     // data['discount_amount'] = this.discountAmount;
-    // data['disc_percent'] = this.discPercent;
-    // data['tax_percent'] = this.taxPercent;
+    data['disc_percent'] = this.discPercent;
+    data['tax_percent'] = this.taxPercent;
     data['status'] = this.status;
     data['vendor'] = this.vendor;
     data['purchased_by'] = this.userId;

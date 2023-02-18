@@ -140,8 +140,8 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                                       Expanded(
                                         flex: 4,
                                         child: Text(
-                                          // '${salesModelList.total?.toStringAsFixed(2).toString()}',
-                                          // '${salesModelList.total?.toStringAsFixed(2).toString()}',
+                                          // '${salesModelList.total?.toStringAsFixed(1).toString()}',
+                                          // '${salesModelList.total?.toStringAsFixed(1).toString()}',
                                           "${salesModelList.total}",
 //
                                           textAlign: TextAlign.center,

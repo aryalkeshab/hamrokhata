@@ -25,7 +25,7 @@ enum APIPath {
 
 // TODO:
 class APIPathHelper {
-  static const String apiUrl = "http://192.168.1.74:2112/api";
+  static const String apiUrl = "http://192.168.1.68:2112/api";
 
   static String authAPIs(
     APIPath path, {

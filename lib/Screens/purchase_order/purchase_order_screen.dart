@@ -18,6 +18,7 @@ import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons.dart';
 import 'package:hamrokhata/commons/widgets/dialog/bottom_sheet.dart';
 import 'package:hamrokhata/commons/widgets/dialog/dialog_sales_order.dart';
+import 'package:hamrokhata/commons/widgets/dialog/dialog_with_custom_child.dart';
 import 'package:hamrokhata/commons/widgets/dialog/dialog_with_custom_child_and_buttons.dart';
 import 'package:hamrokhata/commons/widgets/text_form_widget.dart';
 import 'package:hamrokhata/commons/widgets/textfields.dart';
@@ -27,6 +28,7 @@ import 'package:hamrokhata/models/product_detail.dart';
 import 'package:hamrokhata/models/request/purchase_request_model.dart';
 import 'package:hamrokhata/models/sales_order_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
+import 'package:supercharged/supercharged.dart';
 
 class PurchaseOrderScreen extends StatefulWidget {
   const PurchaseOrderScreen({super.key});
@@ -51,11 +53,16 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
 
   TextEditingController searchController = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  TextEditingController taxController = TextEditingController(text: "13.0");
+  TextEditingController discountController = TextEditingController();
+
   TextEditingController qtyController = TextEditingController();
 
   // List<TempPurchaseOrderModel> PurchaseList = [];
   List<PurchaseItems> purchaseList = [];
   ProductSearchResponse? productDetails;
+  double tax = 0.0;
+  double discount = 0.0;
 
   List<PurchaseOrderModel> purchaseOrderList = [];
   final formKey = GlobalKey<FormState>();
@@ -140,11 +147,6 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                   ],
                 ),
                 config.verticalSpaceMedium(),
-                config.verticalSpaceSmall(),
-                const Divider(
-                  height: 2,
-                ),
-                config.verticalSpaceSmall(),
                 const Divider(
                   height: 2,
                 ),
@@ -277,8 +279,8 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                                     Expanded(
                                       flex: 4,
                                       child: Text(
-                                        // '${purchaseModelList.total?.toStringAsFixed(2).toString()}',
-                                        // '${purchaseModelList.total?.toStringAsFixed(2).toString()}',
+                                        // '${purchaseModelList.total?.toStringAsFixed(1).toString()}',
+                                        // '${purchaseModelList.total?.toStringAsFixed(1).toString()}',
                                         "${purchaseModelList.total}",
 //
                                         textAlign: TextAlign.right,
@@ -306,6 +308,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
             );
           });
         }),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
         floatingActionButton: DraggableFab(
           child: BaseWidget(builder: (context, config, theme) {
             return FloatingActionButton.extended(
@@ -330,25 +333,104 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
           }),
         ),
         bottomSheet: Container(
-          height: 80,
+          height: 180,
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(
             children: [
               const Divider(
                 height: 2,
               ),
-              StatefulBuilder(
-                  builder: (BuildContext context, StateSetter setState) {
+              InkWell(
+                onTap: () {
+                  testdialog(context);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "Disc. & Tax",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).primaryColor),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Icon(
+                        Icons.add_rounded,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                children: [
+                  Text(
+                    "Sub Total",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+                  Text(
+                    netTotal.toString(),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              Builder(builder: (context) {
+                if (netTotal != 0 && discountController.text.isNotEmpty) {
+                  discount = netTotal *
+                      double.parse(discountController.text.toString()) /
+                      100;
+                  // discount = netTotal *
+                  //     double.parse(discountController.text.toString()) /
+                  //     100;
+                }
+
+                return Row(
+                  children: [
+                    Text("Discount"),
+                    Spacer(),
+                    Text(
+                      discount.toString(),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                );
+              }),
+              Builder(builder: (context) {
+                if (netTotal != 0 && taxController.text.isNotEmpty) {
+                  tax = netTotal *
+                      double.parse(taxController.text.toString()) /
+                      100;
+                }
+                return Row(
+                  children: [
+                    Text("Tax(13%)"),
+                    Spacer(),
+                    Text(
+                      tax.toString(),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                );
+              }),
+              Builder(builder: (context) {
+                double total = 0.0;
+                if (netTotal != 0 && taxController.text.isNotEmpty) {
+                  total = netTotal - discount + tax;
+                }
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'Total',
+                      'Grand Total',
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      netTotal.toString(),
+                      total.toString(),
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.w500),
                       textAlign: TextAlign.start,
@@ -358,6 +440,8 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
               }),
               Center(
                 child: PrimaryButton(
+                  height: 40,
+                  width: 50,
                   label: 'Place purchase Order',
                   onPressed: () async {
                     vendorAllList.forEach((element) {
@@ -367,11 +451,14 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                     });
                     final userid = await secureStorage.read(
                         key: StorageConstants.loginStaff);
+                    taxController = TextEditingController(text: "13");
 
                     final purchaseOrderModel = PurchaseOrderModel(
                         userId: int.parse(userid.toString()),
                         purchaseItems: purchaseList,
                         status: selectedOrderStatus,
+                        discPercent: discountController.text.toInt() ?? 0,
+                        taxPercent: taxController.text.toInt() ?? 13,
                         vendor: selectedVendorId);
 
                     if (selectedVendorId == null &&
@@ -383,8 +470,14 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                         await purchaseOrderController.createPurchaseOrder(
                             purchaseOrderModel, context);
                         purchaseList.clear();
-                        selectedOrderStatus = null;
-                        selectedVendor = null;
+                        // selectedOrderStatus = null;
+                        discountController.clear();
+                        discount = 0.0;
+                        taxController.clear();
+                        tax = 0.0;
+                        netTotal = 0.0;
+
+                        // selectedVendor = null;
                         qtyController.clear();
                         priceController.clear();
                         searchController.clear();
@@ -836,6 +929,79 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
         ),
       ],
     );
+  }
+
+  testdialog(BuildContext context) {
+    return dialogWithCustomChildren(
+        context: context,
+        title: "Discount and Tax Calculation",
+        rowchild: [
+          Expanded(
+            child: PrimaryFormField(
+              label: "Discount Percent",
+              controller: discountController,
+              keyboardType: TextInputType.number,
+              validator: (value) => Validator.validatePercentage(value!),
+
+              hintTxt: "eg 10 ",
+              // validator: (value) =>
+              //     Validator.validateNumber(value!),
+              onChanged: (value) {
+                setState(() {
+                  price = value;
+                });
+              },
+              onSaved: (value) {
+                setState(() {
+                  price = value;
+                });
+              },
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: PrimaryFormField(
+              label: "Tax Percent",
+              controller: taxController,
+              keyboardType: TextInputType.number,
+              validator: (value) => Validator.validatePercentage(value!),
+              enabled: false,
+
+              hintTxt: "13 ",
+              // validator: (value) =>
+              //     Validator.validateNumber(value!),
+              onChanged: (value) {
+                setState(() {
+                  price = value;
+                });
+              },
+              onSaved: (value) {
+                setState(() {
+                  price = value;
+                });
+              },
+            ),
+          ),
+        ],
+        child: [
+          Column(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              PrimaryButton(
+                height: 40,
+                width: 20,
+                label: "Proceed",
+                onPressed: () {
+                  Get.back();
+                },
+              )
+            ],
+          ),
+        ]);
   }
 }
 

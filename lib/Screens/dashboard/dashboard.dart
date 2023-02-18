@@ -122,11 +122,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           DashboardModule(
                             text: 'Print Setting',
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const AppSetting()),
-                              );
+                              Get.toNamed(Routes.appSetting);
                             },
                             icons: Icons.print,
                           ),

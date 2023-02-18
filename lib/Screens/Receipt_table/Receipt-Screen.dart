@@ -255,7 +255,7 @@ class _TableForReceiptState extends State<TableForReceipt> {
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.black)),
                           child: Text(
-                            "TOTAL",
+                            "Sub T.",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           )),
                     ),
@@ -266,7 +266,10 @@ class _TableForReceiptState extends State<TableForReceipt> {
                               border: Border.all(color: Colors.black)),
                           child: Text(
                               textAlign: TextAlign.right,
-                              purchaseOrderList.subTotal.toString())),
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                              double.parse(
+                                      purchaseOrderList.subTotal.toString())
+                                  .toStringAsFixed(1))),
                     ),
                   ],
                 ),
@@ -348,7 +351,9 @@ class _TableForReceiptState extends State<TableForReceipt> {
                               border: Border.all(color: Colors.black)),
                           child: Text(
                               textAlign: TextAlign.right,
-                              purchaseOrderList.taxAmount.toString())),
+                              double.parse(
+                                      purchaseOrderList.taxAmount.toString())
+                                  .toStringAsFixed(1))),
                     ),
                   ],
                 ),

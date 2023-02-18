@@ -124,7 +124,7 @@ class PurchaseOrderController extends GetxController {
         await Get.find<PurchaseRepository>().purchaseOrder(purchaseOrderModel);
     if (purchaseOrderResponse.hasData) {
       purchaseOrderResponseList = purchaseOrderResponse.data;
-      showNormalToast(purchaseOrderResponseList!.msg.toString());
+      // showNormalToast(purchaseOrderResponseList!.msg.toString());
       Get.toNamed(Routes.purchaseOrderReceipt,
           arguments: [purchaseOrderResponseList!]);
       update();

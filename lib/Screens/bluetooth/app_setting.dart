@@ -52,22 +52,26 @@ class _AppSettingState extends State<AppSetting> {
 
                         buffer1.write("BARCODE-TEXT OFF\r\n");
                         buffer1.write("PRINT\r\n");
+
+                        String id = "1";
+                        String productName =
+                            "Product 1 Waste colllection money";
+                        String price = "Rs 100000.00";
+                        String receiptLine =
+                            "$id   $productName   ${price.padRight(10)}\n";
+                        String receiptLine2 =
+                            "${id.padLeft(1)} ${productName} ${price.padRight(10, "c")}\n";
                         String text1 = buffer1.toString();
+
                         PrintUtils.instance.bluetoothPrint(
-                            appController.finalBluetoothAddress!, text1);
+                            appController.finalBluetoothAddress!, receiptLine2);
                       }
                       // FlutterBluetoothPrinter.printBytes(
                       //     address: "EC:51:BC:E1:FB:FA",
                       //     data: utf8.encode("Hello") as Uint8List);
                     },
                     onText: () {
-                      Get.back();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const BluetoothDeviceScreen()),
-                      );
+                      Get.toNamed(Routes.bluetoothDeviceScreen);
                     }),
               ],
             ),

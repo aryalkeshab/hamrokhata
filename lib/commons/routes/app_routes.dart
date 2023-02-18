@@ -36,11 +36,13 @@ abstract class Routes {
   static const purchaseOrderReceipt = _Paths.purchaseOrderReceipt;
   static const salesTableReceipt = _Paths.salesTableReceipt;
   static const resetPasswordScreen = _Paths.resetPasswordScreen;
+  static const bluetoothDeviceScreen = _Paths.bluetoothDeviceScreen;
 }
 
 abstract class _Paths {
   static const home = '/home';
   static const table = '/table';
+  static const bluetoothDeviceScreen = '/bluetoothDeviceScreen';
 
   static const splash = '/splash';
   static const resetPasswordScreen = '/resetPasswordScreen';

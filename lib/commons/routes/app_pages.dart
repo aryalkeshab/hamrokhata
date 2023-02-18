@@ -194,5 +194,9 @@ class AppPages {
         salesOrderResponse: Get.arguments,
       ),
     ),
+    GetPage(
+      name: _Paths.bluetoothDeviceScreen,
+      page: BluetoothDeviceScreen.new,
+    ),
   ];
 }

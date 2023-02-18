@@ -23,6 +23,10 @@ class BluetoothDeviceScreen extends HookWidget {
             builder: (context, snapshot) {
               if (snapshot.data is BluetoothDisabledState) {
                 return const BluetoothOffScreen();
+              } else if (snapshot.data is PermissionRestrictedState) {
+                return const BluetoothOffScreen();
+              } else if (snapshot.data is BluetoothDisabledState) {
+                return const BluetoothOffScreen();
               } else {
                 final List list;
                 if (snapshot.data != null) {

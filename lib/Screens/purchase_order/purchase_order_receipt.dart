@@ -98,6 +98,44 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
                     )
                   ],
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Text(
+                            "Vendor Name: ",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          Text(
+                            data.purchasedBy!.toString(),
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Order Status: ",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          ),
+                          Text(data.status!.toString(),
+                              softWrap: false,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyle(fontSize: 18)),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
                 config.verticalSpaceSmall(),
                 Row(
                   children: [
@@ -254,7 +292,7 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.black)),
                           child: Text(
-                            "TOTAL",
+                            "Sub T.",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           )),
                     ),
@@ -264,8 +302,10 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.black)),
                           child: Text(
-                              textAlign: TextAlign.right,
-                              data.subTotal.toString())),
+                            textAlign: TextAlign.right,
+                            data.subTotal.toString(),
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
                     ),
                   ],
                 ),
@@ -405,6 +445,28 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
                     Expanded(
                       child: Text(
                         converter.convertInt(data.grandTotal!.toInt()),
+                        maxLines: 2,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 16),
+                        // new
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "Staff : ",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    Expanded(
+                      child: Text(
+                        data.purchaseByName.toString(),
+
+                        // converter.convertInt(data.grandTotal!.toInt()),
                         maxLines: 2,
                         softWrap: false,
                         overflow: TextOverflow.ellipsis,
