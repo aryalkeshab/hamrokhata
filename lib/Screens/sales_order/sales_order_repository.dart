@@ -69,8 +69,7 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
         print(result);
 
         final salesOrderResponseList = result
-            .map<SalesOrderListResponse>(
-                (e) => SalesOrderListResponse.fromJson(e))
+            .map<SalesOrderList>((e) => SalesOrderList.fromJson(e))
             .toList();
 
         //I will implemnet this thing below.

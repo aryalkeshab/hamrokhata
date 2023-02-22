@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list.dart';
@@ -6,6 +7,8 @@ import 'package:hamrokhata/Screens/sales_order/sales_order_controller.dart';
 import 'package:hamrokhata/Screens/sales_order_list/sales_order_list_controller.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
+import 'package:hamrokhata/commons/widgets/text_form_widget.dart';
+import 'package:hamrokhata/models/customer_model.dart';
 import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
 
 class SalesOrderListScreen extends StatefulWidget {
@@ -22,6 +25,8 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
 
     super.initState();
   }
+
+  DateTimeRange? _selectedDateRange;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +50,28 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                   //     fontWeight: FontWeight.bold,
                   //   ),
                   // ),
+                  TextFieldWidget(
+                    onPressed: () {
+                      // controller.getProductSearch(
+                      //     context, searchController.text);
+                    },
+                    onSaved: (value) {
+                      // controller.getProductSearch(context, value);
+                    },
+                    onChanged: (value) {
+                      // controller.getProductSearch(context, value);
+                    },
+                    // controller: searchController,
+                    hintTxt: "Search Customer Name ",
+                    // hintIcon: InkWell(
+                    //   onTap: () async {
+                    //     // scannedCode = await Scanqr.barcodeScanner(context);
+                    //     // print(scannedCode);
+                    //     // controller.getProductSearch(context, scannedCode);
+                    //   },
+                    //   child: const Icon(CupertinoIcons.barcode),
+                    // ),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -56,15 +83,20 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                       IconButton(
                         icon: const Icon(Icons.date_range, size: 25),
                         onPressed: () async {
-                          DateTime? pickedDate = await showDatePicker(
+                          DateTimeRange? pickedDate = await showDateRangePicker(
                               context: context,
-                              initialDate: DateTime.now(),
+                              // initialDate: DateTime.now(),
                               firstDate: DateTime(1950),
+                              currentDate: DateTime.now(),
+                              saveText: 'Done',
                               lastDate: DateTime(2100));
 
                           if (pickedDate != null) {
-                            print(
-                                pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                            print(pickedDate);
+                            //pickedDate output format => 2021-03-10 00:00:00.000
+
+                            _selectedDateRange = pickedDate;
+                            print(_selectedDateRange!.start);
                           } else {}
                         },
                       ),
@@ -142,9 +174,25 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                               itemCount:
                                   controller.salesOrderResponseList!.length,
                               itemBuilder: (BuildContext context, int index) {
-                                // print(
-                                //     controller.salesOrderResponseList![0].billNumber);
-                                // TrackingModel trackingModel = trackingList[index];
+                                int customerId = int.parse(controller
+                                    .salesOrderResponseList![index]
+                                    .customer!
+                                    .name
+                                    .toString());
+                                print(customerId);
+
+                                List<CustomerModel> customerList =
+                                    Get.find<SalesOrderController>()
+                                        .customerApiResult;
+
+                                print(customerList);
+
+                                String CustomerName = customerList
+                                    .firstWhere(
+                                        (element) => element.id == customerId)
+                                    .name!;
+                                print(CustomerName);
+
                                 return Visibility(
                                   child: Card(
                                     child: Container(
@@ -190,11 +238,10 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                                             Expanded(
                                               flex: 2,
                                               child: Text(
-                                                controller
-                                                    .salesOrderResponseList![
-                                                        index]
-                                                    .customer
-                                                    .toString(),
+                                                CustomerName,
+                                                maxLines: 2,
+                                                softWrap: false,
+                                                overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   fontSize: 14,

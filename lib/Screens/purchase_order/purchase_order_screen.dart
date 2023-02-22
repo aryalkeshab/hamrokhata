@@ -46,7 +46,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
   String? selectedVendor;
   int? selectedVendorId;
 
-  String? selectedOrderStatus;
+  String? selectedOrderStatus = "Completed";
   double netTotal = 0.00;
 
   bool isSelectedFromUpdate = false;
@@ -111,6 +111,18 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                   children: [
                     Expanded(
                       flex: 1,
+                      child: Text(
+                        "Vendor Name",
+                        style: TextStyle(
+                            fontSize: 13, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
                       child: DropdownSearch<String>(
                         dropdownDecoratorProps: DropDownDecoratorProps(
                           dropdownSearchDecoration: InputDecoration(
@@ -129,20 +141,21 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                     config.horizontalSpaceSmall(),
                     Expanded(
                       flex: 1,
-                      child: DropdownSearch<String>(
-                        dropdownDecoratorProps: DropDownDecoratorProps(
-                          dropdownSearchDecoration: InputDecoration(
-                            hintText: "Order Status",
-                            filled: true,
-                          ),
-                        ),
-                        enabled: true,
-                        // popupProps: PopupProps.dialog(showSearchBox: true),
-                        items: orderStatus,
-                        onChanged: (value) {
-                          selectedOrderStatus = value;
-                        },
-                      ),
+                      child: Container(),
+                      // child: DropdownSearch<String>(
+                      //   dropdownDecoratorProps: DropDownDecoratorProps(
+                      //     dropdownSearchDecoration: InputDecoration(
+                      //       hintText: "Order Status",
+                      //       filled: true,
+                      //     ),
+                      //   ),
+                      //   enabled: true,
+                      //   // popupProps: PopupProps.dialog(showSearchBox: true),
+                      //   items: orderStatus,
+                      //   onChanged: (value) {
+                      //     selectedOrderStatus = value;
+                      //   },
+                      // ),
                     ),
                   ],
                 ),
@@ -456,10 +469,10 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                     final purchaseOrderModel = PurchaseOrderModel(
                         userId: int.parse(userid.toString()),
                         purchaseItems: purchaseList,
-                        status: selectedOrderStatus,
+                        status: selectedOrderStatus ?? '',
                         discPercent: discountController.text.toInt() ?? 0,
                         taxPercent: taxController.text.toInt() ?? 13,
-                        vendor: selectedVendorId);
+                        vendor: Vendor(name: selectedVendorId));
 
                     if (selectedVendorId == null &&
                         selectedOrderStatus == null) {
@@ -468,7 +481,9 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                     } else if (purchaseList.isNotEmpty) {
                       try {
                         await purchaseOrderController.createPurchaseOrder(
-                            purchaseOrderModel, context);
+                            purchaseOrderModel,
+                            context,
+                            selectedVendor.toString());
                         purchaseList.clear();
                         // selectedOrderStatus = null;
                         discountController.clear();
@@ -528,8 +543,8 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                       controller.getProductSearch(context, value);
                     },
                     onChanged: (value) {
-                      controller.getProductSearch(
-                          context, searchController.text);
+                      // controller.getProductSearch(
+                      //     context, searchController.text);
                     },
                     controller: searchController,
                     hintTxt: "Search Item No. ",
@@ -685,12 +700,9 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                             onPressed: () {
                               // if (formKey.currentState!.validate()) {
 
-                              if (qtyController.text.isEmpty) {
-                                showErrorToast("Please enter quantity !");
-                              } else if (int.parse(qtyController.text) == 0) {
+                              if (int.parse(qtyController.text) == 0) {
                                 showErrorToast("You cannot add 0 quantity !");
-                              } else if (productDetails.currentStock! >
-                                  int.parse(qtyController.text)) {
+                              } else {
                                 if (isSelectedFromUpdate == false) {
                                   double total = 0.00;
                                   total = double.parse(qtyController.text) *
@@ -733,8 +745,6 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                 }
-                              } else {
-                                showSuccessToast("Not enough stock");
                               }
                               // }
                             },

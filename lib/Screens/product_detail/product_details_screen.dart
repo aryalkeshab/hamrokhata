@@ -46,7 +46,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       controller.getProductSearch(context, value);
                     },
                     onChanged: (value) {
-                      controller.getProductSearch(context, value);
+                      // controller.getProductSearch(context, value);
                     },
                     controller: searchController,
                     hintTxt: "Search Item No. ",

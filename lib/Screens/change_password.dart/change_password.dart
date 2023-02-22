@@ -45,9 +45,9 @@ class _ChangePasswordScreeenState extends State<ChangePasswordScreeen> {
                     delay: 1,
                     child: PrimaryFormField(
                       isPassword: true,
-                      hintIcon: const Icon(
+                      hintIcon: Icon(
                         Icons.email,
-                        color: Colors.white,
+                        color: Theme.of(context).primaryColor,
                       ),
                       validator: (value) => Validator.validatePassword(value!),
                       onSaved: (value) {
@@ -61,9 +61,9 @@ class _ChangePasswordScreeenState extends State<ChangePasswordScreeen> {
                     delay: 1,
                     child: PrimaryFormField(
                       isPassword: true,
-                      hintIcon: const Icon(
+                      hintIcon: Icon(
                         Icons.lock,
-                        color: Colors.white,
+                        color: Theme.of(context).primaryColor,
                       ),
                       validator: (value) => Validator.validatePassword(value!),
                       onSaved: (value) {
@@ -77,9 +77,9 @@ class _ChangePasswordScreeenState extends State<ChangePasswordScreeen> {
                     delay: 1,
                     child: PrimaryFormField(
                       isPassword: true,
-                      hintIcon: const Icon(
+                      hintIcon: Icon(
                         Icons.lock,
-                        color: Colors.white,
+                        color: Theme.of(context).primaryColor,
                       ),
                       validator: (value) => Validator.validatePassword(value!),
                       onSaved: (value) {

@@ -1,6 +1,11 @@
+import 'package:draggable_fab/draggable_fab.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hamrokhata/Screens/sales_order/sales_order_controller.dart';
+import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons.dart';
+import 'package:hamrokhata/models/customer_model.dart';
 import 'package:hamrokhata/models/request/sales_response_model.dart';
 import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
 import 'package:number_to_character/number_to_character.dart';
@@ -32,7 +37,22 @@ class _SalesOrderReceiptState extends State<SalesOrderReceipt> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(data!.invoiceNumber!),
+        automaticallyImplyLeading: false,
+        title: Center(child: Text(data!.invoiceNumber!)),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: DraggableFab(
+        child: FloatingActionButton(
+          onPressed: () {
+            Get.toNamed(Routes.dashboard);
+          },
+          child: Icon(
+            Icons.home,
+            color: Colors.white,
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
+          elevation: 2.0,
+        ),
       ),
       body: BaseWidget(
         builder: (context, config, theme) {
@@ -98,6 +118,53 @@ class _SalesOrderReceiptState extends State<SalesOrderReceipt> {
                     )
                   ],
                 ),
+                Builder(builder: (context) {
+                  int vendorId = int.parse(data.customer!.name.toString());
+                  List<CustomerModel> customerList =
+                      Get.find<SalesOrderController>().customerApiResult;
+                  String customerName = customerList
+                      .firstWhere((element) => element.id == vendorId)
+                      .name!;
+
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Text(
+                              "Vendor Name: ",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14),
+                            ),
+                            Text(
+                              customerName,
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Expanded(
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.start,
+                      //     children: [
+                      //       Text(
+                      //         "Order Status: ",
+                      //         style: TextStyle(
+                      //             fontWeight: FontWeight.bold, fontSize: 18),
+                      //       ),
+                      //       Text(data.status!.toString(),
+                      //           softWrap: false,
+                      //           overflow: TextOverflow.ellipsis,
+                      //           maxLines: 1,
+                      //           style: TextStyle(fontSize: 18)),
+                      //     ],
+                      //   ),
+                      // )
+                    ],
+                  );
+                }),
                 config.verticalSpaceSmall(),
                 Row(
                   children: [
@@ -212,7 +279,7 @@ class _SalesOrderReceiptState extends State<SalesOrderReceipt> {
                                     border: Border.all(color: Colors.black)),
                                 child: Text(
                                   purchaseItems.sellingPrice.toString(),
-                                  textAlign: TextAlign.center,
+                                  textAlign: TextAlign.right,
                                 )),
                           ),
                           Expanded(
@@ -409,6 +476,28 @@ class _SalesOrderReceiptState extends State<SalesOrderReceipt> {
                     Expanded(
                       child: Text(
                         converter.convertInt(data.grandTotal!.toInt()),
+                        maxLines: 2,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 16),
+                        // new
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "Staff : ",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    Expanded(
+                      child: Text(
+                        data.salesBy.toString(),
+
+                        // converter.convertInt(data.grandTotal!.toInt()),
                         maxLines: 2,
                         softWrap: false,
                         overflow: TextOverflow.ellipsis,

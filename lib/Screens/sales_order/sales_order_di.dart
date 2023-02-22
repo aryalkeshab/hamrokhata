@@ -16,7 +16,7 @@ class SalesOrderBinding extends Bindings {
       ..put<SalesOrderRepository>(SalesOrderRepositoryImpl(
           networkInfo: Get.find<NetworkInfo>(),
           salesOrderRemoteDataSource: Get.find<SalesOrderRemoteDataSource>()))
-      ..put(SalesOrderController())
-      ..put(SalesOrderListController());
+      ..put(SalesOrderController(), permanent: true)
+      ..put(SalesOrderListController(), permanent: true);
   }
 }

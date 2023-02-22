@@ -1,8 +1,13 @@
+import 'package:draggable_fab/draggable_fab.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hamrokhata/Screens/purchase_order/purchase_order_controller.dart';
 import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list.dart';
 import 'package:hamrokhata/Screens/sales_order_list/sakes_order_list_model.dart';
+import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons.dart';
+import 'package:hamrokhata/models/vendor_list.dart';
 import 'package:number_to_character/number_to_character.dart';
 
 class TableForReceipt extends StatefulWidget {
@@ -31,7 +36,22 @@ class _TableForReceiptState extends State<TableForReceipt> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(purchaseOrderList.billNumber!),
+        automaticallyImplyLeading: false,
+        title: Center(child: Text(purchaseOrderList.billNumber!)),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: DraggableFab(
+        child: FloatingActionButton(
+          onPressed: () {
+            Get.toNamed(Routes.dashboard);
+          },
+          child: Icon(
+            Icons.home,
+            color: Colors.white,
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
+          elevation: 2.0,
+        ),
       ),
       body: BaseWidget(
         builder: (context, config, theme) {
@@ -99,6 +119,54 @@ class _TableForReceiptState extends State<TableForReceipt> {
                     )
                   ],
                 ),
+                Builder(builder: (context) {
+                  int vendorId =
+                      int.parse(purchaseOrderList.vendor!.name.toString());
+                  List<VendorList> vendorList =
+                      Get.find<PurchaseOrderController>().vendorApiResult;
+                  String vendorName = vendorList
+                      .firstWhere((element) => element.id == vendorId)
+                      .name!;
+
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Text(
+                              "Vendor Name: ",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14),
+                            ),
+                            Text(
+                              vendorName,
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Expanded(
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.start,
+                      //     children: [
+                      //       Text(
+                      //         "Order Status: ",
+                      //         style: TextStyle(
+                      //             fontWeight: FontWeight.bold, fontSize: 18),
+                      //       ),
+                      //       Text(data.status!.toString(),
+                      //           softWrap: false,
+                      //           overflow: TextOverflow.ellipsis,
+                      //           maxLines: 1,
+                      //           style: TextStyle(fontSize: 18)),
+                      //     ],
+                      //   ),
+                      // )
+                    ],
+                  );
+                }),
                 config.verticalSpaceSmall(),
                 Row(
                   children: [
@@ -214,7 +282,7 @@ class _TableForReceiptState extends State<TableForReceipt> {
                                     border: Border.all(color: Colors.black)),
                                 child: Text(
                                   purchaseItems.purchasePrice.toString(),
-                                  textAlign: TextAlign.center,
+                                  textAlign: TextAlign.right,
                                 )),
                           ),
                           Expanded(
@@ -416,6 +484,28 @@ class _TableForReceiptState extends State<TableForReceipt> {
                       child: Text(
                         converter
                             .convertInt(purchaseOrderList.grandTotal!.toInt()),
+                        maxLines: 2,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 16),
+                        // new
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "Staff : ",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    Expanded(
+                      child: Text(
+                        purchaseOrderList.purchaseByName.toString(),
+
+                        // converter.convertInt(data.grandTotal!.toInt()),
                         maxLines: 2,
                         softWrap: false,
                         overflow: TextOverflow.ellipsis,

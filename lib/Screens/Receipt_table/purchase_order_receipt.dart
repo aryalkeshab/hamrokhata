@@ -1,15 +1,25 @@
+import 'package:draggable_fab/draggable_fab.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hamrokhata/Screens/purchase_order/purchase_order_controller.dart';
+import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons.dart';
 import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
+import 'package:hamrokhata/models/vendor_list.dart';
 import 'package:number_to_character/number_to_character.dart';
 
 class PurchaseOrderReceipt extends StatefulWidget {
   // final PurchaseItems purchaseItems;
   // final SalesOrderListResponse? salesOrderListResponse;
   final List<PurchaseOrderResponse> purchaseOrderResponse;
+  // final String vendorName;
 
-  const PurchaseOrderReceipt({super.key, required this.purchaseOrderResponse});
+  const PurchaseOrderReceipt({
+    super.key,
+    required this.purchaseOrderResponse,
+    // this.vendorName = ""
+  });
 
   @override
   State<PurchaseOrderReceipt> createState() => _PurchaseOrderReceiptState();
@@ -27,12 +37,28 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
   @override
   Widget build(BuildContext context) {
     PurchaseOrderResponse? purchaseOrderResponse =
-        widget.purchaseOrderResponse![0];
+        widget.purchaseOrderResponse[0];
     final data = purchaseOrderResponse.data;
+    // String? vendorName = widget.vendorName;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(data!.billNumber!),
+        automaticallyImplyLeading: false,
+        title: Center(child: Text(data!.billNumber!)),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: DraggableFab(
+        child: FloatingActionButton(
+          onPressed: () {
+            Get.toNamed(Routes.dashboard);
+          },
+          child: Icon(
+            Icons.home,
+            color: Colors.white,
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
+          elevation: 2.0,
+        ),
       ),
       body: BaseWidget(
         builder: (context, config, theme) {
@@ -98,44 +124,53 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
                     )
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Text(
-                            "Vendor Name: ",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                          Text(
-                            data.purchasedBy!.toString(),
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                Builder(builder: (context) {
+                  int vendorId = int.parse(data.vendor!.name.toString());
+                  List<VendorList> vendorList =
+                      Get.find<PurchaseOrderController>().vendorApiResult;
+                  String vendorName = vendorList
+                      .firstWhere((element) => element.id == vendorId)
+                      .name!;
+
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Text(
+                              "Vendor Name: ",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14),
+                            ),
+                            Text(
+                              vendorName,
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Order Status: ",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 18),
-                          ),
-                          Text(data.status!.toString(),
-                              softWrap: false,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: TextStyle(fontSize: 18)),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                      // Expanded(
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.start,
+                      //     children: [
+                      //       Text(
+                      //         "Order Status: ",
+                      //         style: TextStyle(
+                      //             fontWeight: FontWeight.bold, fontSize: 18),
+                      //       ),
+                      //       Text(data.status!.toString(),
+                      //           softWrap: false,
+                      //           overflow: TextOverflow.ellipsis,
+                      //           maxLines: 1,
+                      //           style: TextStyle(fontSize: 18)),
+                      //     ],
+                      //   ),
+                      // )
+                    ],
+                  );
+                }),
                 config.verticalSpaceSmall(),
                 Row(
                   children: [
@@ -251,7 +286,7 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
                                     border: Border.all(color: Colors.black)),
                                 child: Text(
                                   purchaseItems.purchasePrice.toString(),
-                                  textAlign: TextAlign.center,
+                                  textAlign: TextAlign.right,
                                 )),
                           ),
                           Expanded(

@@ -85,6 +85,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             icons: Icons.price_check_rounded,
                           ),
                           DashboardModule(
+                            text: 'Add Products',
+                            onPressed: () {
+                              Get.toNamed(Routes.addProductScreen);
+                            },
+                            icons: Icons.production_quantity_limits_sharp,
+                          ),
+                          DashboardModule(
                             text: 'Purchase Order',
                             onPressed: () {
                               Get.toNamed(Routes.purchaseOrder);
@@ -96,14 +103,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             onPressed: () {
                               Get.toNamed(Routes.purchaseOrderList);
                             },
-                            icons: Icons.add_circle_rounded,
+                            icons: Icons.microwave_rounded,
                           ),
                           DashboardModule(
                             text: 'Sales Order',
                             onPressed: () {
                               Get.toNamed(Routes.salesOrder);
                             },
-                            icons: Icons.microwave_rounded,
+                            icons: Icons.add_circle_rounded,
                           ),
                           DashboardModule(
                             text: 'Sales Order List',
@@ -111,13 +118,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               Get.toNamed(Routes.salesOrderList);
                             },
                             icons: Icons.account_box,
-                          ),
-                          DashboardModule(
-                            text: 'Add Products',
-                            onPressed: () {
-                              Get.toNamed(Routes.addProductScreen);
-                            },
-                            icons: Icons.production_quantity_limits_sharp,
                           ),
                           DashboardModule(
                             text: 'Print Setting',

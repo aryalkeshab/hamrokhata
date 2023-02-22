@@ -12,8 +12,13 @@ class IntroScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const dummyIntroBody =
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
+    const dummyIntroBody1 =
+        "Welcome to our Inventory Management System! Our app helps you keep track of your inventory in real-time, making it easier for you to manage your business and make informed decisions";
+    const dummyIntroBody2 =
+        "Say goodbye to the hassle of manual inventory tracking! With our app, you can easily monitor your stock levels, sales, and order history all in one place, right from your mobile device.";
+    const dummyIntroBody3 =
+        "Get organized and streamline your inventory management with our easy-to-use app. From tracking your inventory levels to setting low stock alerts, our system makes it simple to stay on top of your inventory and improve your overall business operations.";
+
     return IntroductionScreen(
       pages: [
         PageViewModel(
@@ -21,10 +26,10 @@ class IntroScreen extends StatelessWidget {
                 "https://quickbooks.intuit.com/oidam/intuit/sbseg/en_us/Blog/Graphic/inventory-management-illustration.png",
             // "https://startupnation.com/wp-content/uploads/2018/02/Screen-Shot-2018-02-05-at-10.29.47-AM.png",
             title: "Welcome to HamroKhata!",
-            body: dummyIntroBody),
+            body: dummyIntroBody1),
         PageViewModel(
           title: "Track your inventory anytime, anywhere with HamroKhata.",
-          body: dummyIntroBody,
+          body: dummyIntroBody2,
           image:
               "https://t3.ftcdn.net/jpg/01/81/20/94/360_F_181209420_P2Pa9vacolr2uIOwSJdCq4w5ydtPCAsS.jpg",
         ),
@@ -32,7 +37,7 @@ class IntroScreen extends StatelessWidget {
             image:
                 "https://st2.depositphotos.com/1518767/6556/i/450/depositphotos_65561347-stock-photo-serious-warehouse-manager-checking-inventory.jpg",
             title: "You are one step away!",
-            body: dummyIntroBody),
+            body: dummyIntroBody3),
       ],
       onDone: () {
         Get.toNamed(Routes.login);

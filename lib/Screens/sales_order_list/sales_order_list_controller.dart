@@ -14,8 +14,8 @@ class SalesOrderListController extends GetxController {
     super.onInit();
   }
 
-  //getpurchaseList
-  List<SalesOrderListResponse>? salesOrderResponseList = [];
+  //getSalesList
+  List<SalesOrderList>? salesOrderResponseList = [];
 
   ApiResponse _salesOrderResponse = ApiResponse();
 

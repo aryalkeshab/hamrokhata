@@ -118,15 +118,17 @@ class PurchaseOrderController extends GetxController {
 
   ApiResponse get purchaseOrderResponse => _purchaseOrderResponse;
 
-  createPurchaseOrder(
-      PurchaseOrderModel purchaseOrderModel, BuildContext context) async {
+  createPurchaseOrder(PurchaseOrderModel purchaseOrderModel,
+      BuildContext context, String vendorName) async {
     purchaseOrderResponse =
         await Get.find<PurchaseRepository>().purchaseOrder(purchaseOrderModel);
     if (purchaseOrderResponse.hasData) {
       purchaseOrderResponseList = purchaseOrderResponse.data;
       // showNormalToast(purchaseOrderResponseList!.msg.toString());
-      Get.toNamed(Routes.purchaseOrderReceipt,
-          arguments: [purchaseOrderResponseList!]);
+      Get.toNamed(
+        Routes.purchaseOrderReceipt,
+        arguments: [purchaseOrderResponseList!],
+      );
       update();
     } else {
       AppSnackbar.showError(

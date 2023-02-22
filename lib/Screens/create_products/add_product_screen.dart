@@ -209,13 +209,32 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     ),
                     config.verticalSpaceMedium(),
                     imagePath != null
-                        ? SizedBox(
-                            height: 200,
-                            width: 200,
-                            child: Image.file(
-                              imagePath!,
-                              fit: BoxFit.cover,
-                            ),
+                        ? Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Product Image: ",
+                                    style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              SizedBox(
+                                height: 200,
+                                width: 200,
+                                child: Image.file(
+                                  imagePath!,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ],
                           )
                         : Container(),
                     config.verticalSpaceMedium(),
@@ -301,19 +320,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   openCamera() async {
-    try {
-      XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    // try {
+    XFile? image = await _picker.pickImage(source: ImageSource.camera);
 
-      if (image != null) {
-        setState(() async {
-          imagePath = File(image.path);
+    if (image != null) {
+      setState(() {
+        imagePath = File(image.path);
 
-          print(imagePath!.path);
-        });
-      }
-    } catch (e) {
-      showErrorToast("No camera available for taking pictures");
+        print(imagePath!.path);
+      });
     }
+    // } catch (e) {
+    //   showErrorToast("No camera available for taking pictures");
+    // }
   }
 
   chooseFile() async {

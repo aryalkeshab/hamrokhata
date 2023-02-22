@@ -3,6 +3,8 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:hamrokhata/Screens/Forgot%20Password/Forgot_Password_Screen.dart';
 import 'package:hamrokhata/Screens/Forgot%20Password/reset_password_screen.dart';
 import 'package:hamrokhata/Screens/Pin%20Code/otp_screen.dart';
+import 'package:hamrokhata/Screens/Receipt_table/sales_order_receipt.dart';
+import 'package:hamrokhata/Screens/Receipt_table/sales_receipt.dart';
 import 'package:hamrokhata/Screens/auth/auth_di.dart';
 import 'package:hamrokhata/Screens/auth/data_source/auth_bindings.dart';
 import 'package:hamrokhata/Screens/auth/register/register.dart';
@@ -15,14 +17,12 @@ import 'package:hamrokhata/Screens/intro_screens/intro_screen.dart';
 import 'package:hamrokhata/Screens/product_detail/product_details_screen.dart';
 import 'package:hamrokhata/Screens/product_detail/product_search_di.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_di.dart';
-import 'package:hamrokhata/Screens/purchase_order/purchase_order_receipt.dart';
+import 'package:hamrokhata/Screens/Receipt_table/purchase_order_receipt.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_order_screen.dart';
 import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list_screen.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_di.dart';
-import 'package:hamrokhata/Screens/sales_order/sales_order_receipt.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_screen.dart';
 import 'package:hamrokhata/Screens/sales_order_list/sales_order_list.dart';
-import 'package:hamrokhata/Screens/sales_order_list/sales_receipt.dart';
 import 'package:hamrokhata/Screens/splash/splash_screen.dart';
 import 'package:hamrokhata/commons/api/core_bindings.dart';
 import 'package:hamrokhata/models/response/reset_response.dart';
@@ -184,9 +184,10 @@ class AppPages {
     GetPage(name: _Paths.introScreen, page: IntroScreen.new),
     GetPage(
       name: _Paths.purchaseOrderReceipt,
-      page: () => PurchaseOrderReceipt(
-        purchaseOrderResponse: Get.arguments,
-      ),
+      page: () => PurchaseOrderReceipt(purchaseOrderResponse: Get.arguments
+          //  [0],
+          // vendorName: Get.arguments[1],
+          ),
     ),
     GetPage(
       name: _Paths.salesTableReceipt,

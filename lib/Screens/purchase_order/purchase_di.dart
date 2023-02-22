@@ -16,7 +16,7 @@ class PurchaseBinding extends Bindings {
           networkInfo: Get.find<NetworkInfo>(),
           purchaseOrderRemoteDataSource:
               Get.find<PurchaseOrderRemoteDataSource>()))
-      ..put(PurchaseOrderController())
-      ..put(PurchaseOrderListController());
+      ..put(PurchaseOrderController(), permanent: true)
+      ..put(PurchaseOrderListController(), permanent: true);
   }
 }

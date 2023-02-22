@@ -107,6 +107,26 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                   children: [
                     Expanded(
                       flex: 1,
+                      child: Text(
+                        "Customer Name",
+                        style: TextStyle(
+                            fontSize: 13, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        "Order Status",
+                        style: TextStyle(
+                            fontSize: 13, fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
                       child: DropdownSearch<String>(
                         dropdownDecoratorProps: const DropDownDecoratorProps(
                           dropdownSearchDecoration: InputDecoration(
@@ -455,7 +475,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                         discPercent:
                             int.parse(discountController.text.toString()),
                         taxPercent: int.parse(taxController.text.toString()),
-                        customer: selectedCustomerId);
+                        customer: Customer(name: selectedCustomerId));
 
                     if (selectedCustomerId == null && selectedStatus == null) {
                       showErrorToast(
@@ -470,6 +490,11 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                         qtyController.clear();
                         priceController.clear();
                         searchController.clear();
+                        discountController.clear();
+                        discount = 0.0;
+                        taxController.clear();
+                        tax = 0.0;
+                        netTotal = 0.0;
                       } catch (e) {
                         showErrorToast("Something went wrong");
                       }
@@ -516,8 +541,8 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                       controller.getProductSearch(context, value);
                     },
                     onChanged: (value) {
-                      controller.getProductSearch(
-                          context, searchController.text);
+                      // controller.getProductSearch(
+                      //     context, searchController.text);
                     },
                     controller: searchController,
                     hintTxt: "Search Item No. ",

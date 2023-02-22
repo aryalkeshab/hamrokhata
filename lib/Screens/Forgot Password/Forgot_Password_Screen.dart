@@ -8,6 +8,7 @@ import 'package:hamrokhata/commons/Core/Animation/Fade_Animation.dart';
 import 'package:hamrokhata/commons/Core/Colors/Hex_Color.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/utils/custom_validators.dart';
+import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/textfields.dart';
 import 'package:hamrokhata/models/request/forget_password.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -38,152 +39,130 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     Get.put(ForgetPasswordController());
     return Scaffold(
-      body: Container(
-        // decoration: BoxDecoration(
-        //   gradient: LinearGradient(
-        //     begin: Alignment.topLeft,
-        //     end: Alignment.bottomRight,
-        //     stops: const [0.1, 0.4, 0.7, 0.9],
-        //     colors: [
-        //       HexColor("#4b4293").withOpacity(0.8),
-        //       HexColor("#4b4293"),
-        //       HexColor("#08418e"),
-        //       HexColor("#08418e")
-        //     ],
-        //   ),
-        //   image: DecorationImage(
-        //     fit: BoxFit.cover,
-        //     colorFilter: ColorFilter.mode(
-        //         HexColor("#fff").withOpacity(0.2), BlendMode.dstATop),
-        //     image: const NetworkImage(
-        //       'https://quickbooks.intuit.com/oidam/intuit/sbseg/en_us/Blog/Graphic/inventory-management-illustration.png',
-        //     ),
-        //   ),
-        // ),
-        color: Color.fromARGB(255, 156, 79, 16),
-
-        child: Center(
-          child: GetBuilder<ForgetPasswordController>(builder: (controller) {
-            return SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Card(
-                    elevation: 5,
-                    color: const Color.fromARGB(255, 171, 211, 250)
-                        .withOpacity(0.4),
-                    child: Form(
-                      key: formKey,
-                      child: Container(
-                        width: 400,
-                        padding: const EdgeInsets.all(40.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
+      body: BaseWidget(builder: (context, config, theme) {
+        return Container(
+          color: Color.fromARGB(255, 238, 235, 235),
+          padding: EdgeInsets.symmetric(
+              horizontal: config.appHorizontalPaddingMedium()),
+          child: Center(
+            child: GetBuilder<ForgetPasswordController>(builder: (controller) {
+              return SingleChildScrollView(
+                child: Card(
+                  elevation: 20,
+                  shadowColor: Colors.black,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Form(
+                        key: formKey,
+                        child: Container(
+                          width: 400,
+                          padding: const EdgeInsets.all(40.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              FadeAnimation(
+                                delay: 0.8,
+                                child: Image.asset(
+                                  "assets/images/app_logo.png",
+                                  width: 600,
+                                  height: 100,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              FadeAnimation(
+                                delay: 1,
+                                child: Container(
+                                  child: const Text(
+                                    "Let us help you,",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 0.5),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              FadeAnimation(
+                                delay: 1,
+                                child: FadeAnimation(
+                                  delay: 1,
+                                  child: PrimaryFormField(
+                                    hintIcon: Icon(
+                                      Icons.email,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    validator: (value) =>
+                                        Validator.validateEmail(value!),
+                                    onSaved: (value) {
+                                      forgetPasswordParams.email = value;
+                                    },
+                                    onChanged: (value) {
+                                      forgetPasswordParams.email = value;
+                                    },
+                                    hintTxt: "example@gmail.com",
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 25,
+                              ),
+                              FadeAnimation(
+                                delay: 1,
+                                child: PrimaryButton(
+                                    label: "Continue",
+                                    onPressed: () {
+                                      controller.forgetPasswordVerify(
+                                          forgetPasswordParams, context);
+                                    }),
+                              ),
+                            ],
+                          ),
                         ),
-                        child: Column(
+                      ),
+                      config.verticalSpaceMedium(),
+                      FadeAnimation(
+                        delay: 1,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            FadeAnimation(
-                              delay: 0.8,
-                              child: Image.asset(
-                                "assets/images/app_logo.png",
-                                width: 600,
-                                height: 100,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            FadeAnimation(
-                              delay: 1,
-                              child: Container(
-                                child: Text(
-                                  "Let us help you",
+                            const Text("Want to try again? ",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  letterSpacing: 0.5,
+                                )),
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed(Routes.login);
+                              },
+                              child: Text("Sign in",
                                   style: TextStyle(
-                                      color: Colors.white.withOpacity(0.9),
-                                      letterSpacing: 0.5),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            FadeAnimation(
-                              delay: 1,
-                              child: FadeAnimation(
-                                delay: 1,
-                                child: PrimaryFormField(
-                                  hintIcon: const Icon(
-                                    Icons.email,
-                                    color: Colors.white,
-                                  ),
-                                  validator: (value) =>
-                                      Validator.validateEmail(value!),
-                                  onSaved: (value) {
-                                    forgetPasswordParams.email = value;
-                                  },
-                                  onChanged: (value) {
-                                    forgetPasswordParams.email = value;
-                                  },
-                                  hintTxt: "example@gmail.com",
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 25,
-                            ),
-                            FadeAnimation(
-                              delay: 1,
-                              child: PrimaryButton(
-                                  label: "Continue",
-                                  onPressed: () {
-                                    controller.forgetPasswordVerify(
-                                        forgetPasswordParams, context);
-                                  }),
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 0.5,
+                                      fontSize: 14)),
                             ),
                           ],
                         ),
                       ),
-                    ),
+                      config.verticalSpaceMedium(),
+                    ],
                   ),
-
-                  //End of Center Card
-                  //Start of outer card
-                  const SizedBox(
-                    height: 20,
-                  ),
-
-                  FadeAnimation(
-                    delay: 1,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text("Want to try again? ",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              letterSpacing: 0.5,
-                            )),
-                        GestureDetector(
-                          onTap: () {
-                            Get.toNamed(Routes.login);
-                          },
-                          child: Text("Sign in",
-                              style: TextStyle(
-                                  color: Colors.white.withOpacity(0.9),
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 0.5,
-                                  fontSize: 14)),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }),
-        ),
-      ),
+                ),
+              );
+            }),
+          ),
+        );
+      }),
     );
   }
 }

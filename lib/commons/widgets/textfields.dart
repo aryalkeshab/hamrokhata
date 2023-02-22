@@ -68,7 +68,7 @@ class PrimaryFormField extends HookWidget {
           child: TextFormField(
             enabled: enabled,
             inputFormatters: inputFormatters,
-            style: const TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.black),
             keyboardType: keyboardType,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: validator,
@@ -89,7 +89,7 @@ class PrimaryFormField extends HookWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15.0),
                         child: Icon(
-                          color: Colors.white,
+                          color: Theme.of(context).primaryColor,
                           isPasswordVisible.value
                               ? Icons.visibility
                               : Icons.visibility_off,
@@ -105,7 +105,7 @@ class PrimaryFormField extends HookWidget {
               isDense: true,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              fillColor: const Color(0xFF1F1A30),
+              // fillColor: const Color(0xFF1F1A30),
               errorBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 borderSide: BorderSide(color: Colors.red),

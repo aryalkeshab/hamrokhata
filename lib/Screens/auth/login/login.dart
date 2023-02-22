@@ -60,24 +60,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: BaseWidget(builder: (context, config, theme) {
         return Container(
-          color: Color.fromARGB(255, 156, 79, 16),
+          color: Color.fromARGB(255, 238, 235, 235),
           padding: EdgeInsets.symmetric(
               horizontal: config.appHorizontalPaddingMedium()),
-          // decoration: BoxDecoration(
-          //   gradient: LinearGradient(
-          //       begin: Alignment.topLeft,
-          //       end: Alignment.bottomRight,
-          //       stops: const [0.1, 0.4, 0.7, 0.9],
-          //       colors: Color.fromARGB(255, 171, 211, 250)),
-          //   // image: DecorationImage(
-          //   //   fit: BoxFit.cover,
-          //   //   colorFilter: ColorFilter.mode(
-          //   //       HexColor("#fff").withOpacity(0.2), BlendMode.dstATop),
-          //   //   image: const NetworkImage(
-          //   //     'https://quickbooks.intuit.com/oidam/intuit/sbseg/en_us/Blog/Graphic/inventory-management-illustration.png',
-          //   //   ),
-          //   // ),
-          // ),
           child: Center(
             child: SingleChildScrollView(
               child: GetBuilder<LoginController>(
@@ -86,20 +71,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     builder: (context, config, theme) {
                       final _loginFormKey =
                           useMemoized(GlobalKey<FormState>.new);
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Card(
-                            elevation: 5,
-                            color: const Color.fromARGB(255, 171, 211, 250)
-                                .withOpacity(0.4),
-                            child: Form(
+                      return Card(
+                        elevation: 20,
+                        shadowColor: Colors.black,
+                        // decoration: BoxDecoration(
+                        //     border: Border.all(
+                        //         width: 6,
+                        //         color: Colors.black.withOpacity(0.4))),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Form(
                               key: _loginFormKey,
                               child: Container(
                                 width: 400,
-                                padding: const EdgeInsets.all(40.0),
+                                padding: const EdgeInsets.all(30.0),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -112,23 +100,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                         height: 100,
                                       ),
                                     ),
-                                    config.verticalSpaceSmall(),
-                                    FadeAnimation(
-                                      delay: 1,
-                                      child: const Text(
-                                        "Please Login to Continue",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            letterSpacing: 0.5),
-                                      ),
-                                    ),
+                                    // config.verticalSpaceSmall(),
+                                    // FadeAnimation(
+                                    //   delay: 1,
+                                    //   child: Text(
+                                    //     "Please Login to Continue",
+                                    //     style: TextStyle(
+                                    //         color: Colors.black,
+                                    //         fontSize: 18,
+                                    //         fontWeight: FontWeight.bold,
+                                    //         letterSpacing: 0.5),
+                                    //   ),
+                                    // ),
                                     config.verticalSpaceMedium(),
                                     FadeAnimation(
                                       delay: 1,
                                       child: PrimaryFormField(
-                                        hintIcon: const Icon(
+                                        hintIcon: Icon(
                                           Icons.email,
-                                          color: Colors.white,
+                                          color: Theme.of(context).primaryColor,
                                         ),
                                         validator: (value) =>
                                             Validator.validateEmail(value!),
@@ -143,9 +133,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                       delay: 1,
                                       child: PrimaryFormField(
                                         isPassword: true,
-                                        hintIcon: const Icon(
+                                        hintIcon: Icon(
                                           Icons.lock,
-                                          color: Colors.white,
+                                          color: Theme.of(context).primaryColor,
                                         ),
                                         validator: (value) =>
                                             Validator.validatePassword(value!),
@@ -153,6 +143,28 @@ class _LoginScreenState extends State<LoginScreen> {
                                           loginParams.password = value;
                                         },
                                         hintTxt: "*********",
+                                      ),
+                                    ),
+                                    config.verticalSpaceSmall(),
+                                    FadeAnimation(
+                                      delay: 1,
+                                      child: GestureDetector(
+                                        onTap: (() {
+                                          Get.toNamed(
+                                              Routes.forgotPasswordScreen);
+                                        }),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: const [
+                                            Text("Forgot Password?",
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  letterSpacing: 0.5,
+                                                )),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     config.verticalSpaceMedium(),
@@ -178,48 +190,35 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                             ),
-                          ),
-                          config.verticalSpaceSmall(),
-                          FadeAnimation(
-                            delay: 1,
-                            child: GestureDetector(
-                              onTap: (() {
-                                Get.toNamed(Routes.forgotPasswordScreen);
-                              }),
-                              child: Text("Can't Log In?",
-                                  style: TextStyle(
-                                    color: Colors.white.withOpacity(0.9),
-                                    letterSpacing: 0.5,
-                                  )),
-                            ),
-                          ),
-                          config.verticalSpaceSmall(),
-                          FadeAnimation(
-                            delay: 1,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Text("Don't have an account?",
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      letterSpacing: 0.5,
-                                    )),
-                                GestureDetector(
-                                  onTap: () {
-                                    Get.toNamed(Routes.register);
-                                  },
-                                  child: Text(" Sign up",
+                            // config.verticalSpaceSmall(),
+                            FadeAnimation(
+                              delay: 1,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Text("Don't have an account yet? ",
                                       style: TextStyle(
-                                          color: Colors.white.withOpacity(0.9),
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: 0.5,
-                                          fontSize: 14)),
-                                ),
-                              ],
+                                        color: Colors.black,
+                                        letterSpacing: 0.5,
+                                      )),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Get.toNamed(Routes.register);
+                                    },
+                                    child: const Text(" Create new",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            letterSpacing: 0.5,
+                                            fontSize: 14)),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                            config.verticalSpaceMedium(),
+                          ],
+                        ),
                       );
                     },
                   );

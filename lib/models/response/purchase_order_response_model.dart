@@ -28,6 +28,7 @@ class Data {
   List<PurchaseItems>? purchaseItems;
   String? billNumber;
   double? grandTotal;
+  Vendor? vendor;
   double? subTotal;
   double? taxAmount;
   double? discountAmount;
@@ -43,6 +44,7 @@ class Data {
       this.purchaseByName,
       this.purchaseItems,
       this.billNumber,
+      this.vendor,
       this.grandTotal,
       this.subTotal,
       this.taxAmount,
@@ -63,6 +65,8 @@ class Data {
         purchaseItems!.add(new PurchaseItems.fromJson(v));
       });
     }
+    vendor =
+        json['vendor'] != null ? new Vendor.fromJson(json['vendor']) : null;
     billNumber = json['bill_number'];
     grandTotal = json['grand_total'];
     subTotal = json['sub_total'];
@@ -83,6 +87,9 @@ class Data {
     if (this.purchaseItems != null) {
       data['purchase_items'] =
           this.purchaseItems!.map((v) => v.toJson()).toList();
+    }
+    if (this.vendor != null) {
+      data['vendor'] = this.vendor!.toJson();
     }
     data['bill_number'] = this.billNumber;
     data['grand_total'] = this.grandTotal;
@@ -140,6 +147,22 @@ class PurchaseItems {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['product'] = this.product;
+    return data;
+  }
+}
+
+class Vendor {
+  String? name;
+
+  Vendor({this.name});
+
+  Vendor.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
     return data;
   }
 }
