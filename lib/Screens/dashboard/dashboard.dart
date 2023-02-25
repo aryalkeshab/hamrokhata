@@ -29,25 +29,60 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         title: const Text('Dashboard'),
         centerTitle: true,
         actions: [
-          AuthWidgetBuilder(builder: (context, isAuthenticated) {
-            return IconButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return ConfirmDialogView(
-                      primaryText: "Are you sure want to logout?",
-                      onApproveButtonPressed: () {
-                        Get.find<AuthController>().logout();
+          PopupMenuButton<int>(
+            icon: const Icon(Icons.more_vert),
+            itemBuilder: (context) => [
+              PopupMenuItem(child: Text("Keshab")),
+              PopupMenuItem(
+                child: InkWell(onTap: () {}, child: const Text("Logout")
+
+                    //  const Icon(
+                    //   Icons.logout,
+                    //   color: Colors.black,
+                    // ),
+                    ),
+              ),
+              PopupMenuItem(
+                child: InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return ConfirmDialogView(
+                          primaryText: "Are you sure want to logout?",
+                          onApproveButtonPressed: () {
+                            Get.find<AuthController>().logout();
+                          },
+                          onCancelButtonPressed: Get.back,
+                        );
                       },
-                      onCancelButtonPressed: Get.back,
                     );
                   },
-                );
-              },
-              icon: const Icon(Icons.logout_rounded),
-            );
-          }),
+                  child: Text("Change Password"),
+                ),
+              ),
+            ],
+          )
+
+          // AuthWidgetBuilder(builder: (context, isAuthenticated) {
+          //   return IconButton(
+          //     onPressed: () {
+          //       showDialog(
+          //         context: context,
+          //         builder: (context) {
+          //           return ConfirmDialogView(
+          //             primaryText: "Are you sure want to logout?",
+          //             onApproveButtonPressed: () {
+          //               Get.find<AuthController>().logout();
+          //             },
+          //             onCancelButtonPressed: Get.back,
+          //           );
+          //         },
+          //       );
+          //     },
+          //     icon: const Icon(Icons.logout_rounded),
+          //   );
+          // }),
         ],
       ),
       body: BaseWidget(

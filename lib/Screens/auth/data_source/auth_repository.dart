@@ -1,15 +1,11 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hamrokhata/Screens/auth/data_source/auth_remote_data_source.dart';
-import 'package:hamrokhata/Screens/product_detail/product_search_remote_data_source.dart';
 import 'package:hamrokhata/commons/api/api_result.dart';
 import 'package:hamrokhata/commons/api/network_exception.dart';
 import 'package:hamrokhata/commons/api/network_info.dart';
 import 'package:hamrokhata/commons/api/storage_constants.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
-import 'package:hamrokhata/models/product_detail.dart';
 import 'package:hamrokhata/models/request/change_password_params.dart';
 import 'package:hamrokhata/models/request/forget_password.dart';
 import 'package:hamrokhata/models/request/login_params.dart';

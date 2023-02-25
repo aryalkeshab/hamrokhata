@@ -184,6 +184,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                         loginParams, context);
                                               }
                                             }
+
+                                            // Get.toNamed(Routes.dashboard);
                                           }),
                                     ),
                                   ],

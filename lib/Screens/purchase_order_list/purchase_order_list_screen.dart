@@ -236,6 +236,19 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                                         ]);
                                       },
                                       child: Card(
+                                        color: controller
+                                                    .purchaseOrderResponseList![
+                                                        index]
+                                                    .status ==
+                                                "Failed"
+                                            ? Colors.red[100]
+                                            : controller
+                                                        .purchaseOrderResponseList![
+                                                            index]
+                                                        .status ==
+                                                    "Completed"
+                                                ? Colors.green[100]
+                                                : Colors.yellow[100],
                                         child: Container(
                                           height: 40,
                                           padding: const EdgeInsets.symmetric(

@@ -14,6 +14,6 @@ class Api {
       HttpHeaders.authorizationHeader: "Bearer token ",
       // "Bearer " + SpUtil.getString(Constants.authToken),
     };
-    dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
+    // dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
   }
 }

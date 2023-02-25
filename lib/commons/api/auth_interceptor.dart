@@ -73,6 +73,7 @@ class AuthInterceptor extends QueuedInterceptor {
             key: StorageConstants.accessToken, value: accessToken);
         await storage.write(
             key: StorageConstants.refreshToken, value: refreshToken2);
+            
 
         //continue to the original request
         // _dio.interceptors.requestLock.lock();

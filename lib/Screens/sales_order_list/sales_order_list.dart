@@ -195,6 +195,18 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
 
                                 return Visibility(
                                   child: Card(
+                                    color: controller
+                                                .salesOrderResponseList![index]
+                                                .status ==
+                                            "Failed"
+                                        ? Colors.red[100]
+                                        : controller
+                                                    .salesOrderResponseList![
+                                                        index]
+                                                    .status ==
+                                                "Completed"
+                                            ? Colors.green[100]
+                                            : Colors.yellow[100],
                                     child: Container(
                                       height: 40,
                                       padding: const EdgeInsets.symmetric(
