@@ -124,13 +124,13 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Text(
+                                    const Text(
                                       "Date: ",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18),
                                     ),
-                                    Text(data.createdAt!.substring(0, 10) ?? '',
+                                    Text(data.createdAt!.substring(0, 10),
                                         softWrap: false,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,

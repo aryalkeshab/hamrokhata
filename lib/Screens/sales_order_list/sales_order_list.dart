@@ -9,6 +9,7 @@ import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/text_form_widget.dart';
 import 'package:hamrokhata/models/customer_model.dart';
+import 'package:hamrokhata/models/request/sales_list_request_params.dart';
 import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
 
 class SalesOrderListScreen extends StatefulWidget {
@@ -21,12 +22,14 @@ class SalesOrderListScreen extends StatefulWidget {
 class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
   @override
   void initState() {
-    Get.put(SalesOrderListController()).getsalesOrderList();
+    Get.put(SalesOrderListController())
+        .getsalesOrderList(SalesListRequestParams());
 
     super.initState();
   }
 
-  DateTimeRange? _selectedDateRange;
+  DateTime? selectedDate;
+  final searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -52,56 +55,55 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                   // ),
                   TextFieldWidget(
                     onPressed: () {
-                      // controller.getProductSearch(
-                      //     context, searchController.text);
+                      controller.getsalesOrderList(SalesListRequestParams(
+                        date: selectedDate.toString(),
+                        customer: searchController.text,
+                      ));
                     },
+                    controller: searchController,
                     onSaved: (value) {
-                      // controller.getProductSearch(context, value);
+                      controller.getsalesOrderList(SalesListRequestParams(
+                        date: selectedDate.toString(),
+                        customer: value,
+                      ));
                     },
                     onChanged: (value) {
                       // controller.getProductSearch(context, value);
                     },
                     // controller: searchController,
                     hintTxt: "Search Customer Name ",
-                    // hintIcon: InkWell(
-                    //   onTap: () async {
-                    //     // scannedCode = await Scanqr.barcodeScanner(context);
-                    //     // print(scannedCode);
-                    //     // controller.getProductSearch(context, scannedCode);
-                    //   },
-                    //   child: const Icon(CupertinoIcons.barcode),
-                    // ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Date Filter: ',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.date_range, size: 25),
-                        onPressed: () async {
-                          DateTimeRange? pickedDate = await showDateRangePicker(
-                              context: context,
-                              // initialDate: DateTime.now(),
-                              firstDate: DateTime(1950),
-                              currentDate: DateTime.now(),
-                              saveText: 'Done',
-                              lastDate: DateTime(2100));
+                    hintIcon: InkWell(
+                      onTap: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1950),
+                            currentDate: DateTime.now(),
+                            lastDate: DateTime.now());
 
-                          if (pickedDate != null) {
-                            print(pickedDate);
-                            //pickedDate output format => 2021-03-10 00:00:00.000
+                        if (pickedDate != null) {
+                          //pickedDate output format => 2021-03-10 00:00:00.000
 
-                            _selectedDateRange = pickedDate;
-                            print(_selectedDateRange!.start);
-                          } else {}
-                        },
-                      ),
-                    ],
+                          selectedDate = pickedDate;
+                        } else {}
+                      },
+                      child: const Icon(Icons.date_range),
+                    ),
                   ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     const Text(
+                  //       'Date Filter: ',
+                  //       style: TextStyle(
+                  //           fontWeight: FontWeight.bold, fontSize: 16),
+                  //     ),
+                  //     IconButton(
+                  //       icon: const Icon(Icons.date_range, size: 25),
+                  //       onPressed: () async {},
+                  //     ),
+                  //   ],
+                  // ),
                   const Divider(
                     height: 2,
                   ),

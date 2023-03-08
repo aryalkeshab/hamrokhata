@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/auth/auth_controller.dart';
-import 'package:hamrokhata/Screens/bluetooth/app_setting.dart';
-import 'package:hamrokhata/Screens/bluetooth/bluetooth_device_list_screen.dart';
-import 'package:hamrokhata/commons/api/auth_widget_wrapper.dart';
+
 import 'package:hamrokhata/commons/resources/confirm_dialog_view.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/dashboard_module.dart';
-import 'package:hamrokhata/commons/widgets/toast.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({super.key});
@@ -34,7 +30,22 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             itemBuilder: (context) => [
               PopupMenuItem(child: Text("Keshab")),
               PopupMenuItem(
-                child: InkWell(onTap: () {}, child: const Text("Logout")
+                child: InkWell(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return ConfirmDialogView(
+                            primaryText: "Are you sure want to logout?",
+                            onApproveButtonPressed: () {
+                              Get.find<AuthController>().logout();
+                            },
+                            onCancelButtonPressed: Get.back,
+                          );
+                        },
+                      );
+                    },
+                    child: const Text("Logout")
 
                     //  const Icon(
                     //   Icons.logout,
@@ -45,25 +56,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               PopupMenuItem(
                 child: InkWell(
                   onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return ConfirmDialogView(
-                          primaryText: "Are you sure want to logout?",
-                          onApproveButtonPressed: () {
-                            Get.find<AuthController>().logout();
-                          },
-                          onCancelButtonPressed: Get.back,
-                        );
-                      },
-                    );
+                    Get.toNamed(Routes.changePasswordScreeen);
+                    Navigator.pop(context);
                   },
-                  child: Text("Change Password"),
+                  child: const Text("Change Password"),
                 ),
               ),
             ],
-          )
-
+          ),
           // AuthWidgetBuilder(builder: (context, isAuthenticated) {
           //   return IconButton(
           //     onPressed: () {
@@ -161,13 +161,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             },
                             icons: Icons.print,
                           ),
-                          DashboardModule(
-                            text: 'Change Password',
-                            onPressed: () {
-                              Get.toNamed(Routes.changePasswordScreeen);
-                            },
-                            icons: Icons.password,
-                          ),
+                          // DashboardModule(
+                          //   text: 'Change Password',
+                          //   onPressed: () {
+                          //     Get.toNamed(Routes.changePasswordScreeen);
+                          //   },
+                          //   icons: Icons.password,
+                          // ),
                         ]),
                   ],
                 ),

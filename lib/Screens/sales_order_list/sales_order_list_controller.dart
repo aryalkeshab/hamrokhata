@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_repository.dart';
 import 'package:hamrokhata/Screens/sales_order_list/sakes_order_list_model.dart';
 import 'package:hamrokhata/commons/api/api_result.dart';
+import 'package:hamrokhata/models/request/sales_list_request_params.dart';
 
 import 'package:hamrokhata/models/response/sales_order_list.dart';
 
@@ -26,9 +27,9 @@ class SalesOrderListController extends GetxController {
 
   ApiResponse get salesOrderResponse => _salesOrderResponse;
 
-  getsalesOrderList() async {
-    salesOrderResponse =
-        await Get.find<SalesOrderRepository>().salesOrderList();
+  getsalesOrderList(SalesListRequestParams salesListRequestParams) async {
+    salesOrderResponse = await Get.find<SalesOrderRepository>()
+        .salesOrderList(salesListRequestParams);
     if (salesOrderResponse.hasData) {
       salesOrderResponseList = salesOrderResponse.data;
       update();

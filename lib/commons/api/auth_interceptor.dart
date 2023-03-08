@@ -9,7 +9,6 @@ import 'package:hamrokhata/commons/widgets/toast.dart';
 class AuthInterceptor extends QueuedInterceptor {
   final Dio _dio;
   final FlutterSecureStorage storage;
-  
 
   AuthInterceptor(this._dio, this.storage);
   @override
@@ -47,9 +46,9 @@ class AuthInterceptor extends QueuedInterceptor {
   }
 
   void logout() {
-    showErrorToast(
-      "Token expired. Please login again",
-    );
+    // showErrorToast(
+    //   "Token expired. Please login again",
+    // );
     Get.find<AuthController>().logout();
     Get.key.currentState
         ?.popUntil((route) => route.settings.name == Routes.login);
@@ -73,15 +72,14 @@ class AuthInterceptor extends QueuedInterceptor {
             key: StorageConstants.accessToken, value: accessToken);
         await storage.write(
             key: StorageConstants.refreshToken, value: refreshToken2);
-            
 
         //continue to the original request
         // _dio.interceptors.requestLock.lock();
         // _dio.interceptors.responseLock.lock();
       } catch (e) {
-        showErrorToast(
-          "Refresh token expired. Please login again",
-        );
+        // showErrorToast(
+        //   "Refresh token expired. Please login again",
+        // );
         logout();
       }
     }

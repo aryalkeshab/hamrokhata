@@ -122,8 +122,7 @@ class _TableForSalesReceiptState extends State<TableForSalesReceipt> {
                                     ),
                                     Text(
                                         salesOrderListResponse.createdAt!
-                                                .substring(0, 10) ??
-                                            '',
+                                            .substring(0, 10),
                                         softWrap: false,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,

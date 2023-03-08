@@ -5,6 +5,7 @@ import 'package:hamrokhata/commons/api/api_result.dart';
 import 'package:hamrokhata/commons/api/network_exception.dart';
 import 'package:hamrokhata/commons/api/network_info.dart';
 import 'package:hamrokhata/models/customer_model.dart';
+import 'package:hamrokhata/models/request/sales_list_request_params.dart';
 import 'package:hamrokhata/models/response/sales_order_list.dart';
 import 'package:hamrokhata/models/sales_order_model.dart';
 import 'package:hamrokhata/models/request/sales_response_model.dart';
@@ -13,7 +14,8 @@ import 'package:hamrokhata/models/vendor_list.dart';
 abstract class SalesOrderRepository {
   Future<ApiResponse> getCustomerList();
   Future<ApiResponse> salesOrder(SalesOrderModel salesOrderModel);
-  Future<ApiResponse> salesOrderList();
+  Future<ApiResponse> salesOrderList(
+      SalesListRequestParams salesListRequestParams);
 }
 
 class SalesOrderRepositoryImpl extends SalesOrderRepository {
@@ -62,10 +64,12 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
   }
 
   @override
-  Future<ApiResponse> salesOrderList() async {
+  Future<ApiResponse> salesOrderList(
+      SalesListRequestParams salesListRequestParams) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await salesOrderRemoteDataSource.salesOrderList();
+        final result = await salesOrderRemoteDataSource
+            .salesOrderList(salesListRequestParams);
         print(result);
 
         final salesOrderResponseList = result

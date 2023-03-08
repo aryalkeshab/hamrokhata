@@ -124,7 +124,7 @@ class _SalesOrderReceiptState extends State<SalesOrderReceipt> {
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18),
                                     ),
-                                    Text(data.createdAt!.substring(0, 10) ?? '',
+                                    Text(data.createdAt!.substring(0, 10),
                                         softWrap: false,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
