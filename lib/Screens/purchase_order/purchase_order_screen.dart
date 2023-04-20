@@ -25,6 +25,7 @@ import 'package:hamrokhata/commons/widgets/textfields.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/customer_model.dart';
 import 'package:hamrokhata/models/product_detail.dart';
+import 'package:hamrokhata/models/request/product_search_request_model.dart';
 import 'package:hamrokhata/models/request/purchase_request_model.dart';
 import 'package:hamrokhata/models/sales_order_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
@@ -484,18 +485,17 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                             purchaseOrderModel,
                             context,
                             selectedVendor.toString());
-                        purchaseList.clear();
-                        // selectedOrderStatus = null;
-                        discountController.clear();
-                        discount = 0.0;
-                        taxController.clear();
-                        tax = 0.0;
-                        netTotal = 0.0;
+                        // purchaseList.clear();
 
-                        // selectedVendor = null;
-                        qtyController.clear();
-                        priceController.clear();
-                        searchController.clear();
+                        // discountController.clear();
+                        // discount = 0.0;
+                        // taxController.clear();
+                        // tax = 0.0;
+                        // netTotal = 0.0;
+
+                        // qtyController.clear();
+                        // priceController.clear();
+                        // searchController.clear();
                       } catch (e) {
                         showErrorToast("Something went wrong");
                       }
@@ -534,17 +534,27 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                 children: [
                   config.verticalSpaceMedium(),
                   TextFieldWidget(
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text,
                     onPressed: () {
                       controller.getProductSearch(
-                          context, searchController.text);
+                          context,
+                          ProductSearchRequestModel(
+                            name: searchController.text,
+                          ));
                     },
                     onSaved: (value) {
-                      controller.getProductSearch(context, value);
+                      controller.getProductSearch(
+                          context,
+                          ProductSearchRequestModel(
+                            name: searchController.text,
+                          ));
                     },
                     onChanged: (value) {
                       // controller.getProductSearch(
-                      //     context, searchController.text);
+                      //     context,
+                      //     ProductSearchRequestModel(
+                      //       name: searchController.text,
+                      //     ));
                     },
                     controller: searchController,
                     hintTxt: "Search Item No. ",
@@ -552,7 +562,8 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                       onTap: () async {
                         scannedCode = await Scanqr.barcodeScanner(context);
 
-                        controller.getProductSearch(context, scannedCode);
+                        controller.getProductSearch(context,
+                            ProductSearchRequestModel(sku: scannedCode));
                       },
                       child: const Icon(CupertinoIcons.barcode),
                     ),

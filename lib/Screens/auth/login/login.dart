@@ -137,8 +137,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                           Icons.lock,
                                           color: Theme.of(context).primaryColor,
                                         ),
-                                        validator: (value) =>
-                                            Validator.validatePassword(value!),
+                                        // validator: (value) =>
+                                        //     Validator.validatePassword(value!),
                                         onSaved: (value) {
                                           loginParams.password = value;
                                         },

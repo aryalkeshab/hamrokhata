@@ -2,7 +2,8 @@ class PurchaseOrderList {
   int? id;
   String? purchaseByName;
   List<PurchaseItems>? purchaseItems;
-  Vendor? vendor;
+  // Vendor? vendor;
+  String? vendor;
   String? billNumber;
   double? grandTotal;
   double? subTotal;
@@ -41,8 +42,9 @@ class PurchaseOrderList {
         purchaseItems!.add(new PurchaseItems.fromJson(v));
       });
     }
-    vendor =
-        json['vendor'] != null ? new Vendor.fromJson(json['vendor']) : null;
+    // vendor =
+    //     json['vendor'] != null ? new Vendor.fromJson(json['vendor']) : null;
+    vendor = json["vendor"];
     billNumber = json['bill_number'];
     grandTotal = json['grand_total'];
     subTotal = json['sub_total'];
@@ -64,9 +66,9 @@ class PurchaseOrderList {
       data['purchase_items'] =
           this.purchaseItems!.map((v) => v.toJson()).toList();
     }
-    if (this.vendor != null) {
-      data['vendor'] = this.vendor!.toJson();
-    }
+    // if (this.vendor != null) {
+    //   data['vendor'] = this.vendor!.toJson();
+    // }
     data['bill_number'] = this.billNumber;
     data['grand_total'] = this.grandTotal;
     data['sub_total'] = this.subTotal;

@@ -10,6 +10,7 @@ import 'package:hamrokhata/commons/widgets/text_form_widget.dart';
 import 'package:hamrokhata/commons/widgets/textfields.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/product_detail.dart';
+import 'package:hamrokhata/models/request/product_search_request_model.dart';
 
 class ProductDetails extends StatefulWidget {
   const ProductDetails({super.key});
@@ -40,13 +41,24 @@ class _ProductDetailsState extends State<ProductDetails> {
                   TextFieldWidget(
                     onPressed: () {
                       controller.getProductSearch(
-                          context, searchController.text);
+                          context,
+                          ProductSearchRequestModel(
+                            name: searchController.text,
+                          ));
                     },
                     onSaved: (value) {
-                      controller.getProductSearch(context, value);
+                      controller.getProductSearch(
+                          context,
+                          ProductSearchRequestModel(
+                            name: searchController.text,
+                          ));
                     },
                     onChanged: (value) {
-                      // controller.getProductSearch(context, value);
+                      // controller.getProductSearch(
+                      //     context,
+                      //     ProductSearchRequestModel(
+                      //       name: searchController.text,
+                      //     ));
                     },
                     controller: searchController,
                     hintTxt: "Search Item No. ",
@@ -54,7 +66,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                       onTap: () async {
                         scannedCode = await Scanqr.barcodeScanner(context);
                         print(scannedCode);
-                        controller.getProductSearch(context, scannedCode);
+                        controller.getProductSearch(
+                            context,
+                            ProductSearchRequestModel(
+                              sku: scannedCode,
+                            ));
                       },
                       child: const Icon(CupertinoIcons.barcode),
                     ),

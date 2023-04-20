@@ -6,9 +6,11 @@ import 'package:hamrokhata/commons/api/api_result.dart';
 import 'package:hamrokhata/commons/api/network_exception.dart';
 import 'package:hamrokhata/commons/api/network_info.dart';
 import 'package:hamrokhata/models/product_detail.dart';
+import 'package:hamrokhata/models/request/product_search_request_model.dart';
 
 abstract class ProductSearchRepository {
-  Future<ApiResponse> getProductDetail(id);
+  Future<ApiResponse> getProductDetail(
+      ProductSearchRequestModel productSearchRequestModel);
 }
 
 class ProductSearchRepositoryImpl extends ProductSearchRepository {
@@ -21,10 +23,12 @@ class ProductSearchRepositoryImpl extends ProductSearchRepository {
   });
 
   @override
-  Future<ApiResponse> getProductDetail(id) async {
+  Future<ApiResponse> getProductDetail(
+      ProductSearchRequestModel productSearchRequestModel) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await productSearchRemoteDataSource.getProductDetail(id);
+        final result = await productSearchRemoteDataSource
+            .getProductDetail(productSearchRequestModel);
         print(result);
         final productDetails =
             ProductSearchResponse.fromJson(result["data"][0]);

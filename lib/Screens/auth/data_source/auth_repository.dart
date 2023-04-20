@@ -55,7 +55,7 @@ class AuthLoginRegisterRepositoryImpl extends AuthLoginRegisterRepository {
             value: result["token"]["access"]);
         print("-----");
         print(secureStorage.read(key: StorageConstants.loginStaff));
-        showSuccessToast(result['msg']);
+        // showSuccessToast(result['msg']);
 
         return ApiResponse(data: result['msg']);
       } catch (e) {

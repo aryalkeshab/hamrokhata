@@ -7,6 +7,7 @@ import 'package:hamrokhata/commons/widgets/dialog_box.dart';
 import 'package:hamrokhata/commons/widgets/snackbar.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/product_detail.dart';
+import 'package:hamrokhata/models/request/product_search_request_model.dart';
 
 class ProductDetailsController extends GetxController {
   List<ProductSearchResponse> productDetails = [];
@@ -20,9 +21,10 @@ class ProductDetailsController extends GetxController {
 
   ApiResponse get productSearchResponse => _productSearchResponse;
 
-  getProductSearch(BuildContext context, id) async {
-    productSearchResponse =
-        await Get.find<ProductSearchRepository>().getProductDetail(id);
+  getProductSearch(BuildContext context,
+      ProductSearchRequestModel productSearchRequestModel) async {
+    productSearchResponse = await Get.find<ProductSearchRepository>()
+        .getProductDetail(productSearchRequestModel);
     if (productSearchResponse.hasError) {
       AppSnackbar.showError(
           context: context,

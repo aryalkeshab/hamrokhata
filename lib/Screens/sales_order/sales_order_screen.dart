@@ -25,6 +25,7 @@ import 'package:hamrokhata/commons/widgets/textfields.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/customer_model.dart';
 import 'package:hamrokhata/models/product_detail.dart';
+import 'package:hamrokhata/models/request/product_search_request_model.dart';
 import 'package:hamrokhata/models/sales_order_model.dart';
 
 class SalesOrderScreen extends StatefulWidget {
@@ -532,17 +533,27 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                 children: [
                   config.verticalSpaceMedium(),
                   TextFieldWidget(
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text,
                     onPressed: () {
                       controller.getProductSearch(
-                          context, searchController.text);
+                          context,
+                          ProductSearchRequestModel(
+                            name: searchController.text,
+                          ));
                     },
                     onSaved: (value) {
-                      controller.getProductSearch(context, value);
+                      controller.getProductSearch(
+                          context,
+                          ProductSearchRequestModel(
+                            name: searchController.text,
+                          ));
                     },
                     onChanged: (value) {
                       // controller.getProductSearch(
-                      //     context, searchController.text);
+                      //     context,
+                      //     ProductSearchRequestModel(
+                      //       name: searchController.text,
+                      //     ));
                     },
                     controller: searchController,
                     hintTxt: "Search Item No. ",
@@ -550,6 +561,11 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                       onTap: () async {
                         scannedCode = await Scanqr.barcodeScanner(context);
                         print(scannedCode);
+                        controller.getProductSearch(
+                            context,
+                            ProductSearchRequestModel(
+                              sku: scannedCode,
+                            ));
                       },
                       child: const Icon(CupertinoIcons.barcode),
                     ),
@@ -710,7 +726,10 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                               //     return;
                               //   } else
                               // }
-                              if (int.parse(qtyController.text) == 0) {
+                              if (searchController.text.isEmpty) {
+                                showErrorToast(
+                                    "Please enter item no. or scan barcode");
+                              } else if (int.parse(qtyController.text) == 0) {
                                 showErrorToast("You cannot add 0 quantity !");
                               } else if (productDetails.currentStock! >
                                   int.parse(qtyController.text)) {

@@ -88,6 +88,7 @@ class SplashAnimationController extends GetxController
           Get.offNamed(Routes.introScreen);
         } else if (accessToken == null) {
           Get.offNamed(Routes.login);
+          // Get.offNamed(Routes.dashboard);
         } else if (accessToken.isNotEmpty || isLoggedIn == "true") {
           Get.offNamed(Routes.dashboard);
         } else {

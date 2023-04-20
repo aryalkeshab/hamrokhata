@@ -213,9 +213,8 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
 
                                   // print(vendorName);
                                   int vendorId = int.parse(controller
-                                      .purchaseOrderResponseList![index]
-                                      .vendor!
-                                      .name
+                                      .purchaseOrderResponseList![index].vendor!
+                                      // .name
                                       .toString());
 
                                   List<VendorList> vendorList =

@@ -64,6 +64,7 @@ class AppPages {
         // CoreBindings(),
         LoginBindings(),
         // AuthBinding(),
+        SalesOrderBinding(),
       ],
     ),
 

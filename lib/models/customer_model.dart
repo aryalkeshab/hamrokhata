@@ -1,7 +1,7 @@
 class CustomerModel {
   int? id;
   String? name;
-  int? phone;
+  String? phone;
   String? email;
   String? createdAt;
   String? updatedAt;

@@ -1,9 +1,12 @@
 import 'package:draggable_fab/draggable_fab.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:hamrokhata/Screens/bluetooth/print_utils.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_order_controller.dart';
 import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list.dart';
 import 'package:hamrokhata/Screens/sales_order_list/sakes_order_list_model.dart';
+import 'package:hamrokhata/commons/api/storage_constants.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons.dart';
@@ -23,12 +26,25 @@ class TableForReceipt extends StatefulWidget {
 
 class _TableForReceiptState extends State<TableForReceipt> {
   var converter = NumberToCharacterConverter('en');
+  final secureStorage = Get.find<FlutterSecureStorage>();
 
   int qtyExpanded = 2;
   int snExpanded = 1;
   int nameExpanded = 3;
   int unitExpanded = 2;
   int totalExpanded = 3;
+  String? printerAddress;
+
+  @override
+  void initState() {
+    getPrinterAddress();
+    super.initState();
+  }
+
+  void getPrinterAddress() async {
+    printerAddress =
+        await secureStorage.read(key: StorageConstants.printerAddress);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +100,7 @@ class _TableForReceiptState extends State<TableForReceipt> {
                             textAlign: TextAlign.center,
                           ),
                           Text(
-                            "Pan No: 601000000",
+                            "Pan No: 60100030100",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -136,8 +152,9 @@ class _TableForReceiptState extends State<TableForReceipt> {
                             ],
                           ),
                           Builder(builder: (context) {
-                            int vendorId = int.parse(
-                                purchaseOrderList.vendor!.name.toString());
+                            int vendorId = int.parse(purchaseOrderList.vendor!
+                                // .name
+                                .toString());
                             List<VendorList> vendorList =
                                 Get.find<PurchaseOrderController>()
                                     .vendorApiResult;
@@ -567,7 +584,7 @@ class _TableForReceiptState extends State<TableForReceipt> {
                               ),
                               Expanded(
                                 flex: 1,
-                                child: Text("s"),
+                                child: Text(""),
                               )
                             ],
                           ),
@@ -588,7 +605,48 @@ class _TableForReceiptState extends State<TableForReceipt> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           purchaseOrderList.status == "Completed"
-              ? PrimaryButton(label: "Print Receipt", onPressed: () {})
+              ? PrimaryButton(
+                  label: "Print Receipt",
+                  onPressed: () {
+                    // printInventoryReceipt();
+                    print(printerAddress);
+                    var buffer1 = StringBuffer();
+                    buffer1.write("Purchase Order Receipt");
+                    buffer1.write("\n");
+                    buffer1.write("BlueBird Inventory System");
+                    buffer1.write("\n");
+                    buffer1.write("Pan No: 123456789");
+                    buffer1.write("\n");
+                    buffer1.write("Pokhara-17, Birauta");
+                    buffer1.write("\n");
+                    buffer1.write("Phone: 9841234567");
+                    buffer1.write("\n");
+
+                    // buffer1.write("Purchase Order No: " +
+                    //     purchaseOrderList[].toString());
+
+                    buffer1.write("Name" + " " + "Qty" + " " + "Total");
+                    buffer1.write("\n");
+
+                    for (int i = 0;
+                        i <= purchaseOrderList.purchaseItems!.length - 1;
+                        i++) {
+                      buffer1.write(purchaseOrderList
+                              .purchaseItems![i]!.productName
+                              .toString() +
+                          " " +
+                          purchaseOrderList.purchaseItems![i].quantity
+                              .toString() +
+                          " " +
+                          purchaseOrderList.purchaseItems![i].total.toString());
+                      buffer1.write("\n");
+                    }
+                    buffer1.write("\n");
+                    buffer1.write("\n");
+
+                    PrintUtils.instance
+                        .bluetoothPrint(printerAddress!, buffer1.toString());
+                  })
               : SizedBox(),
         ],
       ),
