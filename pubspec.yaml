@@ -71,8 +71,11 @@ dependencies:
   # esc_pos_printer: ^4.1.0
   # esc_pos_utils: ^1.1.0
   # esc_pos_bluetooth: ^0.4.1
-  flutter_bluetooth_basic: ^0.1.5
+  # flutter_bluetooth_basic: ^0.1.5
   # esc_pos_printer: ^4.1.0
+  bluetooth_print: ^4.1.0
+  intl:
+  print_bluetooth_thermal: ^1.0.6
 
 dev_dependencies:
   flutter_test:

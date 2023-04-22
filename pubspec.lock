@@ -65,6 +65,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.6"
+  bluetooth_print:
+    dependency: "direct main"
+    description:
+      name: bluetooth_print
+      sha256: b391cd7b22b772e07dfddb4e065ecbed5f0e8dd777ce726e1ea56492c8d3ecc8
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.3.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -350,14 +358,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_bluetooth_basic:
-    dependency: "direct main"
-    description:
-      name: flutter_bluetooth_basic
-      sha256: e81a2c5e9340660b4832831b33d9f3c1f1b098c8f924bc1dafef9702c5985921
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.7"
   flutter_bluetooth_printer:
     dependency: "direct main"
     description:
@@ -616,6 +616,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.1+4"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.18.1"
   intro_slider:
     dependency: "direct main"
     description:
@@ -864,6 +872,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0-beta-1"
+  print_bluetooth_thermal:
+    dependency: "direct main"
+    description:
+      name: print_bluetooth_thermal
+      sha256: "494ae51bd6578cc22e8bca9b927728486237ae9b93af0fc613976b4cb35fd000"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.6"
   process:
     dependency: transitive
     description:
@@ -900,10 +916,10 @@ packages:
     dependency: transitive
     description:
       name: rxdart
-      sha256: "2ef8b4e91cb3b55d155e0e34eeae0ac7107974e451495c955ac04ddee8cc21fd"
+      sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
       url: "https://pub.dev"
     source: hosted
-    version: "0.26.0"
+    version: "0.27.7"
   scratch_space:
     dependency: transitive
     description:

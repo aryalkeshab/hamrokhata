@@ -26,9 +26,9 @@ enum APIPath {
 // TODO:
 class APIPathHelper {
   // home
-  // static const String apiUrl = "http://192.168.1.75:2112/api";
+  static const String apiUrl = "http://192.168.1.72:2122/api";
   //office
-  static const String apiUrl = "http://192.168.0.96:2122/api";
+  // static const String apiUrl = "http://192.168.0.96:2122/api";
 
   static const String imageUrl = "http://10.10.17.124:2112";
 

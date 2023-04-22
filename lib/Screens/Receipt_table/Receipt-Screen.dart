@@ -1,8 +1,11 @@
+import 'package:bluetooth_print/bluetooth_print.dart';
+import 'package:bluetooth_print/bluetooth_print_model.dart';
+// import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:draggable_fab/draggable_fab.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bluetooth_printer/flutter_bluetooth_printer.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:hamrokhata/Screens/bluetooth/print_utils.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_order_controller.dart';
 import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list.dart';
 import 'package:hamrokhata/Screens/sales_order_list/sakes_order_list_model.dart';
@@ -11,7 +14,15 @@ import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
+import 'package:intl/intl.dart';
 import 'package:number_to_character/number_to_character.dart';
+import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
+
+class BluetoothDeviceTemp {
+  int? type;
+  String? address;
+  BluetoothDeviceTemp({this.type, this.address});
+}
 
 class TableForReceipt extends StatefulWidget {
   // final PurchaseItems purchaseItems;
@@ -27,6 +38,9 @@ class TableForReceipt extends StatefulWidget {
 class _TableForReceiptState extends State<TableForReceipt> {
   var converter = NumberToCharacterConverter('en');
   final secureStorage = Get.find<FlutterSecureStorage>();
+  BluetoothPrint bluetoothPrint = BluetoothPrint.instance;
+  // BluetoothDevice? devicesFinal;
+  List<BluetoothDeviceTemp> _devices = [];
 
   int qtyExpanded = 2;
   int snExpanded = 1;
@@ -35,15 +49,23 @@ class _TableForReceiptState extends State<TableForReceipt> {
   int totalExpanded = 3;
   String? printerAddress;
 
+  String _devicesMsg = "Scanning...";
+
   @override
   void initState() {
     getPrinterAddress();
+
     super.initState();
   }
 
   void getPrinterAddress() async {
     printerAddress =
         await secureStorage.read(key: StorageConstants.printerAddress);
+    _devices.add(BluetoothDeviceTemp(
+      type: 3,
+      address: printerAddress ?? '',
+    ));
+    print(printerAddress);
   }
 
   @override
@@ -607,49 +629,205 @@ class _TableForReceiptState extends State<TableForReceipt> {
           purchaseOrderList.status == "Completed"
               ? PrimaryButton(
                   label: "Print Receipt",
-                  onPressed: () {
-                    // printInventoryReceipt();
+                  onPressed: () async {
+                    // devicesFinal = BluetoothDevice();
+
+                    // if (devicesFinal != null && devicesFinal!.address != null) {
+                    //   // setState(() {
+                    //   //   tips = 'connecting...';
+                    //   // });
+
+                    //   await bluetoothPrint.connect(devicesFinal!);
+                    //   await printReceipt();
+                    // } else {
+                    //   print('please select device');
+                    // }
                     print(printerAddress);
-                    var buffer1 = StringBuffer();
-                    buffer1.write("Purchase Order Receipt");
-                    buffer1.write("\n");
-                    buffer1.write("BlueBird Inventory System");
-                    buffer1.write("\n");
-                    buffer1.write("Pan No: 123456789");
-                    buffer1.write("\n");
-                    buffer1.write("Pokhara-17, Birauta");
-                    buffer1.write("\n");
-                    buffer1.write("Phone: 9841234567");
-                    buffer1.write("\n");
+                    final bool result = await PrintBluetoothThermal.connect(
+                        macPrinterAddress: printerAddress!);
+                    printTest();
 
-                    // buffer1.write("Purchase Order No: " +
-                    //     purchaseOrderList[].toString());
-
-                    buffer1.write("Name" + " " + "Qty" + " " + "Total");
-                    buffer1.write("\n");
-
-                    for (int i = 0;
-                        i <= purchaseOrderList.purchaseItems!.length - 1;
-                        i++) {
-                      buffer1.write(purchaseOrderList
-                              .purchaseItems![i]!.productName
-                              .toString() +
-                          " " +
-                          purchaseOrderList.purchaseItems![i].quantity
-                              .toString() +
-                          " " +
-                          purchaseOrderList.purchaseItems![i].total.toString());
-                      buffer1.write("\n");
+                    if (result == true) {
+                      // printReceipt();
+                      printTest();
+                    } else {
+                      print('please select device');
                     }
-                    buffer1.write("\n");
-                    buffer1.write("\n");
-
-                    PrintUtils.instance
-                        .bluetoothPrint(printerAddress!, buffer1.toString());
                   })
               : SizedBox(),
         ],
       ),
     );
+  }
+
+  Future<void> printTest() async {
+    bool conexionStatus = await PrintBluetoothThermal.connectionStatus;
+    if (conexionStatus) {
+      List<int> ticket = await testTicket();
+      final result = await PrintBluetoothThermal.writeBytes(ticket);
+      print("impresion $result");
+    } else {
+      //no conectado, reconecte
+    }
+  }
+
+  Future<List<int>> testTicket() async {
+    PurchaseOrderList? purchaseOrderList = widget.purchaseOrderList![0];
+    DateTime time = DateTime.now();
+    final formattedTime = DateFormat('MMMM d, yyyy, h:mm a').format(time);
+
+    List<int> bytes = [];
+    // Using default profile
+    final profile = await CapabilityProfile.load();
+    final generator = Generator(PaperSize.mm58, profile);
+    //bytes += generator.setGlobalFont(PosFontType.fontA);
+    bytes += generator.reset();
+
+    bytes += generator.text('Hamro Khata Pvt. Ltd.',
+        styles: PosStyles(bold: true, align: PosAlign.center));
+    bytes += generator.text('Pan No.: 0010231001',
+        styles: PosStyles(align: PosAlign.center));
+    bytes += generator.text('Kathmandu, Nepal',
+        styles: PosStyles(align: PosAlign.center));
+    bytes += generator.text('Tel: 01-4444444',
+        styles: PosStyles(align: PosAlign.center));
+    bytes += generator.text('Date: ${formattedTime}',
+        styles: PosStyles(align: PosAlign.center));
+
+    bytes += generator.text('--------------------------------',
+        styles: PosStyles(align: PosAlign.center));
+    bytes += generator.row([
+      PosColumn(
+        text: 'Name',
+        width: 3,
+        styles: PosStyles(align: PosAlign.left, underline: true),
+      ),
+      PosColumn(
+        text: 'Unit P.',
+        width: 3,
+        styles: PosStyles(align: PosAlign.center, underline: true),
+      ),
+      PosColumn(
+        text: 'Qty',
+        width: 3,
+        styles: PosStyles(align: PosAlign.center, underline: true),
+      ),
+      PosColumn(
+        text: 'Total',
+        width: 3,
+        styles: PosStyles(align: PosAlign.center, underline: true),
+      ),
+    ]);
+    bytes += generator.text('--------------------------------',
+        styles: PosStyles(align: PosAlign.center));
+
+    for (var i = 0; i < purchaseOrderList.purchaseItems!.length; i++) {
+      bytes += generator.row([
+        PosColumn(
+          text: purchaseOrderList.purchaseItems![i].productName.toString(),
+          width: 4,
+          styles: PosStyles(align: PosAlign.left, underline: true),
+        ),
+        PosColumn(
+          text: purchaseOrderList.purchaseItems![i].purchasePrice.toString(),
+          width: 3,
+          styles: PosStyles(align: PosAlign.right, underline: true),
+        ),
+        PosColumn(
+          text: purchaseOrderList.purchaseItems![i].quantity.toString(),
+          width: 1,
+          styles: PosStyles(align: PosAlign.center, underline: true),
+        ),
+        PosColumn(
+          text: purchaseOrderList.purchaseItems![i].total.toString(),
+          width: 4,
+          styles: PosStyles(align: PosAlign.right, underline: true),
+        ),
+      ]);
+    }
+    bytes += generator.text('--------------------------------',
+        styles: PosStyles(align: PosAlign.center));
+
+    bytes += generator.row([
+      PosColumn(
+        text: "",
+        width: 3,
+        styles: PosStyles(align: PosAlign.center, underline: true),
+      ),
+      PosColumn(
+        text: "Sub Total",
+        width: 5,
+        styles: PosStyles(align: PosAlign.left, underline: true),
+      ),
+      PosColumn(
+        text: purchaseOrderList.subTotal.toString(),
+        width: 4,
+        styles: PosStyles(align: PosAlign.right, underline: true),
+      ),
+    ]);
+    bytes += generator.row([
+      PosColumn(
+        text: "",
+        width: 3,
+        styles: PosStyles(align: PosAlign.center, underline: true),
+      ),
+      PosColumn(
+        text: "Discount",
+        width: 5,
+        styles: PosStyles(align: PosAlign.left, underline: true),
+      ),
+      PosColumn(
+        text: purchaseOrderList.discountAmount.toString(),
+        width: 4,
+        styles: PosStyles(align: PosAlign.right, underline: true),
+      ),
+    ]);
+    bytes += generator.row([
+      PosColumn(
+        text: "",
+        width: 3,
+        styles: PosStyles(align: PosAlign.center, underline: true),
+      ),
+      PosColumn(
+        text: "13% Tax",
+        width: 5,
+        styles: PosStyles(align: PosAlign.left, underline: true),
+      ),
+      PosColumn(
+        text: purchaseOrderList.taxAmount.toString(),
+        width: 4,
+        styles: PosStyles(align: PosAlign.right, underline: true),
+      ),
+    ]);
+    bytes += generator.row([
+      PosColumn(
+        text: "",
+        width: 3,
+        styles: PosStyles(align: PosAlign.center, underline: true),
+      ),
+      PosColumn(
+        text: "Grand Total",
+        width: 5,
+        styles: PosStyles(align: PosAlign.left, underline: true),
+      ),
+      PosColumn(
+        text: purchaseOrderList.grandTotal.toString(),
+        width: 4,
+        styles: PosStyles(align: PosAlign.right, underline: true),
+      ),
+    ]);
+    // bytes += generator.text('Keep this receipt for future reference',
+    //     styles: PosStyles(align: PosAlign.center));
+    // bytes += generator.text('Grand Total price including 13% VAT',
+    //     styles: PosStyles(align: PosAlign.center));
+    bytes += generator.text('---*---*---*---',
+        styles: PosStyles(align: PosAlign.center));
+    bytes += generator.text(
+        'Thank you for shopping with us. Please visit again!',
+        styles: PosStyles(align: PosAlign.center));
+
+    bytes += generator.feed(1);
+    bytes += generator.cut();
+    return bytes;
   }
 }
