@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,14 +23,21 @@ class SalesOrderListScreen extends StatefulWidget {
 class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
   @override
   void initState() {
+    final formattedDate = DateTime.now().toString();
+    final time = formattedDate.split(' ')[0];
+
     Get.put(SalesOrderListController())
-        .getsalesOrderList(SalesListRequestParams());
+        .getsalesOrderList(SalesListRequestParams(created_at: time));
 
     super.initState();
   }
 
-  DateTime? selectedDate;
-  final searchController = TextEditingController();
+  DateTimeRange? _selectedDateRange;
+  String? formattedFirstDate = '';
+  String? formattedEndDate = '';
+  TextEditingController searchController = TextEditingController();
+  List<String> orderStatus = ["Pending", "Failed", "Completed"];
+  String? selectedStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -56,39 +64,98 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                   TextFieldWidget(
                     onPressed: () {
                       controller.getsalesOrderList(SalesListRequestParams(
-                        date: selectedDate.toString(),
                         customer: searchController.text,
+                        start_date: formattedFirstDate,
+                        end_date: formattedEndDate,
+                        status: selectedStatus,
                       ));
                     },
                     controller: searchController,
-                    onSaved: (value) {
-                      controller.getsalesOrderList(SalesListRequestParams(
-                        date: selectedDate.toString(),
-                        customer: value,
-                      ));
-                    },
+                    onSaved: (value) {},
                     onChanged: (value) {
                       // controller.getProductSearch(context, value);
                     },
                     // controller: searchController,
                     hintTxt: "Search Customer Name ",
-                    hintIcon: InkWell(
-                      onTap: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1950),
-                            currentDate: DateTime.now(),
-                            lastDate: DateTime.now());
+                    // hintIcon: InkWell(
+                    //   onTap: () async {
+                    //     DateTime? pickedDate = await showDatePicker(
+                    //         context: context,
+                    //         initialDate: DateTime.now(),
+                    //         firstDate: DateTime(1950),
+                    //         currentDate: DateTime.now(),
+                    //         lastDate: DateTime.now());
 
-                        if (pickedDate != null) {
-                          //pickedDate output format => 2021-03-10 00:00:00.000
+                    //     if (pickedDate != null) {
+                    //       //pickedDate output format => 2021-03-10 00:00:00.000
 
-                          selectedDate = pickedDate;
-                        } else {}
-                      },
-                      child: const Icon(Icons.date_range),
-                    ),
+                    //       selectedDate = pickedDate;
+                    //     } else {}
+                    //   },
+                    //   child: const Icon(Icons.date_range),
+                    // ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          flex: 1,
+                          child: Row(
+                            children: [
+                              const Text(
+                                'Date Filter: ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.date_range, size: 25),
+                                onPressed: () async {
+                                  DateTimeRange? pickedDate =
+                                      await showDateRangePicker(
+                                          context: context,
+                                          // initialDate: DateTime.now(),
+                                          firstDate: DateTime(1950),
+                                          currentDate: DateTime.now(),
+                                          saveText: 'Done',
+                                          lastDate: DateTime(2100));
+
+                                  if (pickedDate != null) {
+                                    print(pickedDate);
+                                    //pickedDate output format => 2021-03-10 00:00:00.000
+
+                                    _selectedDateRange = pickedDate;
+                                    final firstDate =
+                                        _selectedDateRange!.start.toString();
+                                    final endDate =
+                                        _selectedDateRange!.end.toString();
+                                    formattedFirstDate =
+                                        firstDate!.split(' ')[0];
+                                    formattedEndDate = endDate!.split(' ')[0];
+                                    setState(() {});
+                                  } else {}
+                                },
+                              ),
+                            ],
+                          )),
+                      Expanded(
+                        flex: 1,
+                        child: DropdownSearch<String>(
+                          dropdownDecoratorProps: const DropDownDecoratorProps(
+                            dropdownSearchDecoration: InputDecoration(
+                              hintText: "Order Status",
+                              filled: true,
+                            ),
+                          ),
+                          enabled: true,
+                          // popupProps: PopupProps.dialog(showSearchBox: true),
+                          items: orderStatus,
+                          onChanged: (value) {
+                            selectedStatus = value;
+                            setState(() {});
+                          },
+                        ),
+                      )
+                    ],
                   ),
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.center,

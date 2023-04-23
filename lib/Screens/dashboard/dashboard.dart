@@ -21,6 +21,7 @@ class DashBoardScreen extends StatefulWidget {
 class _DashBoardScreenState extends State<DashBoardScreen> {
   final secureStorage = Get.find<FlutterSecureStorage>();
   String? printerAddress;
+  String? userName;
 
   @override
   void initState() {
@@ -31,6 +32,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   void getPrinterAddress() async {
     printerAddress =
         await secureStorage.read(key: StorageConstants.printerAddress);
+
+    userName = await secureStorage.read(key: StorageConstants.name);
   }
 
   @override
@@ -46,7 +49,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           PopupMenuButton<int>(
             icon: const Icon(Icons.more_vert),
             itemBuilder: (context) => [
-              const PopupMenuItem(child: Text("Keshab")),
+              PopupMenuItem(child: Text(userName ?? '')),
               PopupMenuItem(
                 child: InkWell(
                     onTap: () {

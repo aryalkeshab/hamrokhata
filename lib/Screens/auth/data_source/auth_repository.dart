@@ -53,11 +53,19 @@ class AuthLoginRegisterRepositoryImpl extends AuthLoginRegisterRepository {
         await secureStorage.write(
             key: StorageConstants.accessToken,
             value: result["token"]["access"]);
-        print("-----");
-        print(secureStorage.read(key: StorageConstants.loginStaff));
-        // showSuccessToast(result['msg']);
+        await secureStorage.write(
+            key: StorageConstants.accessToken,
+            value: result["firstname"] + " " + result["lastname"]);
 
-        return ApiResponse(data: result['msg']);
+        print(secureStorage.read(key: StorageConstants.loginStaff));
+
+        if (result['permission'] == true) {
+          return ApiResponse(data: result['msg']);
+        } else {
+          return ApiResponse(
+              error: NetworkException.defaultError(
+                  value: "You don't have permission to access this page"));
+        }
       } catch (e) {
         if (e is DioError && e.type == DioErrorType.response) {
           return ApiResponse(

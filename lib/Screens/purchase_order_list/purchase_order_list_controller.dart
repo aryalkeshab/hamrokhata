@@ -9,6 +9,7 @@ import 'package:hamrokhata/commons/api/network_exception.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/snackbar.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
+import 'package:hamrokhata/models/request/purchase_list_request_params.dart';
 import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
 import 'package:intl/intl.dart';
 import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
@@ -32,9 +33,10 @@ class PurchaseOrderListController extends GetxController {
 
   ApiResponse get purchaseOrderResponse => _purchaseOrderResponse;
 
-  getpurchaseOrderList() async {
-    purchaseOrderResponse =
-        await Get.find<PurchaseRepository>().getpurchaseOrderList();
+  getpurchaseOrderList(
+      PurchaseListRequestParams purchaseListRequestParams) async {
+    purchaseOrderResponse = await Get.find<PurchaseRepository>()
+        .getpurchaseOrderList(purchaseListRequestParams);
     if (purchaseOrderResponse.hasData) {
       purchaseOrderResponseList = purchaseOrderResponse.data;
       update();

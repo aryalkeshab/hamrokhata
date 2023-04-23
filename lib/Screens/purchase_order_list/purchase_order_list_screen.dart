@@ -8,6 +8,7 @@ import 'package:hamrokhata/Screens/sales_order/sales_order_controller.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/text_form_widget.dart';
+import 'package:hamrokhata/models/request/purchase_list_request_params.dart';
 import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
 import 'package:supercharged/supercharged.dart';
@@ -23,12 +24,19 @@ class PurchaseOrderListScreen extends StatefulWidget {
 class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
   @override
   void initState() {
-    Get.put(PurchaseOrderListController()).getpurchaseOrderList();
+    final formattedDate = DateTime.now().toString();
+    final time = formattedDate.split(' ')[0];
+
+    Get.put(PurchaseOrderListController())
+        .getpurchaseOrderList(PurchaseListRequestParams(created_at: time));
 
     super.initState();
   }
 
   DateTimeRange? _selectedDateRange;
+  String? formattedFirstDate = '';
+  String? formattedEndDate = '';
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +62,14 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                   //   ),
                   // ),
                   TextFieldWidget(
+                    controller: searchController,
                     onPressed: () {
-                      // controller.getProductSearch(
-                      //     context, searchController.text);
+                      Get.put(PurchaseOrderListController())
+                          .getpurchaseOrderList(PurchaseListRequestParams(
+                        vendor: searchController.text,
+                        start_date: formattedFirstDate,
+                        end_date: formattedEndDate,
+                      ));
                     },
                     onSaved: (value) {
                       // controller.getProductSearch(context, value);
@@ -99,7 +112,12 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                             //pickedDate output format => 2021-03-10 00:00:00.000
 
                             _selectedDateRange = pickedDate;
-                            print(_selectedDateRange!.start);
+                            final firstDate =
+                                _selectedDateRange!.start.toString();
+                            final endDate = _selectedDateRange!.end.toString();
+                            formattedFirstDate = firstDate!.split(' ')[0];
+                            formattedEndDate = endDate!.split(' ')[0];
+                            setState(() {});
                           } else {}
                         },
                       ),

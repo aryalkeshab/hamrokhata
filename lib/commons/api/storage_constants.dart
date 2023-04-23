@@ -11,5 +11,7 @@ class StorageConstants {
   static const registeruserId = "22";
   static const isLoggedIn = "false";
   static const introPageDone = "NotDone";
+  static const name = "keshab";
+
   // ignore: non_constant_identifier_names
 }

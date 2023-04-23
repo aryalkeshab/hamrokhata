@@ -5,6 +5,7 @@ import 'package:hamrokhata/commons/api/network_info.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/get_category_list.dart';
 import 'package:hamrokhata/models/request/product_request_model.dart';
+import 'package:hamrokhata/models/request/purchase_list_request_params.dart';
 import 'package:hamrokhata/models/request/purchase_request_model.dart';
 import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
 import 'package:hamrokhata/models/response/sales_response_model.dart';
@@ -16,7 +17,8 @@ import 'package:dio/dio.dart' as dio;
 abstract class PurchaseRepository {
   Future<ApiResponse> getVendorsList();
   Future<ApiResponse> getCategoryList();
-  Future<ApiResponse> getpurchaseOrderList();
+  Future<ApiResponse> getpurchaseOrderList(
+      PurchaseListRequestParams purchaseListRequestParams);
 
   Future<ApiResponse> addProduct(
       ProductRequestModel productRequestModel, dio.FormData formData);
@@ -81,11 +83,12 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
   }
 
   @override
-  Future<ApiResponse> getpurchaseOrderList() async {
+  Future<ApiResponse> getpurchaseOrderList(
+      PurchaseListRequestParams purchaseListRequestParams) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await purchaseOrderRemoteDataSource.getpurchaseOrderList();
+        final result = await purchaseOrderRemoteDataSource
+            .getpurchaseOrderList(purchaseListRequestParams);
         print(result);
         // final purchaseOrderResponse = PurchaseOrderList.fromJson(result);
         final purchaseOrderResponseList = result

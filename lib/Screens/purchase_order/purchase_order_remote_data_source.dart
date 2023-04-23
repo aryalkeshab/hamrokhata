@@ -1,6 +1,7 @@
 import 'package:hamrokhata/commons/api/api_client.dart';
 import 'package:hamrokhata/commons/api/api_constant.dart';
 import 'package:hamrokhata/models/request/product_request_model.dart';
+import 'package:hamrokhata/models/request/purchase_list_request_params.dart';
 import 'package:hamrokhata/models/request/purchase_request_model.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:dio/dio.dart' as dio;
@@ -11,7 +12,8 @@ abstract class PurchaseOrderRemoteDataSource {
   Future<dynamic> addProduct(
       ProductRequestModel productRequestModel, dio.FormData formData);
   Future<dynamic> purchaseOrder(PurchaseOrderModel purchaseOrderModel);
-  Future<dynamic> getpurchaseOrderList();
+  Future<dynamic> getpurchaseOrderList(
+      PurchaseListRequestParams purchaseListRequestParams);
 }
 
 class PurchaseOrderRemoteDataSourceImpl extends PurchaseOrderRemoteDataSource {
@@ -42,9 +44,11 @@ class PurchaseOrderRemoteDataSourceImpl extends PurchaseOrderRemoteDataSource {
   }
 
   @override
-  getpurchaseOrderList() {
+  getpurchaseOrderList(PurchaseListRequestParams purchaseListRequestParams) {
     return apiClient.authGet(
-      APIPathHelper.purchaseAPIs(APIPath.purchaseOrder),
-    );
+        APIPathHelper.purchaseAPIs(
+          APIPath.purchaseOrder,
+        ),
+        queryParameters: purchaseListRequestParams.toJson());
   }
 }
