@@ -251,7 +251,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           if (currentState != null) {
                             currentState.save();
 
-                            if (currentState.validate()) {
+                            if (currentState.validate() &&
+                                dropDownvalue != null &&
+                                imagePath != null) {
                               dio.FormData formData = dio.FormData.fromMap({
                                 "name": addProductParams.name,
                                 "description": addProductParams.description,
@@ -272,6 +274,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               } catch (e) {
                                 print(e);
                               }
+                            } else {
+                              Get.snackbar("Error", "Please fill all fields");
                             }
                           }
                         },

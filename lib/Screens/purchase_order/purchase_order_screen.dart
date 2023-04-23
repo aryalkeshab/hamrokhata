@@ -27,7 +27,7 @@ import 'package:hamrokhata/models/customer_model.dart';
 import 'package:hamrokhata/models/product_detail.dart';
 import 'package:hamrokhata/models/request/product_search_request_model.dart';
 import 'package:hamrokhata/models/request/purchase_request_model.dart';
-import 'package:hamrokhata/models/sales_order_model.dart';
+import 'package:hamrokhata/models/request/sales_order_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
 import 'package:supercharged/supercharged.dart';
 
@@ -473,7 +473,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                         status: selectedOrderStatus ?? '',
                         discPercent: discountController.text.toInt() ?? 0,
                         taxPercent: taxController.text.toInt() ?? 13,
-                        vendor: Vendor(name: selectedVendorId));
+                        vendor: selectedVendor);
 
                     if (selectedVendorId == null &&
                         selectedOrderStatus == null) {

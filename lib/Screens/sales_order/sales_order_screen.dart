@@ -26,7 +26,7 @@ import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/customer_model.dart';
 import 'package:hamrokhata/models/product_detail.dart';
 import 'package:hamrokhata/models/request/product_search_request_model.dart';
-import 'package:hamrokhata/models/sales_order_model.dart';
+import 'package:hamrokhata/models/request/sales_order_model.dart';
 
 class SalesOrderScreen extends StatefulWidget {
   const SalesOrderScreen({super.key});
@@ -55,7 +55,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
   TextEditingController priceController = TextEditingController();
   TextEditingController qtyController = TextEditingController();
   TextEditingController taxController = TextEditingController(text: "13.0");
-  TextEditingController discountController = TextEditingController();
+  TextEditingController discountController = TextEditingController(text: '0.0');
 
   // List<TempSalesOrderModel> salesList = [];
   List<SalesItems> salesList = [];
@@ -473,10 +473,9 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                         userId: int.parse(userid.toString()),
                         salesItems: salesList,
                         status: selectedStatus,
-                        discPercent:
-                            int.parse(discountController.text.toString()),
+                        discPercent: double.parse(discountController.text),
                         taxPercent: int.parse(taxController.text.toString()),
-                        customer: Customer(name: selectedCustomerId));
+                        customer: selectedCustomer);
 
                     if (selectedCustomerId == null && selectedStatus == null) {
                       showErrorToast(

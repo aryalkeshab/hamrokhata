@@ -26,7 +26,7 @@ class Data {
   int? id;
   List<SalesItems>? salesItems;
   String? sellingByName;
-  Customer? customer;
+  String? customer;
   String? invoiceNumber;
   double? grandTotal;
   double? subTotal;
@@ -34,7 +34,7 @@ class Data {
   double? discountAmount;
   double? discPercent;
   double? taxPercent;
-  String? status;
+  String? salesStatus;
   String? createdAt;
   String? updatedAt;
   int? salesBy;
@@ -51,7 +51,7 @@ class Data {
       this.discountAmount,
       this.discPercent,
       this.taxPercent,
-      this.status,
+      this.salesStatus,
       this.createdAt,
       this.updatedAt,
       this.salesBy});
@@ -66,9 +66,7 @@ class Data {
     }
 
     sellingByName = json['selling_by_name'];
-    customer = json['customer'] != null
-        ? new Customer.fromJson(json['customer'])
-        : null;
+    customer = json['customer'];
     invoiceNumber = json['invoice_number'];
     grandTotal = json['grand_total'];
     subTotal = json['sub_total'];
@@ -76,7 +74,7 @@ class Data {
     discountAmount = json['discount_amount'];
     discPercent = json['disc_percent'];
     taxPercent = json['tax_percent'];
-    status = json['status'];
+    salesStatus = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     salesBy = json['sales_by'];
@@ -88,9 +86,8 @@ class Data {
     if (this.salesItems != null) {
       data['sales_items'] = this.salesItems!.map((v) => v.toJson()).toList();
     }
-    if (this.customer != null) {
-      data['customer'] = this.customer!.toJson();
-    }
+    data['customer'] = this.customer;
+
     data['selling_by_name'] = this.sellingByName;
     data['invoice_number'] = this.invoiceNumber;
     data['grand_total'] = this.grandTotal;
@@ -99,7 +96,7 @@ class Data {
     data['discount_amount'] = this.discountAmount;
     data['disc_percent'] = this.discPercent;
     data['tax_percent'] = this.taxPercent;
-    data['status'] = this.status;
+    data['status'] = this.salesStatus;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['sales_by'] = this.salesBy;
@@ -152,18 +149,18 @@ class SalesItems {
   }
 }
 
-class Customer {
-  String? name;
+// class Customer {
+//   String? name;
 
-  Customer({this.name});
+//   Customer({this.name});
 
-  Customer.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-  }
+//   Customer.fromJson(Map<String, dynamic> json) {
+//     name = json['name'];
+//   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    return data;
-  }
-}
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['name'] = this.name;
+//     return data;
+//   }
+// }

@@ -8,7 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_order_controller.dart';
 import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list.dart';
-import 'package:hamrokhata/Screens/sales_order_list/sakes_order_list_model.dart';
+import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list_controller.dart';
 import 'package:hamrokhata/commons/api/storage_constants.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
@@ -37,7 +37,6 @@ class TableForReceipt extends StatefulWidget {
 
 class _TableForReceiptState extends State<TableForReceipt> {
   var converter = NumberToCharacterConverter('en');
-  final secureStorage = Get.find<FlutterSecureStorage>();
   BluetoothPrint bluetoothPrint = BluetoothPrint.instance;
   // BluetoothDevice? devicesFinal;
   List<BluetoothDeviceTemp> _devices = [];
@@ -50,6 +49,7 @@ class _TableForReceiptState extends State<TableForReceipt> {
   String? printerAddress;
 
   String _devicesMsg = "Scanning...";
+  final secureStorage = Get.find<FlutterSecureStorage>();
 
   @override
   void initState() {
@@ -61,10 +61,7 @@ class _TableForReceiptState extends State<TableForReceipt> {
   void getPrinterAddress() async {
     printerAddress =
         await secureStorage.read(key: StorageConstants.printerAddress);
-    _devices.add(BluetoothDeviceTemp(
-      type: 3,
-      address: printerAddress ?? '',
-    ));
+
     print(printerAddress);
   }
 
@@ -174,15 +171,18 @@ class _TableForReceiptState extends State<TableForReceipt> {
                             ],
                           ),
                           Builder(builder: (context) {
-                            int vendorId = int.parse(purchaseOrderList.vendor!
+                            // int vendorId = int.parse(purchaseOrderList.vendor!
+                            //     // .name
+                            //     .toString());
+                            // List<VendorList> vendorList =
+                            //     Get.find<PurchaseOrderController>()
+                            //         .vendorApiResult;
+                            // String vendorName = vendorList
+                            //     .firstWhere((element) => element.id == vendorId)
+                            //     .name!;
+                            String vendorName = purchaseOrderList.vendor!
                                 // .name
-                                .toString());
-                            List<VendorList> vendorList =
-                                Get.find<PurchaseOrderController>()
-                                    .vendorApiResult;
-                            String vendorName = vendorList
-                                .firstWhere((element) => element.id == vendorId)
-                                .name!;
+                                .toString();
 
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -645,11 +645,13 @@ class _TableForReceiptState extends State<TableForReceipt> {
                     print(printerAddress);
                     final bool result = await PrintBluetoothThermal.connect(
                         macPrinterAddress: printerAddress!);
-                    printTest();
+                    Get.put(PurchaseOrderListController())
+                        .printTest(widget.purchaseOrderList![0]);
 
                     if (result == true) {
                       // printReceipt();
-                      printTest();
+                      // Get.put(PurchaseOrderListController())
+                      //     .printTest(widget.purchaseOrderList![0]);
                     } else {
                       print('please select device');
                     }
@@ -658,176 +660,5 @@ class _TableForReceiptState extends State<TableForReceipt> {
         ],
       ),
     );
-  }
-
-  Future<void> printTest() async {
-    bool conexionStatus = await PrintBluetoothThermal.connectionStatus;
-    if (conexionStatus) {
-      List<int> ticket = await testTicket();
-      final result = await PrintBluetoothThermal.writeBytes(ticket);
-      print("impresion $result");
-    } else {
-      //no conectado, reconecte
-    }
-  }
-
-  Future<List<int>> testTicket() async {
-    PurchaseOrderList? purchaseOrderList = widget.purchaseOrderList![0];
-    DateTime time = DateTime.now();
-    final formattedTime = DateFormat('MMMM d, yyyy, h:mm a').format(time);
-
-    List<int> bytes = [];
-    // Using default profile
-    final profile = await CapabilityProfile.load();
-    final generator = Generator(PaperSize.mm58, profile);
-    //bytes += generator.setGlobalFont(PosFontType.fontA);
-    bytes += generator.reset();
-
-    bytes += generator.text('Hamro Khata Pvt. Ltd.',
-        styles: PosStyles(bold: true, align: PosAlign.center));
-    bytes += generator.text('Pan No.: 0010231001',
-        styles: PosStyles(align: PosAlign.center));
-    bytes += generator.text('Kathmandu, Nepal',
-        styles: PosStyles(align: PosAlign.center));
-    bytes += generator.text('Tel: 01-4444444',
-        styles: PosStyles(align: PosAlign.center));
-    bytes += generator.text('Date: ${formattedTime}',
-        styles: PosStyles(align: PosAlign.center));
-
-    bytes += generator.text('--------------------------------',
-        styles: PosStyles(align: PosAlign.center));
-    bytes += generator.row([
-      PosColumn(
-        text: 'Name',
-        width: 3,
-        styles: PosStyles(align: PosAlign.left, underline: true),
-      ),
-      PosColumn(
-        text: 'Unit P.',
-        width: 3,
-        styles: PosStyles(align: PosAlign.center, underline: true),
-      ),
-      PosColumn(
-        text: 'Qty',
-        width: 3,
-        styles: PosStyles(align: PosAlign.center, underline: true),
-      ),
-      PosColumn(
-        text: 'Total',
-        width: 3,
-        styles: PosStyles(align: PosAlign.center, underline: true),
-      ),
-    ]);
-    bytes += generator.text('--------------------------------',
-        styles: PosStyles(align: PosAlign.center));
-
-    for (var i = 0; i < purchaseOrderList.purchaseItems!.length; i++) {
-      bytes += generator.row([
-        PosColumn(
-          text: purchaseOrderList.purchaseItems![i].productName.toString(),
-          width: 4,
-          styles: PosStyles(align: PosAlign.left, underline: true),
-        ),
-        PosColumn(
-          text: purchaseOrderList.purchaseItems![i].purchasePrice.toString(),
-          width: 3,
-          styles: PosStyles(align: PosAlign.right, underline: true),
-        ),
-        PosColumn(
-          text: purchaseOrderList.purchaseItems![i].quantity.toString(),
-          width: 1,
-          styles: PosStyles(align: PosAlign.center, underline: true),
-        ),
-        PosColumn(
-          text: purchaseOrderList.purchaseItems![i].total.toString(),
-          width: 4,
-          styles: PosStyles(align: PosAlign.right, underline: true),
-        ),
-      ]);
-    }
-    bytes += generator.text('--------------------------------',
-        styles: PosStyles(align: PosAlign.center));
-
-    bytes += generator.row([
-      PosColumn(
-        text: "",
-        width: 3,
-        styles: PosStyles(align: PosAlign.center, underline: true),
-      ),
-      PosColumn(
-        text: "Sub Total",
-        width: 5,
-        styles: PosStyles(align: PosAlign.left, underline: true),
-      ),
-      PosColumn(
-        text: purchaseOrderList.subTotal.toString(),
-        width: 4,
-        styles: PosStyles(align: PosAlign.right, underline: true),
-      ),
-    ]);
-    bytes += generator.row([
-      PosColumn(
-        text: "",
-        width: 3,
-        styles: PosStyles(align: PosAlign.center, underline: true),
-      ),
-      PosColumn(
-        text: "Discount",
-        width: 5,
-        styles: PosStyles(align: PosAlign.left, underline: true),
-      ),
-      PosColumn(
-        text: purchaseOrderList.discountAmount.toString(),
-        width: 4,
-        styles: PosStyles(align: PosAlign.right, underline: true),
-      ),
-    ]);
-    bytes += generator.row([
-      PosColumn(
-        text: "",
-        width: 3,
-        styles: PosStyles(align: PosAlign.center, underline: true),
-      ),
-      PosColumn(
-        text: "13% Tax",
-        width: 5,
-        styles: PosStyles(align: PosAlign.left, underline: true),
-      ),
-      PosColumn(
-        text: purchaseOrderList.taxAmount.toString(),
-        width: 4,
-        styles: PosStyles(align: PosAlign.right, underline: true),
-      ),
-    ]);
-    bytes += generator.row([
-      PosColumn(
-        text: "",
-        width: 3,
-        styles: PosStyles(align: PosAlign.center, underline: true),
-      ),
-      PosColumn(
-        text: "Grand Total",
-        width: 5,
-        styles: PosStyles(align: PosAlign.left, underline: true),
-      ),
-      PosColumn(
-        text: purchaseOrderList.grandTotal.toString(),
-        width: 4,
-        styles: PosStyles(align: PosAlign.right, underline: true),
-      ),
-    ]);
-    // bytes += generator.text('Keep this receipt for future reference',
-    //     styles: PosStyles(align: PosAlign.center));
-    // bytes += generator.text('Grand Total price including 13% VAT',
-    //     styles: PosStyles(align: PosAlign.center));
-    bytes += generator.text('---*---*---*---',
-        styles: PosStyles(align: PosAlign.center));
-    bytes += generator.text(
-        'Thank you for shopping with us. Please visit again!',
-        styles: PosStyles(align: PosAlign.center));
-
-    bytes += generator.feed(1);
-    bytes += generator.cut();
-    return bytes;
   }
 }

@@ -1,7 +1,7 @@
 class SalesOrderList {
   int? id;
   List<SalesItems>? salesItems;
-  Customer? customer;
+  String? customer;
   String? sellingByName;
   String? invoiceNumber;
   double? grandTotal;
@@ -40,9 +40,7 @@ class SalesOrderList {
         salesItems!.add(new SalesItems.fromJson(v));
       });
     }
-    customer = json['customer'] != null
-        ? new Customer.fromJson(json['customer'])
-        : null;
+    customer = json['customer'];
     sellingByName = json['selling_by_name'];
     invoiceNumber = json['invoice_number'];
     grandTotal = json['grand_total'];
@@ -63,9 +61,8 @@ class SalesOrderList {
     if (this.salesItems != null) {
       data['sales_items'] = this.salesItems!.map((v) => v.toJson()).toList();
     }
-    if (this.customer != null) {
-      data['customer'] = this.customer!.toJson();
-    }
+    data['customer'] = this.customer!;
+
     data['selling_by_name'] = this.sellingByName;
     data['invoice_number'] = this.invoiceNumber;
     data['grand_total'] = this.grandTotal;
@@ -123,22 +120,6 @@ class SalesItems {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['product'] = this.product;
-    return data;
-  }
-}
-
-class Customer {
-  String? name;
-
-  Customer({this.name});
-
-  Customer.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
     return data;
   }
 }

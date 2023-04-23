@@ -3,10 +3,10 @@ class SalesOrderModel {
   int? subTotal;
   int? taxAmount;
   int? discountAmount;
-  int? discPercent;
+  double? discPercent;
   int? taxPercent;
   String? status;
-  Customer? customer;
+  String? customer;
   List<SalesItems>? salesItems;
   int? userId;
 
@@ -30,9 +30,7 @@ class SalesOrderModel {
     discPercent = json['disc_percent'];
     taxPercent = json['tax_percent'];
     status = json['status'];
-    customer = json['customer'] != null
-        ? new Customer.fromJson(json['customer'])
-        : null;
+    customer = json['customer'];
     if (json['sales_items'] != null) {
       salesItems = <SalesItems>[];
       json['sales_items'].forEach((v) {
@@ -50,9 +48,8 @@ class SalesOrderModel {
     data['disc_percent'] = this.discPercent;
     data['tax_percent'] = this.taxPercent;
     data['status'] = this.status;
-    if (this.customer != null) {
-      data['customer'] = this.customer!.toJson();
-    }
+    data['customer'] = this.customer!;
+
     data['sales_by'] = this.userId;
 
     if (this.salesItems != null) {
@@ -86,18 +83,18 @@ class SalesItems {
   }
 }
 
-class Customer {
-  int? name;
+// class Customer {
+//   int? name;
 
-  Customer({this.name});
+//   Customer({this.name});
 
-  Customer.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-  }
+//   Customer.fromJson(Map<String, dynamic> json) {
+//     name = json['name'];
+//   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    return data;
-  }
-}
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['name'] = this.name;
+//     return data;
+//   }
+// }

@@ -1,13 +1,17 @@
 import 'package:draggable_fab/draggable_fab.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_controller.dart';
+import 'package:hamrokhata/Screens/sales_order_list/sales_order_list_controller.dart';
+import 'package:hamrokhata/commons/api/storage_constants.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons.dart';
 import 'package:hamrokhata/models/customer_model.dart';
 import 'package:hamrokhata/models/response/sales_order_list.dart';
 import 'package:number_to_character/number_to_character.dart';
+import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
 
 class TableForSalesReceipt extends StatefulWidget {
   // final PurchaseItems purchaseItems;
@@ -28,6 +32,22 @@ class _TableForSalesReceiptState extends State<TableForSalesReceipt> {
   int nameExpanded = 3;
   int unitExpanded = 2;
   int totalExpanded = 3;
+  String? printerAddress = '';
+  final secureStorage = Get.find<FlutterSecureStorage>();
+
+  @override
+  void initState() {
+    getPrinterAddress();
+
+    super.initState();
+  }
+
+  void getPrinterAddress() async {
+    printerAddress =
+        await secureStorage.read(key: StorageConstants.printerAddress);
+
+    print(printerAddress);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,15 +153,17 @@ class _TableForSalesReceiptState extends State<TableForSalesReceipt> {
                             ],
                           ),
                           Builder(builder: (context) {
-                            int vendorId = int.parse(salesOrderListResponse
-                                .customer!.name
-                                .toString());
-                            List<CustomerModel> customerList =
-                                Get.find<SalesOrderController>()
-                                    .customerApiResult;
-                            String customerName = customerList
-                                .firstWhere((element) => element.id == vendorId)
-                                .name!;
+                            // int vendorId = int.parse(salesOrderListResponse
+                            //     .customer!.name
+                            //     .toString());
+                            // List<CustomerModel> customerList =
+                            //     Get.find<SalesOrderController>()
+                            //         .customerApiResult;
+                            // String customerName = customerList
+                            //     .firstWhere((element) => element.id == vendorId)
+                            //     .name!;
+                            String customerName =
+                                salesOrderListResponse.customer!;
 
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -583,7 +605,22 @@ class _TableForSalesReceiptState extends State<TableForSalesReceipt> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           salesOrderListResponse.status == "Completed"
-              ? PrimaryButton(label: "Print Receipt", onPressed: () {})
+              ? PrimaryButton(
+                  label: "Print Receipt",
+                  onPressed: () async {
+                    final bool result = await PrintBluetoothThermal.connect(
+                        macPrinterAddress: printerAddress!);
+                    Get.put(SalesOrderListController())
+                        .printTest(widget.salesOrderListResponse![0]);
+
+                    if (result == true) {
+                      // printReceipt();
+                      // Get.put(PurchaseOrderListController())
+                      //     .printTest(widget.purchaseOrderList![0]);
+                    } else {
+                      print('please select device');
+                    }
+                  })
               : SizedBox(),
         ],
       ),

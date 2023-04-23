@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/bluetooth/print_utils.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_order_controller.dart';
+import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list_controller.dart';
 import 'package:hamrokhata/commons/api/storage_constants.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
@@ -12,6 +13,7 @@ import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
 import 'package:number_to_character/number_to_character.dart';
+import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
 
 class PurchaseOrderReceipt extends StatefulWidget {
   // final PurchaseItems purchaseItems;
@@ -82,6 +84,7 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
           data.purchaseItems!.forEach((element) {
             print(element.product);
           });
+          print("-------${purchaseOrderResponse.status}");
           return Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: config.appHorizontalPaddingSmall()),
@@ -89,10 +92,11 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
               children: [
                 Expanded(
                   child: Card(
-                    color: purchaseOrderResponse.status == "Failed"
-                        ? Colors.red[100]
-                        : purchaseOrderResponse.status == "Completed"
-                            ? Colors.green[100]
+                    color: purchaseOrderResponse.data!.purchaseStatus ==
+                            "Completed"
+                        ? Colors.green[100]
+                        : purchaseOrderResponse.data!.purchaseStatus == "Failed"
+                            ? Colors.red[100]
                             : Colors.yellow[100],
                     elevation: 5,
                     child: Padding(
@@ -158,14 +162,15 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
                             ],
                           ),
                           Builder(builder: (context) {
-                            int vendorId =
-                                int.parse(data.vendor!.name.toString());
-                            List<VendorList> vendorList =
-                                Get.find<PurchaseOrderController>()
-                                    .vendorApiResult;
-                            String vendorName = vendorList
-                                .firstWhere((element) => element.id == vendorId)
-                                .name!;
+                            // int vendorId =
+                            //     int.parse(data.vendor!.name.toString());
+                            // List<VendorList> vendorList =
+                            //     Get.find<PurchaseOrderController>()
+                            //         .vendorApiResult;
+                            // String vendorName = vendorList
+                            //     .firstWhere((element) => element.id == vendorId)
+                            //     .name!;
+                            String vendorName = data.vendor!;
 
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -599,43 +604,21 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
       bottomSheet: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          purchaseOrderResponse.status == "Completed"
+          purchaseOrderResponse.data!.purchaseStatus == "Completed"
               ? PrimaryButton(
                   label: "Print Receipt",
-                  onPressed: () {
+                  onPressed: () async {
                     final response = purchaseOrderResponse.data!;
-//print the receipt from bluetooth printer
-                    if (printerAddress != null) {
-                      var buffer1 = StringBuffer();
-                      buffer1.write("Purchase Order Receipt");
-                      buffer1.write("\n");
-                      buffer1.write("BlueBird Inventory System");
-                      buffer1.write("\n");
-                      buffer1.write("Pan No: 123456789");
-                      buffer1.write("\n");
-                      buffer1.write("Pokhara-17, Birauta");
-                      buffer1.write("\n");
-                      buffer1.write("Phone: 9841234567");
-                      buffer1.write("\n");
-                      buffer1
-                          .write("Date: ${response.createdAt!.split("T")[0]}");
-                      buffer1.write("\n");
-                      buffer1
-                          .write("Time: ${response.createdAt!.split("T")[1]}");
-                      buffer1.write("\n");
-                      buffer1.write("Purchase Order No: ${response.id}");
-                      buffer1.write("\n");
-                      buffer1.write("Supplier: ${response.purchaseByName}");
-                      buffer1.write("\n");
-                      buffer1.write("Status: ${response.status}");
-                      buffer1.write("\n");
-                      buffer1.write("================================");
-                      buffer1.write("\n");
+                    final bool result = await PrintBluetoothThermal.connect(
+                        macPrinterAddress: printerAddress!);
+                    Get.put(PurchaseOrderController()).printTest(response);
 
-                      PrintUtils.instance
-                          .bluetoothPrint(printerAddress!, buffer1.toString());
+                    if (result == true) {
+                      // printReceipt();
+                      // Get.put(PurchaseOrderListController())
+                      //     .printTest(widget.purchaseOrderList![0]);
                     } else {
-                      showErrorToast("Please select a printer first!");
+                      print('please select device');
                     }
                   })
               : SizedBox(),

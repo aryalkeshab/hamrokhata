@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_controller.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
-import 'package:hamrokhata/models/sales_order_model.dart';
+import 'package:hamrokhata/models/request/sales_order_model.dart';
 
 class SalesOrderListScreen extends StatefulWidget {
   final List<SalesItems> salesList;

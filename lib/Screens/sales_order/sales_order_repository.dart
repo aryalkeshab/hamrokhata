@@ -1,14 +1,13 @@
 import 'package:hamrokhata/Screens/sales_order/sales_order_remote_data_source.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_screen.dart';
-import 'package:hamrokhata/Screens/sales_order_list/sakes_order_list_model.dart';
 import 'package:hamrokhata/commons/api/api_result.dart';
 import 'package:hamrokhata/commons/api/network_exception.dart';
 import 'package:hamrokhata/commons/api/network_info.dart';
 import 'package:hamrokhata/models/customer_model.dart';
 import 'package:hamrokhata/models/request/sales_list_request_params.dart';
 import 'package:hamrokhata/models/response/sales_order_list.dart';
-import 'package:hamrokhata/models/sales_order_model.dart';
-import 'package:hamrokhata/models/request/sales_response_model.dart';
+import 'package:hamrokhata/models/request/sales_order_model.dart';
+import 'package:hamrokhata/models/response/sales_response_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
 
 abstract class SalesOrderRepository {

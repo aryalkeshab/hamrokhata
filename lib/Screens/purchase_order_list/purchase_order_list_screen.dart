@@ -212,19 +212,22 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                                   //         .name!;
 
                                   // print(vendorName);
-                                  int vendorId = int.parse(controller
-                                      .purchaseOrderResponseList![index].vendor!
-                                      // .name
-                                      .toString());
+                                  // int vendorId = int.parse(controller
+                                  //     .purchaseOrderResponseList![index].vendor!
+                                  //     // .name
+                                  //     .toString());
 
-                                  List<VendorList> vendorList =
-                                      Get.find<PurchaseOrderController>()
-                                          .vendorApiResult;
+                                  // List<VendorList> vendorList =
+                                  //     Get.find<PurchaseOrderController>()
+                                  //         .vendorApiResult;
 
-                                  String vendorName = vendorList
-                                      .firstWhere(
-                                          (element) => element.id == vendorId)
-                                      .name!;
+                                  // String vendorName = vendorList
+                                  //     .firstWhere(
+                                  //         (element) => element.id == vendorId)
+                                  //     .name!;
+                                  String vendorName = controller
+                                      .purchaseOrderResponseList![index]
+                                      .vendor!;
 
                                   return Visibility(
                                     child: InkWell(
@@ -317,7 +320,7 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                                                             .grandTotal
                                                             .toString(),
                                                         textAlign:
-                                                            TextAlign.center,
+                                                            TextAlign.right,
                                                         style: TextStyle(
                                                           fontSize: 14,
                                                         ),
@@ -391,7 +394,7 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                   Text(
                     '${total.toStringAsFixed(2)}',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                    textAlign: TextAlign.start,
+                    textAlign: TextAlign.end,
                   ),
                 ],
               ),

@@ -6,7 +6,7 @@ class PurchaseOrderModel {
   int? discPercent;
   int? taxPercent;
   String? status;
-  Vendor? vendor;
+  String? vendor;
   List<PurchaseItems>? purchaseItems;
   int? userId;
 
@@ -30,8 +30,7 @@ class PurchaseOrderModel {
     discPercent = json['disc_percent'];
     taxPercent = json['tax_percent'];
     status = json['status'];
-    vendor =
-        json['vendor'] != null ? new Vendor.fromJson(json['vendor']) : null;
+    vendor = json['vendor'];
     if (json['purchase_items'] != null) {
       purchaseItems = <PurchaseItems>[];
       json['purchase_items'].forEach((v) {
@@ -49,9 +48,9 @@ class PurchaseOrderModel {
     data['disc_percent'] = this.discPercent;
     data['tax_percent'] = this.taxPercent;
     data['status'] = this.status;
-    if (this.vendor != null) {
-      data['vendor'] = this.vendor!.toJson();
-    }
+    // if (this.vendor != null) {
+    data['vendor'] = this.vendor;
+    // }
     data['purchased_by'] = this.userId;
 
     if (this.purchaseItems != null) {
@@ -87,18 +86,18 @@ class PurchaseItems {
   }
 }
 
-class Vendor {
-  int? name;
+// class Vendor {
+//   int? name;
 
-  Vendor({this.name});
+//   Vendor({this.name});
 
-  Vendor.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-  }
+//   Vendor.fromJson(Map<String, dynamic> json) {
+//     name = json['name'];
+//   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    return data;
-  }
-}
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['name'] = this.name;
+//     return data;
+//   }
+// }

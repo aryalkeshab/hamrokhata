@@ -28,13 +28,13 @@ class Data {
   List<PurchaseItems>? purchaseItems;
   String? billNumber;
   double? grandTotal;
-  Vendor? vendor;
+  String? vendor;
   double? subTotal;
   double? taxAmount;
   double? discountAmount;
   double? discPercent;
   double? taxPercent;
-  String? status;
+  String? purchaseStatus;
   String? createdAt;
   String? updatedAt;
   int? purchasedBy;
@@ -51,7 +51,7 @@ class Data {
       this.discountAmount,
       this.discPercent,
       this.taxPercent,
-      this.status,
+      this.purchaseStatus,
       this.createdAt,
       this.updatedAt,
       this.purchasedBy});
@@ -65,8 +65,7 @@ class Data {
         purchaseItems!.add(new PurchaseItems.fromJson(v));
       });
     }
-    vendor =
-        json['vendor'] != null ? new Vendor.fromJson(json['vendor']) : null;
+    vendor = json['vendor'];
     billNumber = json['bill_number'];
     grandTotal = json['grand_total'];
     subTotal = json['sub_total'];
@@ -74,7 +73,7 @@ class Data {
     discountAmount = json['discount_amount'];
     discPercent = json['disc_percent'];
     taxPercent = json['tax_percent'];
-    status = json['status'];
+    purchaseStatus = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     purchasedBy = json['purchased_by'];
@@ -88,9 +87,8 @@ class Data {
       data['purchase_items'] =
           this.purchaseItems!.map((v) => v.toJson()).toList();
     }
-    if (this.vendor != null) {
-      data['vendor'] = this.vendor!.toJson();
-    }
+    data['vendor'] = this.vendor;
+
     data['bill_number'] = this.billNumber;
     data['grand_total'] = this.grandTotal;
     data['sub_total'] = this.subTotal;
@@ -98,7 +96,7 @@ class Data {
     data['discount_amount'] = this.discountAmount;
     data['disc_percent'] = this.discPercent;
     data['tax_percent'] = this.taxPercent;
-    data['status'] = this.status;
+    data['status'] = this.purchaseStatus;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['purchased_by'] = this.purchasedBy;
@@ -151,18 +149,18 @@ class PurchaseItems {
   }
 }
 
-class Vendor {
-  String? name;
+// class Vendor {
+//   String? name;
 
-  Vendor({this.name});
+//   Vendor({this.name});
 
-  Vendor.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-  }
+//   Vendor.fromJson(Map<String, dynamic> json) {
+//     name = json['name'];
+//   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    return data;
-  }
-}
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['name'] = this.name;
+//     return data;
+//   }
+// }

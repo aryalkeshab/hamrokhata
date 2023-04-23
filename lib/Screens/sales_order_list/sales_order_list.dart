@@ -176,24 +176,26 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                               itemCount:
                                   controller.salesOrderResponseList!.length,
                               itemBuilder: (BuildContext context, int index) {
-                                int customerId = int.parse(controller
-                                    .salesOrderResponseList![index]
-                                    .customer!
-                                    .name
-                                    .toString());
-                                print(customerId);
+                                // int customerId = int.parse(controller
+                                //     .salesOrderResponseList![index]
+                                //     .customer!
+                                //     .name
+                                //     .toString());
+                                // print(customerId);
 
-                                List<CustomerModel> customerList =
-                                    Get.find<SalesOrderController>()
-                                        .customerApiResult;
+                                // List<CustomerModel> customerList =
+                                //     Get.find<SalesOrderController>()
+                                //         .customerApiResult;
 
-                                print(customerList);
+                                // print(customerList);
 
-                                String CustomerName = customerList
-                                    .firstWhere(
-                                        (element) => element.id == customerId)
-                                    .name!;
-                                print(CustomerName);
+                                // String CustomerName = customerList
+                                //     .firstWhere(
+                                //         (element) => element.id == customerId)
+                                //     .name!;
+                                // print(CustomerName);
+                                String CustomerName = controller
+                                    .salesOrderResponseList![index].customer!;
 
                                 return Visibility(
                                   child: Card(
@@ -270,7 +272,7 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                                                         index]
                                                     .grandTotal
                                                     .toString(),
-                                                textAlign: TextAlign.center,
+                                                textAlign: TextAlign.end,
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                 ),
@@ -339,7 +341,7 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                   Text(
                     '${total.toString()}',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                    textAlign: TextAlign.start,
+                    textAlign: TextAlign.right,
                   ),
                 ],
               ),

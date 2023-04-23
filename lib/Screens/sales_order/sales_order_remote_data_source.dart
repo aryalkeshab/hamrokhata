@@ -2,7 +2,7 @@ import 'package:hamrokhata/Screens/sales_order/sales_order_screen.dart';
 import 'package:hamrokhata/commons/api/api_client.dart';
 import 'package:hamrokhata/commons/api/api_constant.dart';
 import 'package:hamrokhata/models/request/sales_list_request_params.dart';
-import 'package:hamrokhata/models/sales_order_model.dart';
+import 'package:hamrokhata/models/request/sales_order_model.dart';
 
 abstract class SalesOrderRemoteDataSource {
   Future<dynamic> getCustomerList();
