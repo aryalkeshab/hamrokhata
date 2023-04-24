@@ -27,6 +27,7 @@ import 'package:hamrokhata/models/customer_model.dart';
 import 'package:hamrokhata/models/product_detail.dart';
 import 'package:hamrokhata/models/request/product_search_request_model.dart';
 import 'package:hamrokhata/models/request/sales_order_model.dart';
+// import 'package:hamrokhata/models/request/sales_order_model.dart';
 
 class SalesOrderScreen extends StatefulWidget {
   const SalesOrderScreen({super.key});
@@ -46,7 +47,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
   String? selectedStatus;
 
   double netTotal = 0.00;
-  List<String> orderStatus = ["Pending", "Failed", "Completed"];
+  List<String> orderStatus = ["Pending", "Completed"];
   final secureStorage = Get.find<FlutterSecureStorage>();
 
   bool isSelectedFromUpdate = false;
@@ -55,15 +56,15 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
   TextEditingController priceController = TextEditingController();
   TextEditingController qtyController = TextEditingController();
   TextEditingController taxController = TextEditingController(text: "13.0");
-  TextEditingController discountController = TextEditingController(text: '0.0');
+  TextEditingController discountController = TextEditingController(text: "0");
 
   // List<TempSalesOrderModel> salesList = [];
-  List<SalesItems> salesList = [];
+  List<SalesItemsRequest> salesList = [];
   ProductSearchResponse? productDetails;
   double tax = 0.0;
   double discount = 0.0;
 
-  List<SalesOrderModel> salesOrderList = [];
+  List<SalesOrderRequestModel> salesOrderList = [];
   final formKey = GlobalKey<FormState>();
   List<CustomerModel> customerAllList = [];
 
@@ -76,6 +77,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
   @override
   void initState() {
     Get.put(SalesOrderController()).getcustomerList();
+
     super.initState();
   }
 
@@ -154,6 +156,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                             filled: true,
                           ),
                         ),
+
                         enabled: true,
                         // popupProps: PopupProps.dialog(showSearchBox: true),
                         items: orderStatus,
@@ -239,7 +242,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                 ),
                 Column(
                   children: List.generate(salesList.length, (index) {
-                    SalesItems salesModelList = salesList[index];
+                    SalesItemsRequest salesModelList = salesList[index];
 
                     return Visibility(
                       child: Padding(
@@ -469,7 +472,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                         key: StorageConstants.loginStaff);
                     taxController = TextEditingController(text: "13");
 
-                    final purchaseOrderModel = SalesOrderModel(
+                    final purchaseOrderModel = SalesOrderRequestModel(
                         userId: int.parse(userid.toString()),
                         salesItems: salesList,
                         status: selectedStatus,
@@ -741,7 +744,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
 
                                   setState(() {
                                     salesList.add(
-                                      SalesItems(
+                                      SalesItemsRequest(
                                           product: productDetails.id.toString(),
                                           quantity: qtyController.text,
                                           name: productDetails.name.toString(),
@@ -763,7 +766,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
 
                                     salesList.insert(
                                       index,
-                                      SalesItems(
+                                      SalesItemsRequest(
                                           product: productDetails.id.toString(),
                                           quantity: qtyController.text,
                                           name: productDetails.name.toString(),

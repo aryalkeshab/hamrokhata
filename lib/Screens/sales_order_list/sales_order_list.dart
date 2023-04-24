@@ -2,16 +2,16 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list.dart';
-import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list_controller.dart';
+
 import 'package:hamrokhata/Screens/sales_order/sales_order_controller.dart';
 import 'package:hamrokhata/Screens/sales_order_list/sales_order_list_controller.dart';
+import 'package:hamrokhata/commons/resources/confirm_dialog_view.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/text_form_widget.dart';
-import 'package:hamrokhata/models/customer_model.dart';
 import 'package:hamrokhata/models/request/sales_list_request_params.dart';
-import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
+import 'package:hamrokhata/models/request/sales_order_model.dart';
+// import 'package:hamrokhata/models/request/sales_order_model.dart';
 
 class SalesOrderListScreen extends StatefulWidget {
   const SalesOrderListScreen({super.key});
@@ -28,6 +28,7 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
 
     Get.put(SalesOrderListController())
         .getsalesOrderList(SalesListRequestParams(created_at: time));
+    _controller.clear();
 
     super.initState();
   }
@@ -38,9 +39,12 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
   TextEditingController searchController = TextEditingController();
   List<String> orderStatus = ["Pending", "Failed", "Completed"];
   String? selectedStatus;
+  double total = 0.0;
+  TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    total = 0.0;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -117,7 +121,7 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                                           firstDate: DateTime(1950),
                                           currentDate: DateTime.now(),
                                           saveText: 'Done',
-                                          lastDate: DateTime(2100));
+                                          lastDate: DateTime.now());
 
                                   if (pickedDate != null) {
                                     print(pickedDate);
@@ -292,6 +296,55 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                                                     index]
                                               ]);
                                         },
+                                        onLongPress: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return ConfirmDialogView(
+                                                primaryText:
+                                                    "Are you sure want to Void the transaction?",
+                                                onApproveButtonPressed: () {
+                                                  int? id = controller
+                                                      .salesOrderResponseList![
+                                                          index]
+                                                      .id;
+
+                                                  final tempController = controller
+                                                          .salesOrderResponseList![
+                                                      index];
+                                                  List<SalesItemsRequest>?
+                                                      salesItems;
+                                                  // salesItems = tempController
+                                                  //     .salesItems
+                                                  //     .cast<SalesItems>();
+
+                                                  Get.put(SalesOrderController())
+                                                      .salesOrderUpdate(
+                                                          SalesOrderRequestModel(
+                                                            status: "Failed",
+                                                            // salesItems: tempController
+                                                            //         .salesItems
+                                                            //     as List<
+                                                            //         SalesItems>,
+                                                            discPercent:
+                                                                tempController
+                                                                    .discPercent,
+                                                            taxPercent: 13,
+                                                            customer:
+                                                                tempController
+                                                                    .customer,
+                                                            userId:
+                                                                tempController
+                                                                    .salesBy,
+                                                          ),
+                                                          id!,
+                                                          context);
+                                                },
+                                                onCancelButtonPressed: Get.back,
+                                              );
+                                            },
+                                          );
+                                        },
                                         child: Row(
                                           children: [
                                             Expanded(
@@ -354,6 +407,15 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                               }),
                         );
                       }
+                    } else if (controller.salesOrderResponse.hasError) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Center(
+                            child: Text('No Data Found'),
+                          ),
+                        ],
+                      );
                     } else {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -371,19 +433,17 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
         });
       }),
       bottomSheet: GetBuilder<SalesOrderListController>(builder: (controller) {
-        num total = 0.0;
-
+        _controller.clear();
         // if (controller.salesOrderResponseList![0].grandTotal != null) {
         for (int i = 0; i < controller.salesOrderResponseList!.length; i++) {
+          // total += controller.salesOrderResponseList![i].grandTotal!;
+
           total += controller.salesOrderResponseList![i].grandTotal!;
           // print(Get.find<PurchaseOrderListController>()
           //     .purchaseOrderResponseList![i]
           //     .billNumber);
         }
-        // }
-
-        print(total);
-        // controller.purchaseOrderResponseList![]
+        _controller.text = total.toStringAsFixed(2);
 
         return Container(
           // color: Colors.black45,
@@ -405,11 +465,23 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                     'Total Amount :',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   ),
-                  Text(
-                    '${total.toString()}',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                    textAlign: TextAlign.right,
-                  ),
+                  Builder(builder: (context) {
+                    if (controller.salesOrderResponse.hasError) {
+                      return Text(
+                        '0.00',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500),
+                        textAlign: TextAlign.right,
+                      );
+                    } else {
+                      return Text(
+                        '${double.parse(_controller.text).toStringAsFixed(2)}',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500),
+                        textAlign: TextAlign.right,
+                      );
+                    }
+                  }),
                 ],
               ),
             ],

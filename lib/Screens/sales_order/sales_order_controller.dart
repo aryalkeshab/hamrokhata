@@ -55,9 +55,27 @@ class SalesOrderController extends GetxController {
 
   ApiResponse get salesOrderResponse => _salesOrderResponse;
 
-  salesOrder(SalesOrderModel salesOrderModel, BuildContext context) async {
+  salesOrder(
+      SalesOrderRequestModel salesOrderModel, BuildContext context) async {
     salesOrderResponse =
         await Get.find<SalesOrderRepository>().salesOrder(salesOrderModel);
+    if (salesOrderResponse.hasData) {
+      salesOrderResponseList = salesOrderResponse.data;
+      showSuccessToast(salesOrderResponseList!.msg.toString());
+      Get.toNamed(Routes.salesTableReceipt,
+          arguments: [salesOrderResponseList!]);
+      update();
+    } else {
+      AppSnackbar.showError(
+          context: context,
+          message: NetworkException.getErrorMessage(salesOrderResponse.error));
+    }
+  }
+
+  salesOrderUpdate(SalesOrderRequestModel salesOrderModel, int id,
+      BuildContext context) async {
+    salesOrderResponse = await Get.find<SalesOrderRepository>()
+        .salesOrderUpdate(salesOrderModel, id);
     if (salesOrderResponse.hasData) {
       salesOrderResponseList = salesOrderResponse.data;
       showSuccessToast(salesOrderResponseList!.msg.toString());

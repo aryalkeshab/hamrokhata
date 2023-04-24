@@ -158,27 +158,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             text: 'Purchase Order List',
                             onPressed: () {
                               Get.toNamed(Routes.purchaseOrderList);
-                              // printInventoryReceipt();
-                              // print(printerAddress);
-                              // var buffer1 = StringBuffer();
-                              // buffer1.write("Purchase Order Receipt");
-                              // buffer1.write("\n");
-                              // buffer1.write("BlueBird Inventory System");
-                              // buffer1.write("\n");
-                              // buffer1.write("Pan No: 123456789");
-                              // buffer1.write("\n");
-                              // buffer1.write("Pokhara-17, Birauta");
-                              // buffer1.write("\n");
-                              // buffer1.write("Phone: 9841234567");
-                              // buffer1.write("\n");
-                              // buffer1.write("\n");
-                              // buffer1.write("\n");
-                              // buffer1.write("\n");
-                              // buffer1.write("\n");
-                              // buffer1.write("\n");
-
-                              // PrintUtils.instance.bluetoothPrint(
-                              //     printerAddress!, buffer1.toString());
                             },
                             icons: Icons.microwave_rounded,
                           ),

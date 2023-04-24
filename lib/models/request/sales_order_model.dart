@@ -1,4 +1,4 @@
-class SalesOrderModel {
+class SalesOrderRequestModel {
   int? grandTotal;
   int? subTotal;
   int? taxAmount;
@@ -7,10 +7,10 @@ class SalesOrderModel {
   int? taxPercent;
   String? status;
   String? customer;
-  List<SalesItems>? salesItems;
+  List<SalesItemsRequest>? salesItems;
   int? userId;
 
-  SalesOrderModel(
+  SalesOrderRequestModel(
       {this.grandTotal,
       this.subTotal,
       this.taxAmount,
@@ -22,7 +22,7 @@ class SalesOrderModel {
       this.userId,
       this.salesItems});
 
-  SalesOrderModel.fromJson(Map<String, dynamic> json) {
+  SalesOrderRequestModel.fromJson(Map<String, dynamic> json) {
     grandTotal = json['grand_total'];
     subTotal = json['sub_total'];
     taxAmount = json['tax_amount'];
@@ -32,9 +32,9 @@ class SalesOrderModel {
     status = json['status'];
     customer = json['customer'];
     if (json['sales_items'] != null) {
-      salesItems = <SalesItems>[];
+      salesItems = <SalesItemsRequest>[];
       json['sales_items'].forEach((v) {
-        salesItems!.add(new SalesItems.fromJson(v));
+        salesItems!.add(new SalesItemsRequest.fromJson(v));
       });
     }
   }
@@ -59,16 +59,22 @@ class SalesOrderModel {
   }
 }
 
-class SalesItems {
+class SalesItemsRequest {
   String? quantity;
   String? total;
   String? product;
   String? price;
   String? name;
 
-  SalesItems({this.quantity, this.total, this.product, this.price, this.name});
+  SalesItemsRequest({
+    this.quantity,
+    this.total,
+    this.product,
+    this.price,
+    this.name,
+  });
 
-  SalesItems.fromJson(Map<String, dynamic> json) {
+  SalesItemsRequest.fromJson(Map<String, dynamic> json) {
     quantity = json['quantity'];
     total = json['total'];
     product = json['product'];

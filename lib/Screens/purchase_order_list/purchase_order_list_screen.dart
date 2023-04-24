@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:hamrokhata/Screens/purchase_order/purchase_order_controller.dart';
 import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list.dart';
 import 'package:hamrokhata/Screens/purchase_order_list/purchase_order_list_controller.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_controller.dart';
+import 'package:hamrokhata/commons/resources/confirm_dialog_view.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/text_form_widget.dart';
@@ -26,6 +28,7 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
   void initState() {
     final formattedDate = DateTime.now().toString();
     final time = formattedDate.split(' ')[0];
+    total = 0.0;
 
     Get.put(PurchaseOrderListController())
         .getpurchaseOrderList(PurchaseListRequestParams(created_at: time));
@@ -37,10 +40,12 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
   String? formattedFirstDate = '';
   String? formattedEndDate = '';
   TextEditingController searchController = TextEditingController();
+  num total = 0.0;
 
   @override
   Widget build(BuildContext context) {
     final purchaseOrderListController = Get.put(PurchaseOrderController());
+    total = 0.0;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -105,7 +110,7 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                               firstDate: DateTime(1950),
                               currentDate: DateTime.now(),
                               saveText: 'Done',
-                              lastDate: DateTime(2100));
+                              lastDate: DateTime.now());
 
                           if (pickedDate != null) {
                             print(pickedDate);
@@ -182,6 +187,8 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                   ),
                   Builder(builder: (context) {
                     if (controller.purchaseOrderResponse.hasData) {
+                      print('here');
+
                       if (controller.purchaseOrderResponseList!.isEmpty) {
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -201,9 +208,6 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                                 itemCount: controller
                                     .purchaseOrderResponseList!.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  print(controller.purchaseOrderResponseList![0]
-                                      .billNumber);
-
                                   // TrackingModel trackingModel = trackingList[index];
                                   //to extract vendor number from venor list and show it in vendor number column
                                   //   String vendorNumber =
@@ -358,6 +362,15 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                           ],
                         );
                       }
+                    } else if (controller.purchaseOrderResponse.hasError) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Center(
+                            child: Text('No Data Found'),
+                          ),
+                        ],
+                      );
                     } else {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -377,14 +390,11 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
       }),
       bottomSheet:
           GetBuilder<PurchaseOrderListController>(builder: (controller) {
-        num total = 0.0;
+        total = 0.0;
         for (int i = 0; i < controller.purchaseOrderResponseList!.length; i++) {
           total += Get.find<PurchaseOrderListController>()
               .purchaseOrderResponseList![i]
               .grandTotal!;
-          // print(Get.find<PurchaseOrderListController>()
-          //     .purchaseOrderResponseList![i]
-          //     .billNumber);
         }
         print(total);
         // controller.purchaseOrderResponseList![]
@@ -409,11 +419,24 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                     'Total Amount :',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   ),
-                  Text(
-                    '${total.toStringAsFixed(2)}',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                    textAlign: TextAlign.end,
-                  ),
+                  Builder(builder: (context) {
+                    if (controller.purchaseOrderResponse.hasError) {
+                      return Text(
+                        '0.00',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500),
+                        textAlign: TextAlign.right,
+                      );
+                    } else {
+                      return Text(
+                        // '${double.parse(_controller.text).toStringAsFixed(2)}',
+                        "${total.toStringAsFixed(2)}",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500),
+                        textAlign: TextAlign.right,
+                      );
+                    }
+                  }),
                 ],
               ),
             ],
@@ -437,14 +460,13 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
 // import 'package:pos_app/ui/widgets/progress_dialog.dart';
 // import 'package:pos_app/ui/widgets/snackbar.dart';
 // import 'package:pos_app/ui/widgets/toast.dart';
-// import 'package:pos_app/utils/constants.dart';   
+// import 'package:pos_app/utils/constants.dart';
 // import 'package:pos_app/utils/size_config.dart';
 // import 'package:pos_app/utils/strings.dart';
 // import 'package:pos_app/utils/styles.dart';
 // import 'package:pos_app/utils/utils.dart';
 // import 'package:pos_app/utils/validator.dart';
 // import 'package:pos_app/utils/extensions.dart';
-
 
 // class PurchaseOrderList extends StatefulWidget {
 //   @override
@@ -485,4 +507,4 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
 //
 //
 //     new TextEditingController();
-//  
+//

@@ -12,7 +12,10 @@ import 'package:hamrokhata/models/vendor_list.dart';
 
 abstract class SalesOrderRepository {
   Future<ApiResponse> getCustomerList();
-  Future<ApiResponse> salesOrder(SalesOrderModel salesOrderModel);
+  Future<ApiResponse> salesOrder(SalesOrderRequestModel salesOrderModel);
+  Future<ApiResponse> salesOrderUpdate(
+      SalesOrderRequestModel salesOrderModel, int id);
+
   Future<ApiResponse> salesOrderList(
       SalesListRequestParams salesListRequestParams);
 }
@@ -45,7 +48,7 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
   }
 
   @override
-  Future<ApiResponse> salesOrder(SalesOrderModel salesOrderModel) async {
+  Future<ApiResponse> salesOrder(SalesOrderRequestModel salesOrderModel) async {
     if (await networkInfo.isConnected) {
       try {
         final result =
@@ -55,6 +58,30 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
         final salesOrderResponseList = SalesOrderResponse.fromJson(result);
 
         return ApiResponse(data: salesOrderResponseList);
+      } catch (e) {
+        return ApiResponse(error: NetworkException.getException(e));
+      }
+    }
+    return ApiResponse(error: NetworkException.noInternetConnection());
+  }
+
+  @override
+  Future<ApiResponse> salesOrderUpdate(
+      SalesOrderRequestModel salesOrderModel, int id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await salesOrderRemoteDataSource.salesOrderUpdate(
+            salesOrderModel, id);
+        if (result['status'] == 200) {
+          return ApiResponse(data: result['message']);
+        } else {
+          return ApiResponse(
+              error: NetworkException.getException(result['message']));
+        }
+
+        // final salesOrderResponseList = SalesOrderResponse.fromJson(result);
+
+        // return ApiResponse(data: salesOrderResponseList);
       } catch (e) {
         return ApiResponse(error: NetworkException.getException(e));
       }

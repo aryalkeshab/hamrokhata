@@ -54,7 +54,7 @@ class AuthLoginRegisterRepositoryImpl extends AuthLoginRegisterRepository {
             key: StorageConstants.accessToken,
             value: result["token"]["access"]);
         await secureStorage.write(
-            key: StorageConstants.accessToken,
+            key: StorageConstants.name,
             value: result["firstname"] + " " + result["lastname"]);
 
         print(secureStorage.read(key: StorageConstants.loginStaff));
@@ -64,7 +64,8 @@ class AuthLoginRegisterRepositoryImpl extends AuthLoginRegisterRepository {
         } else {
           return ApiResponse(
               error: NetworkException.defaultError(
-                  value: "You don't have permission to access this page"));
+                  value:
+                      "You don't have permission to access.\nPlease contact admin."));
         }
       } catch (e) {
         if (e is DioError && e.type == DioErrorType.response) {

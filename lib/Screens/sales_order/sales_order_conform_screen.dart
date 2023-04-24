@@ -5,7 +5,7 @@ import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/models/request/sales_order_model.dart';
 
 class SalesOrderListScreen extends StatefulWidget {
-  final List<SalesItems> salesList;
+  final List<SalesItemsRequest> salesList;
   const SalesOrderListScreen({required this.salesList, super.key});
 
   @override
@@ -15,7 +15,7 @@ class SalesOrderListScreen extends StatefulWidget {
 class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
   @override
   Widget build(BuildContext context) {
-    List<SalesItems> salesList = widget.salesList;
+    List<SalesItemsRequest> salesList = widget.salesList;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -94,7 +94,7 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                   ),
                   Column(
                     children: List.generate(salesList.length, (index) {
-                      SalesItems salesModelList = salesList[index];
+                      SalesItemsRequest salesModelList = salesList[index];
 
                       return Visibility(
                         child: Padding(

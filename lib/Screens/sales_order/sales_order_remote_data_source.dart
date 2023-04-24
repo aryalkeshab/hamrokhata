@@ -6,8 +6,10 @@ import 'package:hamrokhata/models/request/sales_order_model.dart';
 
 abstract class SalesOrderRemoteDataSource {
   Future<dynamic> getCustomerList();
-  Future<dynamic> salesOrder(SalesOrderModel salesOrderModel);
+  Future<dynamic> salesOrder(SalesOrderRequestModel salesOrderModel);
   Future<dynamic> salesOrderList(SalesListRequestParams salesListRequestParams);
+  Future<dynamic> salesOrderUpdate(
+      SalesOrderRequestModel salesOrderModel, int id);
 }
 
 class SalesOrderRemoteDataSourceImpl extends SalesOrderRemoteDataSource {
@@ -20,8 +22,15 @@ class SalesOrderRemoteDataSourceImpl extends SalesOrderRemoteDataSource {
   }
 
   @override
-  salesOrder(SalesOrderModel salesOrderModel) {
+  salesOrder(SalesOrderRequestModel salesOrderModel) {
     return apiClient.authPost(APIPathHelper.salesOrderAPIs(APIPath.salesOrder),
+        data: salesOrderModel.toJson());
+  }
+
+  @override
+  salesOrderUpdate(SalesOrderRequestModel salesOrderModel, int id) {
+    return apiClient.authPut(
+        APIPathHelper.salesOrderAPIs(APIPath.salesOrder, id: id.toString()),
         data: salesOrderModel.toJson());
   }
 
