@@ -21,6 +21,7 @@ enum APIPath {
   changePasswordAuth,
   forgetPasswordAuth,
   resetPassword,
+  salesOrderUpdate,
 }
 
 // TODO:
@@ -95,6 +96,8 @@ class APIPathHelper {
 
       case APIPath.salesOrder:
         return "/sales/";
+      case APIPath.salesOrderUpdate:
+        return "/sales/$id";
 
       default:
         return "";

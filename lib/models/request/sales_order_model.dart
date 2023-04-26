@@ -45,16 +45,17 @@ class SalesOrderRequestModel {
     // data['sub_total'] = this.subTotal;
     // data['tax_amount'] = this.taxAmount;
     // data['discount_amount'] = this.discountAmount;
-    data['disc_percent'] = this.discPercent;
-    data['tax_percent'] = this.taxPercent;
-    data['status'] = this.status;
-    data['customer'] = this.customer!;
-
-    data['sales_by'] = this.userId;
 
     if (this.salesItems != null) {
       data['sales_items'] = this.salesItems!.map((v) => v.toJson()).toList();
     }
+    data['customer'] = this.customer!;
+
+    data['disc_percent'] = this.discPercent;
+    data['tax_percent'] = this.taxPercent;
+    data['status'] = this.status;
+
+    data['sales_by'] = this.userId;
     return data;
   }
 }
@@ -83,7 +84,7 @@ class SalesItemsRequest {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['quantity'] = this.quantity;
-    data['total'] = this.total;
+    // data['total'] = this.total;
     data['product'] = this.product;
     return data;
   }

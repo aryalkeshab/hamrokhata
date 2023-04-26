@@ -313,19 +313,35 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                                                           .salesOrderResponseList![
                                                       index];
                                                   List<SalesItemsRequest>?
-                                                      salesItems;
-                                                  // salesItems = tempController
-                                                  //     .salesItems
-                                                  //     .cast<SalesItems>();
-
-                                                  Get.put(SalesOrderController())
+                                                      salesItems = [];
+                                                  print(tempController
+                                                      .salesItems!.length);
+                                                  for (int i = 0;
+                                                      i <
+                                                          tempController
+                                                              .salesItems!
+                                                              .length;
+                                                      i++) {
+                                                    print('a');
+                                                    salesItems
+                                                        .add(SalesItemsRequest(
+                                                      product: tempController
+                                                          .salesItems![i]
+                                                          .product
+                                                          .toString(),
+                                                      quantity: tempController
+                                                          .salesItems![i]
+                                                          .quantity
+                                                          .toString(),
+                                                    ));
+                                                  }
+                                                  final result = Get.put(
+                                                          SalesOrderController())
                                                       .salesOrderUpdate(
                                                           SalesOrderRequestModel(
                                                             status: "Failed",
-                                                            // salesItems: tempController
-                                                            //         .salesItems
-                                                            //     as List<
-                                                            //         SalesItems>,
+                                                            salesItems:
+                                                                salesItems,
                                                             discPercent:
                                                                 tempController
                                                                     .discPercent,
@@ -339,11 +355,35 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                                                           ),
                                                           id!,
                                                           context);
+
+                                                  if (result.hasData) {
+                                                    controller.getsalesOrderList(
+                                                        SalesListRequestParams(
+                                                      customer:
+                                                          searchController.text,
+                                                      start_date:
+                                                          formattedFirstDate,
+                                                      end_date:
+                                                          formattedEndDate,
+                                                      status: selectedStatus,
+                                                    ));
+                                                    Get.back();
+                                                  } else {}
                                                 },
                                                 onCancelButtonPressed: Get.back,
                                               );
                                             },
-                                          );
+                                          ).then((value) => setState(() {
+                                                controller.getsalesOrderList(
+                                                    SalesListRequestParams(
+                                                  customer:
+                                                      searchController.text,
+                                                  start_date:
+                                                      formattedFirstDate,
+                                                  end_date: formattedEndDate,
+                                                  status: selectedStatus,
+                                                ));
+                                              }));
                                         },
                                         child: Row(
                                           children: [

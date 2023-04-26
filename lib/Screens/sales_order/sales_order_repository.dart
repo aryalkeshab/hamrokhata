@@ -3,6 +3,7 @@ import 'package:hamrokhata/Screens/sales_order/sales_order_screen.dart';
 import 'package:hamrokhata/commons/api/api_result.dart';
 import 'package:hamrokhata/commons/api/network_exception.dart';
 import 'package:hamrokhata/commons/api/network_info.dart';
+import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/customer_model.dart';
 import 'package:hamrokhata/models/request/sales_list_request_params.dart';
 import 'package:hamrokhata/models/response/sales_order_list.dart';
@@ -72,12 +73,12 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
       try {
         final result = await salesOrderRemoteDataSource.salesOrderUpdate(
             salesOrderModel, id);
-        if (result['status'] == 200) {
-          return ApiResponse(data: result['message']);
-        } else {
-          return ApiResponse(
-              error: NetworkException.getException(result['message']));
-        }
+        print(result);
+        // return ApiResponse(data: result);
+        print(result['msg']);
+
+        return ApiResponse(
+            data: result['msg'].toString() + " && voided Successfully");
 
         // final salesOrderResponseList = SalesOrderResponse.fromJson(result);
 
