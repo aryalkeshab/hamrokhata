@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/auth/auth_controller.dart';
 import 'package:hamrokhata/Screens/bluetooth/print_utils.dart';
+import 'package:hamrokhata/commons/Core/Animation/Fade_Animation.dart';
 import 'package:hamrokhata/commons/api/storage_constants.dart';
 
 import 'package:hamrokhata/commons/resources/confirm_dialog_view.dart';
@@ -51,6 +52,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             itemBuilder: (context) => [
               PopupMenuItem(child: Text(userName ?? '')),
               PopupMenuItem(
+                onTap: () {},
                 child: InkWell(
                     onTap: () {
                       showDialog(
@@ -75,10 +77,15 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     ),
               ),
               PopupMenuItem(
+                onTap: () {
+                  // Get.toNamed(Routes.changePasswordScreeen);
+                  // Navigator.pop(context);
+                },
                 child: InkWell(
+                  splashColor: Colors.red,
                   onTap: () {
-                    Get.toNamed(Routes.changePasswordScreeen);
-                    Navigator.pop(context);
+                    Get.offAndToNamed(Routes.changePasswordScreeen);
+                    // Navigator.pop(context);
                   },
                   child: const Text("Change Password"),
                 ),
@@ -133,54 +140,75 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         mainAxisSpacing: 2.0,
                         crossAxisSpacing: 2.0,
                         children: [
-                          DashboardModule(
-                            text: 'Product Details',
-                            onPressed: () {
-                              Get.toNamed(Routes.productDetails);
-                            },
-                            icons: Icons.price_check_rounded,
+                          FadeAnimation(
+                            delay: 1,
+                            child: DashboardModule(
+                              text: 'Product Details',
+                              onPressed: () {
+                                Get.toNamed(Routes.productDetails);
+                              },
+                              icons: Icons.price_check_rounded,
+                            ),
                           ),
-                          DashboardModule(
-                            text: 'Add Products',
-                            onPressed: () {
-                              Get.toNamed(Routes.addProductScreen);
-                            },
-                            icons: Icons.production_quantity_limits_sharp,
+                          FadeAnimation(
+                            delay: 1.2,
+                            child: DashboardModule(
+                              text: 'Add Products',
+                              onPressed: () {
+                                Get.toNamed(Routes.addProductScreen);
+                              },
+                              icons: Icons.production_quantity_limits_sharp,
+                            ),
                           ),
-                          DashboardModule(
-                            text: 'Purchase Order',
-                            onPressed: () {
-                              Get.toNamed(Routes.purchaseOrder);
-                            },
-                            icons: Icons.add_circle_rounded,
+                          FadeAnimation(
+                            delay: 1.4,
+                            child: DashboardModule(
+                              text: 'Purchase Order',
+                              onPressed: () {
+                                Get.toNamed(Routes.purchaseOrder);
+                              },
+                              icons: Icons.add_circle_rounded,
+                            ),
                           ),
-                          DashboardModule(
-                            text: 'Purchase Order List',
-                            onPressed: () {
-                              Get.toNamed(Routes.purchaseOrderList);
-                            },
-                            icons: Icons.microwave_rounded,
+                          FadeAnimation(
+                            delay: 1.6,
+                            child: DashboardModule(
+                              text: 'Purchase Order List',
+                              onPressed: () {
+                                Get.toNamed(Routes.purchaseOrderList);
+                              },
+                              icons: Icons.microwave_rounded,
+                            ),
                           ),
-                          DashboardModule(
-                            text: 'Sales Order',
-                            onPressed: () {
-                              Get.toNamed(Routes.salesOrder);
-                            },
-                            icons: Icons.add_circle_rounded,
+                          FadeAnimation(
+                            delay: 1.8,
+                            child: DashboardModule(
+                              text: 'Sales Order',
+                              onPressed: () {
+                                Get.toNamed(Routes.salesOrder);
+                              },
+                              icons: Icons.add_circle_rounded,
+                            ),
                           ),
-                          DashboardModule(
-                            text: 'Sales Order List',
-                            onPressed: () {
-                              Get.toNamed(Routes.salesOrderList);
-                            },
-                            icons: Icons.account_box,
+                          FadeAnimation(
+                            delay: 2,
+                            child: DashboardModule(
+                              text: 'Sales Order List',
+                              onPressed: () {
+                                Get.toNamed(Routes.salesOrderList);
+                              },
+                              icons: Icons.account_box,
+                            ),
                           ),
-                          DashboardModule(
-                            text: 'Print Setting',
-                            onPressed: () {
-                              Get.toNamed(Routes.appSetting);
-                            },
-                            icons: Icons.print,
+                          FadeAnimation(
+                            delay: 2.2,
+                            child: DashboardModule(
+                              text: 'Print Setting',
+                              onPressed: () {
+                                Get.toNamed(Routes.appSetting);
+                              },
+                              icons: Icons.print,
+                            ),
                           ),
                           // DashboardModule(
                           //   text: 'Change Password',

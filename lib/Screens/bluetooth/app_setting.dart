@@ -65,32 +65,9 @@ class _AppSettingState extends State<AppSetting> {
                       if (printerAddress == "" || printerAddress == null) {
                         showErrorToast("Please configure printer first");
                       } else {
-                        //   var buffer1 = StringBuffer();
-
-                        //   buffer1.write("! 0 200 200 200 1\r\n");
-                        //   buffer1.write("CENTER\r\n");
-                        //   buffer1.write("BARCODE-TEXT 7 0 5\r\n");
-                        //   buffer1.write("BARCODE 128 1 1 50 0 10 " + "\r\n");
-
-                        //   buffer1.write("BARCODE-TEXT OFF\r\n");
-                        //   buffer1.write("PRINT\r\n");
-
-                        //   String id = "1";
-                        //   String productName =
-                        //       "Product 1 Waste colllection money";
-                        //   String price = "Rs 100000.00";
-                        //   String receiptLine =
-                        //       "$id   $productName   ${price.padRight(10)}\n";
-                        //   String receiptLine2 =
-                        //       "${id.padLeft(1)} ${productName} ${price.padRight(10, "c")}\n";
-                        //   String text1 = buffer1.toString();
-
-                        PrintUtils.instance
-                            .bluetoothPrint(printerAddress!, "sa");
+                        PrintUtils.instance.bluetoothPrint(
+                            printerAddress!, "Testing Bluetooth");
                       }
-                      // FlutterBluetoothPrinter.printBytes(
-                      //     address: "EC:51:BC:E1:FB:FA",
-                      //     data: utf8.encode("Hello") as Uint8List);
                     },
                     onText: () {
                       Get.toNamed(Routes.bluetoothDeviceScreen);

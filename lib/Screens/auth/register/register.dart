@@ -206,7 +206,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     child: DropdownButtonHideUnderline(
                                       child: DropdownButton(
                                         hint: const Text(
-                                          '--------Designation-------',
+                                          '---Designation---',
                                           style: TextStyle(color: Colors.black),
                                         ),
                                         value: dropDownvalue,

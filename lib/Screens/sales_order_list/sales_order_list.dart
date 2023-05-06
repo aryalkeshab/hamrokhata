@@ -44,7 +44,6 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    total = 0.0;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -335,8 +334,7 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                                                           .toString(),
                                                     ));
                                                   }
-                                                  final result = Get.put(
-                                                          SalesOrderController())
+                                                  Get.put(SalesOrderController())
                                                       .salesOrderUpdate(
                                                           SalesOrderRequestModel(
                                                             status: "Failed",
@@ -356,34 +354,44 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                                                           id!,
                                                           context);
 
-                                                  if (result.hasData) {
-                                                    controller.getsalesOrderList(
-                                                        SalesListRequestParams(
-                                                      customer:
-                                                          searchController.text,
-                                                      start_date:
-                                                          formattedFirstDate,
-                                                      end_date:
-                                                          formattedEndDate,
-                                                      status: selectedStatus,
-                                                    ));
-                                                    Get.back();
-                                                  } else {}
+                                                  // controller.getsalesOrderList(
+                                                  //     SalesListRequestParams(
+                                                  //   customer:
+                                                  //       searchController.text,
+                                                  //   start_date:
+                                                  //       formattedFirstDate,
+                                                  //   end_date: formattedEndDate,
+                                                  //   status: selectedStatus,
+                                                  // ));
+                                                  Get.back();
                                                 },
                                                 onCancelButtonPressed: Get.back,
                                               );
                                             },
-                                          ).then((value) => setState(() {
-                                                controller.getsalesOrderList(
-                                                    SalesListRequestParams(
-                                                  customer:
-                                                      searchController.text,
-                                                  start_date:
-                                                      formattedFirstDate,
-                                                  end_date: formattedEndDate,
-                                                  status: selectedStatus,
-                                                ));
-                                              }));
+                                          );
+                                          // .then((value) {
+                                          //   final formattedDate =
+                                          //       DateTime.now().toString();
+                                          //   final time =
+                                          //       formattedDate.split(' ')[0];
+                                          //   if (searchController.text.isEmpty ||
+                                          //       formattedEndDate!.isEmpty ||
+                                          //       formattedFirstDate!.isEmpty ||
+                                          //       selectedStatus!.isEmpty) {
+                                          //     controller.getsalesOrderList(
+                                          //         SalesListRequestParams(
+                                          //       created_at: time,
+                                          //     ));
+                                          //   } else {
+                                          //     controller.getsalesOrderList(
+                                          //         SalesListRequestParams(
+                                          //       customer: searchController.text,
+                                          //       start_date: formattedFirstDate,
+                                          //       end_date: formattedEndDate,
+                                          //       status: selectedStatus,
+                                          //     ));
+                                          //   }
+                                          // });
                                         },
                                         child: Row(
                                           children: [
@@ -474,6 +482,7 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
       }),
       bottomSheet: GetBuilder<SalesOrderListController>(builder: (controller) {
         _controller.clear();
+        total = 0.0;
         // if (controller.salesOrderResponseList![0].grandTotal != null) {
         for (int i = 0; i < controller.salesOrderResponseList!.length; i++) {
           // total += controller.salesOrderResponseList![i].grandTotal!;
@@ -483,7 +492,7 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
           //     .purchaseOrderResponseList![i]
           //     .billNumber);
         }
-        _controller.text = total.toStringAsFixed(2);
+        // _controller.text = total.toStringAsFixed(2);
 
         return Container(
           // color: Colors.black45,
@@ -515,7 +524,8 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                       );
                     } else {
                       return Text(
-                        '${double.parse(_controller.text).toStringAsFixed(2)}',
+                        // '${double.parse(_controller.text).toStringAsFixed(2)}',
+                        '${total.toStringAsFixed(2)}',
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w500),
                         textAlign: TextAlign.right,

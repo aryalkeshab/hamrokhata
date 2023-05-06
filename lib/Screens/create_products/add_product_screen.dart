@@ -118,7 +118,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               print(imagePath);
                             },
                             icon: const Icon(Icons.file_upload),
-                            label: const Text("UPLOAD IMAGE"),
+                            label: const Text("ADD IMAGE"),
                           )),
                         ),
                       ],

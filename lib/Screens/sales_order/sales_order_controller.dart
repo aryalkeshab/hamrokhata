@@ -3,12 +3,14 @@ import 'package:flutter_bluetooth_printer/flutter_bluetooth_printer.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_repository.dart';
+import 'package:hamrokhata/Screens/sales_order_list/sales_order_list_controller.dart';
 import 'package:hamrokhata/commons/api/api_result.dart';
 import 'package:hamrokhata/commons/api/network_exception.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/snackbar.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/customer_model.dart';
+import 'package:hamrokhata/models/request/sales_list_request_params.dart';
 import 'package:hamrokhata/models/request/sales_order_model.dart';
 import 'package:hamrokhata/models/response/sales_response_model.dart';
 import 'package:intl/intl.dart';
@@ -75,7 +77,7 @@ class SalesOrderController extends GetxController {
   ApiResponse _salesOrderUpdateResponse = ApiResponse();
 
   set salesOrderUpdateResponse(ApiResponse response) {
-    _salesOrderResponse = response;
+    _salesOrderUpdateResponse = response;
     update();
   }
 
@@ -87,8 +89,13 @@ class SalesOrderController extends GetxController {
 
     if (salesOrderUpdateResponse.hasData) {
       showSuccessToast(salesOrderUpdateResponse.data.toString());
-      Get.toNamed(Routes.salesTableReceipt,
-          arguments: [salesOrderResponseList!]);
+      final formattedDate = DateTime.now().toString();
+      final time = formattedDate.split(' ')[0];
+      Get.put(SalesOrderListController())
+          .getsalesOrderList(SalesListRequestParams(
+        created_at: time,
+      ));
+
       update();
     }
     // else {

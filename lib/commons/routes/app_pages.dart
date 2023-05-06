@@ -82,8 +82,8 @@ class AppPages {
       name: _Paths.dashboard,
       page: DashBoardScreen.new,
       bindings: [
-        // CoreBindings(),
-        // AuthBinding(),
+        CoreBindings(),
+        AuthBinding(),
       ],
     ),
     GetPage(

@@ -347,7 +347,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
           }),
         ),
         bottomSheet: Container(
-          height: 180,
+          height: 160,
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(
             children: [
@@ -386,7 +386,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                   Spacer(),
                   Text(
                     netTotal.toString(),
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
@@ -425,7 +425,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                     Text(
                       tax.toString(),
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ],
                 );
@@ -446,7 +446,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                     Text(
                       total.toString(),
                       style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w500),
+                          fontSize: 16, fontWeight: FontWeight.w500),
                       textAlign: TextAlign.start,
                     ),
                   ],
@@ -557,7 +557,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                       //     ));
                     },
                     controller: searchController,
-                    hintTxt: "Search Item No. ",
+                    hintTxt: "Search Product Name",
                     hintIcon: InkWell(
                       onTap: () async {
                         scannedCode = await Scanqr.barcodeScanner(context);

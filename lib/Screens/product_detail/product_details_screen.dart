@@ -61,7 +61,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       //     ));
                     },
                     controller: searchController,
-                    hintTxt: "Search Item No. ",
+                    hintTxt: "Search Product Name",
                     hintIcon: InkWell(
                       onTap: () async {
                         scannedCode = await Scanqr.barcodeScanner(context);

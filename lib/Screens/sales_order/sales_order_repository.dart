@@ -78,7 +78,7 @@ class SalesOrderRepositoryImpl extends SalesOrderRepository {
         print(result['msg']);
 
         return ApiResponse(
-            data: result['msg'].toString() + " && voided Successfully");
+            data: result['msg'].toString() + " and  Voided Successfully");
 
         // final salesOrderResponseList = SalesOrderResponse.fromJson(result);
 

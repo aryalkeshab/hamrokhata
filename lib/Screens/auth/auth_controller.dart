@@ -22,7 +22,7 @@ class AuthController extends GetxController {
     Get.offNamed(Routes.login);
     authRepository.logout();
     isLoggedIn.value = false;
-    showSuccessToast('Successfully logged out. ');
+    // showSuccessToast('Successfully logged out. ');
   }
 
   authorize() async {

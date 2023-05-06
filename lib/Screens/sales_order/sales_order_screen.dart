@@ -352,7 +352,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
           }),
         ),
         bottomSheet: Container(
-          height: 180,
+          height: 160,
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(
             children: [
@@ -391,7 +391,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                   Spacer(),
                   Text(
                     netTotal.toString(),
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
@@ -430,7 +430,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                     Text(
                       tax.toString(),
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ],
                 );
@@ -451,7 +451,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                     Text(
                       total.toString(),
                       style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w500),
+                          fontSize: 16, fontWeight: FontWeight.w500),
                       textAlign: TextAlign.start,
                     ),
                   ],
@@ -558,7 +558,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                       //     ));
                     },
                     controller: searchController,
-                    hintTxt: "Search Item No. ",
+                    hintTxt: "Search Product Name",
                     hintIcon: InkWell(
                       onTap: () async {
                         scannedCode = await Scanqr.barcodeScanner(context);
@@ -728,10 +728,12 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                               //     return;
                               //   } else
                               // }
-                              if (searchController.text.isEmpty) {
-                                showErrorToast(
-                                    "Please enter item no. or scan barcode");
-                              } else if (int.parse(qtyController.text) == 0) {
+                              // if (searchController.text.isEmpty) {
+                              //   showErrorToast(
+                              //       "Please enter item no. or scan barcode");
+                              // } else
+
+                              if (int.parse(qtyController.text) == 0) {
                                 showErrorToast("You cannot add 0 quantity !");
                               } else if (productDetails.currentStock! >
                                   int.parse(qtyController.text)) {
