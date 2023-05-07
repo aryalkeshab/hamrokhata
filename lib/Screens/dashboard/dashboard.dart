@@ -141,16 +141,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         crossAxisSpacing: 2.0,
                         children: [
                           FadeAnimation(
-                            delay: 1,
-                            child: DashboardModule(
-                              text: 'Product Details',
-                              onPressed: () {
-                                Get.toNamed(Routes.productDetails);
-                              },
-                              icons: Icons.price_check_rounded,
-                            ),
-                          ),
-                          FadeAnimation(
                             delay: 1.2,
                             child: DashboardModule(
                               text: 'Add Products',
@@ -160,6 +150,17 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               icons: Icons.production_quantity_limits_sharp,
                             ),
                           ),
+                          FadeAnimation(
+                            delay: 1,
+                            child: DashboardModule(
+                              text: 'Product Details',
+                              onPressed: () {
+                                Get.toNamed(Routes.productDetails);
+                              },
+                              icons: Icons.price_check_rounded,
+                            ),
+                          ),
+
                           FadeAnimation(
                             delay: 1.4,
                             child: DashboardModule(

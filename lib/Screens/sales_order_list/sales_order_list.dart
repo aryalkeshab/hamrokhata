@@ -296,79 +296,90 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
                                               ]);
                                         },
                                         onLongPress: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return ConfirmDialogView(
-                                                primaryText:
-                                                    "Are you sure want to Void the transaction?",
-                                                onApproveButtonPressed: () {
-                                                  int? id = controller
-                                                      .salesOrderResponseList![
-                                                          index]
-                                                      .id;
+                                          print(controller
+                                              .salesOrderResponseList![index]
+                                              .status);
+                                          if (controller
+                                                  .salesOrderResponseList![
+                                                      index]
+                                                  .status ==
+                                              "Completed") {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return ConfirmDialogView(
+                                                  primaryText:
+                                                      "Are you sure want to Void the transaction?",
+                                                  onApproveButtonPressed: () {
+                                                    int? id = controller
+                                                        .salesOrderResponseList![
+                                                            index]
+                                                        .id;
 
-                                                  final tempController = controller
-                                                          .salesOrderResponseList![
-                                                      index];
-                                                  List<SalesItemsRequest>?
-                                                      salesItems = [];
-                                                  print(tempController
-                                                      .salesItems!.length);
-                                                  for (int i = 0;
-                                                      i <
-                                                          tempController
-                                                              .salesItems!
-                                                              .length;
-                                                      i++) {
-                                                    print('a');
-                                                    salesItems
-                                                        .add(SalesItemsRequest(
-                                                      product: tempController
-                                                          .salesItems![i]
-                                                          .product
-                                                          .toString(),
-                                                      quantity: tempController
-                                                          .salesItems![i]
-                                                          .quantity
-                                                          .toString(),
-                                                    ));
-                                                  }
-                                                  Get.put(SalesOrderController())
-                                                      .salesOrderUpdate(
-                                                          SalesOrderRequestModel(
-                                                            status: "Failed",
-                                                            salesItems:
-                                                                salesItems,
-                                                            discPercent:
-                                                                tempController
-                                                                    .discPercent,
-                                                            taxPercent: 13,
-                                                            customer:
-                                                                tempController
-                                                                    .customer,
-                                                            userId:
-                                                                tempController
-                                                                    .salesBy,
-                                                          ),
-                                                          id!,
-                                                          context);
+                                                    final tempController =
+                                                        controller
+                                                                .salesOrderResponseList![
+                                                            index];
+                                                    List<SalesItemsRequest>?
+                                                        salesItems = [];
+                                                    print(tempController
+                                                        .salesItems!.length);
+                                                    for (int i = 0;
+                                                        i <
+                                                            tempController
+                                                                .salesItems!
+                                                                .length;
+                                                        i++) {
+                                                      print('a');
+                                                      salesItems.add(
+                                                          SalesItemsRequest(
+                                                        product: tempController
+                                                            .salesItems![i]
+                                                            .product
+                                                            .toString(),
+                                                        quantity: tempController
+                                                            .salesItems![i]
+                                                            .quantity
+                                                            .toString(),
+                                                      ));
+                                                    }
+                                                    Get.put(SalesOrderController())
+                                                        .salesOrderUpdate(
+                                                            SalesOrderRequestModel(
+                                                              status: "Failed",
+                                                              salesItems:
+                                                                  salesItems,
+                                                              discPercent:
+                                                                  tempController
+                                                                      .discPercent,
+                                                              taxPercent: 13,
+                                                              customer:
+                                                                  tempController
+                                                                      .customer,
+                                                              userId:
+                                                                  tempController
+                                                                      .salesBy,
+                                                            ),
+                                                            id!,
+                                                            context);
 
-                                                  // controller.getsalesOrderList(
-                                                  //     SalesListRequestParams(
-                                                  //   customer:
-                                                  //       searchController.text,
-                                                  //   start_date:
-                                                  //       formattedFirstDate,
-                                                  //   end_date: formattedEndDate,
-                                                  //   status: selectedStatus,
-                                                  // ));
-                                                  Get.back();
-                                                },
-                                                onCancelButtonPressed: Get.back,
-                                              );
-                                            },
-                                          );
+                                                    // controller.getsalesOrderList(
+                                                    //     SalesListRequestParams(
+                                                    //   customer:
+                                                    //       searchController.text,
+                                                    //   start_date:
+                                                    //       formattedFirstDate,
+                                                    //   end_date: formattedEndDate,
+                                                    //   status: selectedStatus,
+                                                    // ));
+                                                    Get.back();
+                                                  },
+                                                  onCancelButtonPressed:
+                                                      Get.back,
+                                                );
+                                              },
+                                            );
+                                          }
                                           // .then((value) {
                                           //   final formattedDate =
                                           //       DateTime.now().toString();

@@ -78,6 +78,8 @@ class SalesOrderListController extends GetxController {
         styles: PosStyles(align: PosAlign.center));
     bytes += generator.text('Order No.: ${salesOrderList.invoiceNumber}',
         styles: PosStyles(align: PosAlign.center));
+    bytes += generator.text('Customer Name.: ${salesOrderList.customer}',
+        styles: PosStyles(align: PosAlign.center));
     bytes += generator.text('Date: ${formattedTime}',
         styles: PosStyles(align: PosAlign.center));
 

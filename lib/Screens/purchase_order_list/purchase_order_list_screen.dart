@@ -415,13 +415,13 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Total Amount :',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   ),
                   Builder(builder: (context) {
                     if (controller.purchaseOrderResponse.hasError) {
-                      return Text(
+                      return const Text(
                         '0.00',
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w500),
@@ -430,8 +430,8 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
                     } else {
                       return Text(
                         // '${double.parse(_controller.text).toStringAsFixed(2)}',
-                        "${total.toStringAsFixed(2)}",
-                        style: TextStyle(
+                        total.toStringAsFixed(2),
+                        style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w500),
                         textAlign: TextAlign.right,
                       );

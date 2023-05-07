@@ -154,18 +154,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         //     keyboardType: TextInputType.phone,
                         //   ),
                         // ),
-                        Expanded(
-                          child: PrimaryFormField(
-                            onSaved: (String saved) {
-                              addProductParams.sellingPrice =
-                                  double.parse(saved);
-                            },
-                            label: "Selling Price*",
-                            hintTxt: '150',
-                            keyboardType: TextInputType.number,
-                          ),
-                        ),
-                        config.horizontalSpaceMedium(),
+
                         Expanded(
                           child: PrimaryFormField(
                             onSaved: (String saved) {
@@ -174,6 +163,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             },
                             label: "Purchase Price*",
                             hintTxt: '200',
+                            keyboardType: TextInputType.number,
+                          ),
+                        ),
+                        config.horizontalSpaceMedium(),
+
+                        Expanded(
+                          child: PrimaryFormField(
+                            onSaved: (String saved) {
+                              addProductParams.sellingPrice =
+                                  double.parse(saved);
+                            },
+                            label: "Selling Price*",
+                            hintTxt: '150',
                             keyboardType: TextInputType.number,
                           ),
                         ),

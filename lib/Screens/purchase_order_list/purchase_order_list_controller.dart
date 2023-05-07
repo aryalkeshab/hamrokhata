@@ -70,7 +70,7 @@ class PurchaseOrderListController extends GetxController {
     //bytes += generator.setGlobalFont(PosFontType.fontA);
     bytes += generator.reset();
 
-    bytes += generator.text("يرجى الانتظار الترجمة العربية غير تحميل",
+    bytes += generator.text("Hamro Khata Pvt. Ltd.",
         styles: PosStyles(bold: true, align: PosAlign.center));
     bytes += generator.text('Pan No.: 0010231001',
         styles: PosStyles(align: PosAlign.center));
@@ -79,6 +79,8 @@ class PurchaseOrderListController extends GetxController {
     bytes += generator.text('Tel: 01-4444444',
         styles: PosStyles(align: PosAlign.center));
     bytes += generator.text('Order No.: ${purchaseOrderList.billNumber}',
+        styles: PosStyles(align: PosAlign.center));
+    bytes += generator.text('Vendor Name.: ${purchaseOrderList.vendor}',
         styles: PosStyles(align: PosAlign.center));
 
     bytes += generator.text('Date: ${formattedTime}',
