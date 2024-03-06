@@ -89,7 +89,7 @@ class PrimaryFormField extends HookWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15.0),
                         child: Icon(
-                          color: Theme.of(context).primaryColor,
+                          color: primaryColor,
                           isPasswordVisible.value
                               ? Icons.visibility
                               : Icons.visibility_off,
@@ -117,12 +117,12 @@ class PrimaryFormField extends HookWidget {
               enabledBorder: OutlineInputBorder(
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
                 borderSide: BorderSide(
-                  color: textFieldBorderColor ?? Theme.of(context).primaryColor,
+                  color: textFieldBorderColor ?? primaryColor,
                 ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                borderSide: BorderSide(color: primaryColor),
               ),
             ),
           ),

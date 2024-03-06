@@ -16,6 +16,9 @@ import 'package:hamrokhata/commons/widgets/buttons.dart';
 import 'package:hamrokhata/commons/widgets/textfields.dart';
 import 'package:hamrokhata/models/request/login_params.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:hamrokhata/commons/widgets/buttons/primary_btn_widget.dart';
+
+import '../../../commons/resources/colors.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -118,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       child: PrimaryFormField(
                                         hintIcon: Icon(
                                           Icons.email,
-                                          color: Theme.of(context).primaryColor,
+                                          color: primaryColor,
                                         ),
                                         validator: (value) =>
                                             Validator.validateEmail(value!),
@@ -135,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         isPassword: true,
                                         hintIcon: Icon(
                                           Icons.lock,
-                                          color: Theme.of(context).primaryColor,
+                                          color: primaryColor,
                                         ),
                                         // validator: (value) =>
                                         //     Validator.validatePassword(value!),

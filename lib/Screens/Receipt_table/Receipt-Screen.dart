@@ -17,6 +17,7 @@ import 'package:hamrokhata/models/vendor_list.dart';
 import 'package:intl/intl.dart';
 import 'package:number_to_character/number_to_character.dart';
 import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
 
 class BluetoothDeviceTemp {
   int? type;
@@ -84,7 +85,7 @@ class _TableForReceiptState extends State<TableForReceipt> {
             Icons.home,
             color: Colors.white,
           ),
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: primaryColor,
           elevation: 2.0,
         ),
       ),
@@ -111,11 +112,11 @@ class _TableForReceiptState extends State<TableForReceipt> {
                       child: Column(
                         children: [
                           Text(
-                            "Hamro Khata Pvt. Ltd.",
+                            "Hishab Kitab Pvt. Ltd.",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 22,
-                                color: Theme.of(context).primaryColor),
+                                color: primaryColor),
                             textAlign: TextAlign.center,
                           ),
                           Text(
@@ -623,42 +624,42 @@ class _TableForReceiptState extends State<TableForReceipt> {
           );
         },
       ),
-      bottomSheet: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          purchaseOrderList.status == "Completed"
-              ? PrimaryButton(
-                  label: "Print Receipt",
-                  onPressed: () async {
-                    // devicesFinal = BluetoothDevice();
+      // bottomSheet: Row(
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   children: [
+      //     purchaseOrderList.status == "Completed"
+      //         ? PrimaryButton(
+      //             label: "Print Receipt",
+      //             onPressed: () async {
+      //               // devicesFinal = BluetoothDevice();
 
-                    // if (devicesFinal != null && devicesFinal!.address != null) {
-                    //   // setState(() {
-                    //   //   tips = 'connecting...';
-                    //   // });
+      //               // if (devicesFinal != null && devicesFinal!.address != null) {
+      //               //   // setState(() {
+      //               //   //   tips = 'connecting...';
+      //               //   // });
 
-                    //   await bluetoothPrint.connect(devicesFinal!);
-                    //   await printReceipt();
-                    // } else {
-                    //   print('please select device');
-                    // }
-                    print(printerAddress);
-                    final bool result = await PrintBluetoothThermal.connect(
-                        macPrinterAddress: printerAddress!);
-                    Get.put(PurchaseOrderListController())
-                        .printTest(widget.purchaseOrderList![0]);
+      //               //   await bluetoothPrint.connect(devicesFinal!);
+      //               //   await printReceipt();
+      //               // } else {
+      //               //   print('please select device');
+      //               // }
+      //               print(printerAddress);
+      //               final bool result = await PrintBluetoothThermal.connect(
+      //                   macPrinterAddress: printerAddress!);
+      //               Get.put(PurchaseOrderListController())
+      //                   .printTest(widget.purchaseOrderList![0]);
 
-                    if (result == true) {
-                      // printReceipt();
-                      // Get.put(PurchaseOrderListController())
-                      //     .printTest(widget.purchaseOrderList![0]);
-                    } else {
-                      print('please select device');
-                    }
-                  })
-              : SizedBox(),
-        ],
-      ),
+      //               if (result == true) {
+      //                 // printReceipt();
+      //                 // Get.put(PurchaseOrderListController())
+      //                 //     .printTest(widget.purchaseOrderList![0]);
+      //               } else {
+      //                 print('please select device');
+      //               }
+      //             })
+      //         : SizedBox(),
+      //   ],
+      // ),
     );
   }
 }

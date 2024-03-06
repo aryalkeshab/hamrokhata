@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons/primary_btn_widget.dart';
 
@@ -31,7 +32,7 @@ Future<dynamic> dialogWithTwoButton(
                         title: rejectText,
                         verticalPadding: 12,
                         btnColor: Colors.transparent,
-                        textColor: Theme.of(context).primaryColor,
+                        textColor: primaryColor,
                         borderRadius: 4,
                         hasElevation: false,
                         onPressed: () {

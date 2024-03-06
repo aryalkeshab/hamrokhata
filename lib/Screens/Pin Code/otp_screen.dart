@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:hamrokhata/commons/resources/colors.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -177,7 +178,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                               child: PinCodeTextField(
                                 appContext: context,
                                 pastedTextStyle: TextStyle(
-                                  color: Theme.of(context).primaryColor,
+                                  color: primaryColor,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 length: 5,

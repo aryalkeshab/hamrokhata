@@ -27,6 +27,8 @@ import 'package:hamrokhata/models/customer_model.dart';
 import 'package:hamrokhata/models/product_detail.dart';
 import 'package:hamrokhata/models/request/product_search_request_model.dart';
 import 'package:hamrokhata/models/request/sales_order_model.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
+
 // import 'package:hamrokhata/models/request/sales_order_model.dart';
 
 class SalesOrderScreen extends StatefulWidget {
@@ -87,7 +89,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
     final salesOrderController = Get.put(SalesOrderController());
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: primaryColor,
           title: const Text('Sales Order Screen'),
         ),
         body: BaseWidget(builder: (context, config, theme) {
@@ -331,7 +333,7 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
         floatingActionButton: DraggableFab(
           child: BaseWidget(builder: (context, config, theme) {
             return FloatingActionButton.extended(
-              backgroundColor: Theme.of(context).primaryColor,
+              backgroundColor: primaryColor,
               elevation: 5,
               icon: const Icon(
                 Icons.add_rounded,
@@ -369,14 +371,13 @@ class _SalesOrderScreenState extends State<SalesOrderScreen> {
                     Text(
                       "Disc. & Tax",
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor),
+                          fontWeight: FontWeight.bold, color: primaryColor),
                     ),
                     Align(
                       alignment: Alignment.centerRight,
                       child: Icon(
                         Icons.add_rounded,
-                        color: Theme.of(context).primaryColor,
+                        color: primaryColor,
                       ),
                     ),
                   ],

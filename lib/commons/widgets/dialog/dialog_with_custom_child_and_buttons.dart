@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons/primary_btn_widget.dart';
 
@@ -35,7 +36,7 @@ Future<dynamic> dialogWithCustomChildAndTwoButton(
                           title: rejectText,
                           verticalPadding: 12,
                           btnColor: Colors.black12,
-                          textColor: Theme.of(context).primaryColor,
+                          textColor: primaryColor,
                           borderRadius: 4,
                           hasElevation: false,
                           onPressed: () {
@@ -46,7 +47,7 @@ Future<dynamic> dialogWithCustomChildAndTwoButton(
                         Expanded(
                             child: PrimaryBtnWidget(
                           title: acceptText,
-                          btnColor: Theme.of(context).primaryColor,
+                          btnColor: primaryColor,
                           borderRadius: 4,
                           verticalPadding: 12,
                           onPressed: () {

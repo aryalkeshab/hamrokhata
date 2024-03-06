@@ -15,7 +15,8 @@ class AuthInterceptor extends QueuedInterceptor {
   void onError(DioError err, ErrorInterceptorHandler handler) {
     super.onError(err, handler);
     if (err.response?.statusCode == 401) {
-      refreshAccessToken(err, handler);
+      // refreshAccessToken(err, handler);
+      logout();
     }
     return handler.next(err);
   }

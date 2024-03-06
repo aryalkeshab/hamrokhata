@@ -6,6 +6,7 @@ import 'package:hamrokhata/Screens/auth/auth_controller.dart';
 import 'package:hamrokhata/Screens/bluetooth/print_utils.dart';
 import 'package:hamrokhata/commons/Core/Animation/Fade_Animation.dart';
 import 'package:hamrokhata/commons/api/storage_constants.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
 
 import 'package:hamrokhata/commons/resources/confirm_dialog_view.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
@@ -42,13 +43,15 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     print(printerAddress);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: primaryColor,
         automaticallyImplyLeading: false,
-        title: const Text('Dashboard'),
+        title: const Text(
+          'Dashboard',
+        ),
         centerTitle: true,
         actions: [
           PopupMenuButton<int>(
-            icon: const Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert, color: Colors.white),
             itemBuilder: (context) => [
               PopupMenuItem(child: Text(userName ?? '')),
               PopupMenuItem(
@@ -201,16 +204,16 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               icons: Icons.account_box,
                             ),
                           ),
-                          FadeAnimation(
-                            delay: 2.2,
-                            child: DashboardModule(
-                              text: 'Print Setting',
-                              onPressed: () {
-                                Get.toNamed(Routes.appSetting);
-                              },
-                              icons: Icons.print,
-                            ),
-                          ),
+                          // FadeAnimation(
+                          //   delay: 2.2,
+                          //   child: DashboardModule(
+                          //     text: 'Print Setting',
+                          //     onPressed: () {
+                          //       Get.toNamed(Routes.appSetting);
+                          //     },
+                          //     icons: Icons.print,
+                          //   ),
+                          // ),
                           // DashboardModule(
                           //   text: 'Change Password',
                           //   onPressed: () {

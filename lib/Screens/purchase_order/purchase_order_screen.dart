@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
+
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:hamrokhata/Screens/product_detail/product_detail_controller.dart';
 import 'package:hamrokhata/Screens/product_detail/product_details_screen.dart';
@@ -91,7 +93,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: primaryColor,
           title: const Text('Purchase Order Screen'),
         ),
         body: BaseWidget(builder: (context, config, theme) {
@@ -326,7 +328,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
         floatingActionButton: DraggableFab(
           child: BaseWidget(builder: (context, config, theme) {
             return FloatingActionButton.extended(
-              backgroundColor: Theme.of(context).primaryColor,
+              backgroundColor: primaryColor,
               elevation: 5,
               icon: const Icon(
                 Icons.add_rounded,
@@ -364,14 +366,13 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen> {
                     Text(
                       "Disc. & Tax",
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor),
+                          fontWeight: FontWeight.bold, color: primaryColor),
                     ),
                     Align(
                       alignment: Alignment.centerRight,
                       child: Icon(
                         Icons.add_rounded,
-                        color: Theme.of(context).primaryColor,
+                        color: primaryColor,
                       ),
                     ),
                   ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
 
 class PrimaryBtnWidget extends StatelessWidget {
   const PrimaryBtnWidget(
@@ -27,7 +28,7 @@ class PrimaryBtnWidget extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         elevation: hasElevation ? 1 : 0,
-        backgroundColor: btnColor ?? Theme.of(context).primaryColor,
+        backgroundColor: btnColor ?? primaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
         ),

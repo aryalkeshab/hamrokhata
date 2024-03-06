@@ -7,7 +7,7 @@ class OtpParams {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['otp'] = otp;
-    map['user_id'] = user_id;
+    map['myuser'] = user_id;
 
     return map;
   }

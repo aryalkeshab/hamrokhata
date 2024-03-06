@@ -18,6 +18,7 @@ import 'package:hamrokhata/commons/widgets/textfields.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/request/product_request_model.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
 
 class AddProductScreen extends StatefulWidget {
   const AddProductScreen({super.key});
@@ -49,7 +50,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     final appController = Get.put(AppSettingController());
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: primaryColor,
         title: const Text('Add Product '),
       ),
       body: SingleChildScrollView(

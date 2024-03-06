@@ -15,18 +15,32 @@ class AppThemes {
         primaryColor: colorScheme.onSurface,
         colorScheme: colorScheme,
         appBarTheme: AppBarTheme(
-          foregroundColor: Colors.white,
-          color: colorScheme.primary,
+          foregroundColor: primaryColor,
+          color: Colors.white,
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+          ),
+          iconTheme: IconThemeData(color: Colors.white),
+          actionsIconTheme: IconThemeData(color: Colors.white),
           elevation: 0,
           systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconButtonTheme: IconButtonThemeData(
+            style: IconButton.styleFrom(
+          foregroundColor: Colors.white,
+          focusColor: Colors.white,
+        )),
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
         canvasColor: colorScheme.background,
         scaffoldBackgroundColor: colorScheme.background,
         highlightColor: Colors.transparent,
         focusColor: focusColor,
+        primaryIconTheme: IconThemeData(color: Colors.white),
         buttonTheme: ButtonThemeData(
-          buttonColor: colorScheme.onSurface,
+          buttonColor: Colors.white,
+          colorScheme: colorScheme,
         ),
         textTheme: textTheme,
         fontFamily: 'Roboto',

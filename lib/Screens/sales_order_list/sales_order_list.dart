@@ -12,6 +12,7 @@ import 'package:hamrokhata/commons/widgets/text_form_widget.dart';
 import 'package:hamrokhata/models/request/sales_list_request_params.dart';
 import 'package:hamrokhata/models/request/sales_order_model.dart';
 // import 'package:hamrokhata/models/request/sales_order_model.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
 
 class SalesOrderListScreen extends StatefulWidget {
   const SalesOrderListScreen({super.key});
@@ -46,7 +47,7 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: primaryColor,
         title: const Text('Sales Order List'),
       ),
       body: BaseWidget(builder: (context, config, theme) {

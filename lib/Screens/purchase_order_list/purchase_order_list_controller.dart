@@ -70,7 +70,7 @@ class PurchaseOrderListController extends GetxController {
     //bytes += generator.setGlobalFont(PosFontType.fontA);
     bytes += generator.reset();
 
-    bytes += generator.text("Hamro Khata Pvt. Ltd.",
+    bytes += generator.text("Hishab Kitab Pvt. Ltd.",
         styles: PosStyles(bold: true, align: PosAlign.center));
     bytes += generator.text('Pan No.: 0010231001',
         styles: PosStyles(align: PosAlign.center));

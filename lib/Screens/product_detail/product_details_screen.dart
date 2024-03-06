@@ -11,6 +11,7 @@ import 'package:hamrokhata/commons/widgets/textfields.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/product_detail.dart';
 import 'package:hamrokhata/models/request/product_search_request_model.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
 
 class ProductDetails extends StatefulWidget {
   const ProductDetails({super.key});
@@ -26,7 +27,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: primaryColor,
         title: const Text('Product Details'),
       ),
       body: SingleChildScrollView(

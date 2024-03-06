@@ -14,6 +14,7 @@ import 'package:hamrokhata/models/request/purchase_list_request_params.dart';
 import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
 import 'package:supercharged/supercharged.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
 
 class PurchaseOrderListScreen extends StatefulWidget {
   const PurchaseOrderListScreen({super.key});
@@ -48,7 +49,7 @@ class _PurchaseOrderListScreenState extends State<PurchaseOrderListScreen> {
     total = 0.0;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: primaryColor,
         title: const Text('Purchase Order List'),
       ),
       body: BaseWidget(builder: (context, config, theme) {

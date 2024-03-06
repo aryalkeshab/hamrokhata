@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/change_password.dart/change_password_controller.dart';
 import 'package:hamrokhata/commons/Core/Animation/Fade_Animation.dart';
 import 'package:hamrokhata/commons/api/storage_constants.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
 import 'package:hamrokhata/commons/utils/custom_validators.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/commons/widgets/buttons.dart';
@@ -47,7 +48,7 @@ class _ChangePasswordScreeenState extends State<ChangePasswordScreeen> {
                       isPassword: true,
                       hintIcon: Icon(
                         Icons.email,
-                        color: Theme.of(context).primaryColor,
+                        color: primaryColor,
                       ),
                       validator: (value) => Validator.validatePassword(value!),
                       onSaved: (value) {
@@ -63,7 +64,7 @@ class _ChangePasswordScreeenState extends State<ChangePasswordScreeen> {
                       isPassword: true,
                       hintIcon: Icon(
                         Icons.lock,
-                        color: Theme.of(context).primaryColor,
+                        color: primaryColor,
                       ),
                       validator: (value) => Validator.validatePassword(value!),
                       onSaved: (value) {
@@ -79,7 +80,7 @@ class _ChangePasswordScreeenState extends State<ChangePasswordScreeen> {
                       isPassword: true,
                       hintIcon: Icon(
                         Icons.lock,
-                        color: Theme.of(context).primaryColor,
+                        color: primaryColor,
                       ),
                       validator: (value) => Validator.validatePassword(value!),
                       onSaved: (value) {

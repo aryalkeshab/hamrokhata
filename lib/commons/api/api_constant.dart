@@ -26,12 +26,14 @@ enum APIPath {
 
 // TODO:
 class APIPathHelper {
+  // python manage.py runserver 192.168.1.64:8000
+
   // home
-  static const String apiUrl = "http://172.20.10.4:2122/api";
+  static const String apiUrl = "http://192.168.1.64:7488/api";
   //office
   // static const String apiUrl = "http://192.168.0.96:2122/api";
 
-  static const String imageUrl = "http://172.20.10.4:2122";
+  static const String imageUrl = "http://192.168.1.64:7488";
 
   static String authAPIs(
     APIPath path, {

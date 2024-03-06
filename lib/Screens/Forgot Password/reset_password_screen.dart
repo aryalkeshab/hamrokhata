@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/Forgot%20Password/forget_password_controller.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
 
 import 'package:hamrokhata/commons/Core/Animation/Fade_Animation.dart';
 import 'package:hamrokhata/commons/Core/Colors/Hex_Color.dart';
@@ -102,7 +103,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                     isPassword: true,
                                     hintIcon: Icon(
                                       Icons.lock,
-                                      color: Theme.of(context).primaryColor,
+                                      color: primaryColor,
                                     ),
                                     validator: (value) =>
                                         Validator.validatePassword(value!),
@@ -119,7 +120,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                     isPassword: true,
                                     hintIcon: Icon(
                                       Icons.lock,
-                                      color: Theme.of(context).primaryColor,
+                                      color: primaryColor,
                                     ),
                                     validator: (value) =>
                                         Validator.validatePassword(value!),

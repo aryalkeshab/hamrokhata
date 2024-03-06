@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:hamrokhata/commons/api/storage_constants.dart';
 import 'package:hamrokhata/commons/routes/app_pages.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
 
 class IntroScreen extends StatelessWidget {
   const IntroScreen({Key? key}) : super(key: key);
@@ -195,8 +196,7 @@ class IntroductionScreen extends HookWidget {
                       child: Text(
                         'Skip',
                         style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                              color:
-                                  skipColor ?? Theme.of(context).primaryColor,
+                              color: skipColor ?? primaryColor,
                               fontWeight: FontWeight.w600,
                             ),
                       ),

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/Forgot%20Password/forget_password_controller.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
 
 import 'package:hamrokhata/commons/Core/Animation/Fade_Animation.dart';
 import 'package:hamrokhata/commons/Core/Colors/Hex_Color.dart';
@@ -98,7 +99,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   child: PrimaryFormField(
                                     hintIcon: Icon(
                                       Icons.email,
-                                      color: Theme.of(context).primaryColor,
+                                      color: primaryColor,
                                     ),
                                     validator: (value) =>
                                         Validator.validateEmail(value!),

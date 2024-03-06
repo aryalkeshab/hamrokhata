@@ -14,6 +14,7 @@ import 'package:hamrokhata/models/response/purchase_order_response_model.dart';
 import 'package:hamrokhata/models/vendor_list.dart';
 import 'package:number_to_character/number_to_character.dart';
 import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
 
 class PurchaseOrderReceipt extends StatefulWidget {
   // final PurchaseItems purchaseItems;
@@ -75,7 +76,7 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
             Icons.home,
             color: Colors.white,
           ),
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: primaryColor,
           elevation: 2.0,
         ),
       ),
@@ -104,11 +105,11 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
                       child: Column(
                         children: [
                           Text(
-                            "Hamro Khata Pvt. Ltd.",
+                            "Hisab Kitab Pvt. Ltd.",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 22,
-                                color: Theme.of(context).primaryColor),
+                                color: primaryColor),
                             textAlign: TextAlign.center,
                           ),
                           Text(
@@ -601,29 +602,29 @@ class _PurchaseOrderReceiptState extends State<PurchaseOrderReceipt> {
           );
         },
       ),
-      bottomSheet: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          purchaseOrderResponse.data!.purchaseStatus == "Completed"
-              ? PrimaryButton(
-                  label: "Print Receipt",
-                  onPressed: () async {
-                    final response = purchaseOrderResponse.data!;
-                    final bool result = await PrintBluetoothThermal.connect(
-                        macPrinterAddress: printerAddress!);
-                    Get.put(PurchaseOrderController()).printTest(response);
+      // bottomSheet: Row(
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   children: [
+      //     purchaseOrderResponse.data!.purchaseStatus == "Completed"
+      //         ? PrimaryButton(
+      //             label: "Print Receipt",
+      //             onPressed: () async {
+      //               final response = purchaseOrderResponse.data!;
+      //               final bool result = await PrintBluetoothThermal.connect(
+      //                   macPrinterAddress: printerAddress!);
+      //               // Get.put(PurchaseOrderController()).printTest(response);
 
-                    if (result == true) {
-                      // printReceipt();
-                      // Get.put(PurchaseOrderListController())
-                      //     .printTest(widget.purchaseOrderList![0]);
-                    } else {
-                      print('please select device');
-                    }
-                  })
-              : SizedBox(),
-        ],
-      ),
+      //               if (result == true) {
+      //                 // printReceipt();
+      //                 // Get.put(PurchaseOrderListController())
+      //                 //     .printTest(widget.purchaseOrderList![0]);
+      //               } else {
+      //                 print('please select device');
+      //               }
+      //             })
+      //         : SizedBox(),
+      //   ],
+      // ),
     );
   }
 }

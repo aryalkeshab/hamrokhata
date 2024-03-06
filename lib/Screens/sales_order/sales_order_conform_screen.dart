@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hamrokhata/Screens/sales_order/sales_order_controller.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 import 'package:hamrokhata/models/request/sales_order_model.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
 
 class SalesOrderListScreen extends StatefulWidget {
   final List<SalesItemsRequest> salesList;
@@ -18,7 +19,7 @@ class _SalesOrderListScreenState extends State<SalesOrderListScreen> {
     List<SalesItemsRequest> salesList = widget.salesList;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: primaryColor,
         title: const Text('Sales Order List Screen'),
       ),
       body: SingleChildScrollView(

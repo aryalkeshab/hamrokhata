@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
 import 'package:hamrokhata/commons/widgets/base_widget.dart';
 
 class DashboardModule extends HookWidget {
@@ -54,7 +55,7 @@ class DashboardModule extends HookWidget {
                 child: Icon(
                   icons,
                   size: iconSize ?? 35,
-                  color: Theme.of(context).primaryColor,
+                  color: primaryColor,
                 ),
               ),
               Container(
@@ -134,12 +135,12 @@ class DashboardModule extends HookWidget {
     //         enabledBorder: OutlineInputBorder(
     //           borderRadius: const BorderRadius.all(Radius.circular(5.0)),
     //           borderSide: BorderSide(
-    //             color: textFieldBorderColor ?? Theme.of(context).primaryColor,
+    //             color: textFieldBorderColor ?? primaryColor,
     //           ),
     //         ),
     //         focusedBorder: OutlineInputBorder(
     //           borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-    //           borderSide: BorderSide(color: Theme.of(context).primaryColor),
+    //           borderSide: BorderSide(color: primaryColor),
     //         ),
     //       ),
     //     ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hamrokhata/commons/resources/colors.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String label;
@@ -22,7 +23,7 @@ class PrimaryButton extends StatelessWidget {
       // width: MediaQuery.of(context).size.width / 2,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            backgroundColor: color ?? Theme.of(context).primaryColor,
+            backgroundColor: color ?? primaryColor,
             minimumSize: Size(
                 width ?? MediaQuery.of(context).size.width / 2, height ?? 45),
             shape: const RoundedRectangleBorder(
@@ -68,11 +69,11 @@ class PrimaryTextButton extends StatelessWidget {
             ? Theme.of(context)
                 .textTheme
                 .caption
-                ?.copyWith(color: labelColor ?? Theme.of(context).primaryColor)
+                ?.copyWith(color: labelColor ?? primaryColor)
             : Theme.of(context)
                 .textTheme
                 .bodyText2
-                ?.copyWith(color: labelColor ?? Theme.of(context).primaryColor),
+                ?.copyWith(color: labelColor ?? primaryColor),
       ),
     );
   }
@@ -109,12 +110,12 @@ class PrimaryOutlinedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
-        primary: borderColor ?? Theme.of(context).primaryColor,
+        primary: borderColor ?? primaryColor,
         elevation: 0,
         minimumSize: Size(width ?? double.infinity, height ?? 40.0),
         side: BorderSide(
           width: 1,
-          color: borderColor ?? Theme.of(context).primaryColor,
+          color: borderColor ?? primaryColor,
           style: BorderStyle.solid,
         ),
         shape: RoundedRectangleBorder(
@@ -136,9 +137,7 @@ class PrimaryOutlinedButton extends StatelessWidget {
                     child: icon,
                   ),
                 ),
-              Text(title,
-                  style: TextStyle(
-                      color: borderColor ?? Theme.of(context).primaryColor)),
+              Text(title, style: TextStyle(color: borderColor ?? primaryColor)),
             ],
           ),
     );

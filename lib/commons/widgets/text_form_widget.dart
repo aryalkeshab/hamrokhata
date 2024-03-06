@@ -90,15 +90,13 @@ class TextFieldWidget extends StatelessWidget {
                     enabledBorder: OutlineInputBorder(
                       // borderRadius: const BorderRadius.all(Radius.circular(20)),
                       borderSide: BorderSide(
-                        color: textFieldBorderColor ??
-                            Theme.of(context).primaryColor,
+                        color: textFieldBorderColor ?? primaryColor,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       // borderRadius:
                       //     const BorderRadius.all(Radius.circular(20.0)),
-                      borderSide:
-                          BorderSide(color: Theme.of(context).primaryColor),
+                      borderSide: BorderSide(color: primaryColor),
                     ),
                   ),
                 ),
@@ -109,7 +107,7 @@ class TextFieldWidget extends StatelessWidget {
             height: 50,
             width: 50,
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
+              color: primaryColor,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(12),
                   bottomLeft: Radius.circular(12),

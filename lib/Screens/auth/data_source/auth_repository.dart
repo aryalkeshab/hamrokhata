@@ -59,14 +59,14 @@ class AuthLoginRegisterRepositoryImpl extends AuthLoginRegisterRepository {
 
         print(secureStorage.read(key: StorageConstants.loginStaff));
 
-        if (result['permission'] == true) {
-          return ApiResponse(data: result['msg']);
-        } else {
-          return ApiResponse(
-              error: NetworkException.defaultError(
-                  value:
-                      "You don't have permission to access.\nPlease contact admin."));
-        }
+        // if (result['permission'] == true) {
+        return ApiResponse(data: result['msg']);
+        // } else {
+        //   return ApiResponse(
+        //       error: NetworkException.defaultError(
+        //           value:
+        //               "You don't have permission to access.\nPlease contact admin."));
+        // }
       } catch (e) {
         if (e is DioError && e.type == DioErrorType.response) {
           return ApiResponse(

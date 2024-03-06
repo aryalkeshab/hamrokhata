@@ -13,6 +13,9 @@ import 'package:hamrokhata/commons/widgets/textfields.dart';
 import 'package:hamrokhata/commons/widgets/toast.dart';
 import 'package:hamrokhata/models/request/register_params.dart';
 
+import '../../../commons/resources/colors.dart';
+
+
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -85,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   delay: 1,
                                   child: PrimaryFormField(
                                     hintIcon: Icon(
-                                        color: Theme.of(context).primaryColor,
+                                        color: primaryColor,
                                         Icons.person_outline),
                                     validator: (value) =>
                                         Validator.validateEmpty(value!),
@@ -100,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   delay: 1,
                                   child: PrimaryFormField(
                                     hintIcon: Icon(
-                                        color: Theme.of(context).primaryColor,
+                                        color: primaryColor,
                                         Icons.person_outline),
                                     validator: (value) =>
                                         Validator.validateEmpty(value!),
@@ -117,7 +120,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   child: PrimaryFormField(
                                     hintIcon: Icon(
                                       Icons.email,
-                                      color: Theme.of(context).primaryColor,
+                                      color: primaryColor,
                                     ),
                                     validator: (value) =>
                                         Validator.validateEmail(value!),
@@ -134,7 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   child: PrimaryFormField(
                                     hintIcon: Icon(
                                       Icons.phone_android,
-                                      color: Theme.of(context).primaryColor,
+                                      color: primaryColor,
                                     ),
                                     validator: (value) =>
                                         Validator.validateMobile(value!),
@@ -149,9 +152,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 FadeAnimation(
                                   delay: 1,
                                   child: PrimaryFormField(
-                                    hintIcon: Icon(
-                                        color: Theme.of(context).primaryColor,
-                                        Icons.lock),
+                                    hintIcon:
+                                        Icon(color: primaryColor, Icons.lock),
                                     isPassword: true,
                                     validator: (value) =>
                                         Validator.validatePassword(value!),
@@ -167,7 +169,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   child: PrimaryFormField(
                                     hintIcon: Icon(
                                       Icons.lock,
-                                      color: Theme.of(context).primaryColor,
+                                      color: primaryColor,
                                     ),
                                     validator: (value) =>
                                         Validator.validateEmpty(value!),
